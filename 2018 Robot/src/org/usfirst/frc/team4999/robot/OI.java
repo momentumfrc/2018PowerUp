@@ -7,6 +7,12 @@
 
 package org.usfirst.frc.team4999.robot;
 
+import org.usfirst.frc.team4999.robot.triggers.*;
+import org.usfirst.frc.team4999.robot.commands.*;
+import org.usfirst.frc.team4999.robot.commands.lift.KillLift;
+
+import edu.wpi.first.wpilibj.buttons.Trigger;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +45,10 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	
+	Trigger liftPowerMonitor = new LiftPowerMonitor();
+	
+	public OI() {
+		liftPowerMonitor.whenActive(new KillLift());
+	}
 }

@@ -7,10 +7,12 @@
 
 package org.usfirst.frc.team4999.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-
+import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4999.robot.subsystems.Lift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,8 +23,10 @@ import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
  */
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
+	public static final Lift lift = new Lift();
 	public static OI m_oi;
 	
+	ControlChooser controlChooser;
 	
 
 	/**
@@ -32,6 +36,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
+		controlChooser = new ControlChooser();
 	}
 
 	/**
@@ -62,6 +67,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		System.out.println(DriverStation.getInstance().getGameSpecificMessage());
 	}
 
 	/**

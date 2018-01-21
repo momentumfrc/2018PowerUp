@@ -2,21 +2,19 @@ package org.usfirst.frc.team4999.robot.commands;
 
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
-import edu.wpi.first.wpilibj.XboxController;
-
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class XboxDrive extends Command {
+public class FlightStickDrive extends Command {
 	
 	private final double curve = 2.5;
-	private final double deadzone = 0.1;
+	private final double deadzone = 0.05;
 
-    public XboxDrive() {
-    	requires(Robot.driveSystem);
+    public FlightStickDrive() {
+        requires(Robot.driveSystem);
     }
 
     // Called just before this Command runs the first time
@@ -25,15 +23,15 @@ public class XboxDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double moveRequest = RobotMap.xbox.getY(XboxController.Hand.kLeft);
+    	double moveRequest = -RobotMap.flightStick.getY();
     	moveRequest = deadzone(moveRequest, deadzone);
     	moveRequest = curve(moveRequest, curve);
     	
-    	double turnRequest = RobotMap.xbox.getX(XboxController.Hand.kRight);
+    	double turnRequest = RobotMap.flightStick.getTwist();
     	turnRequest = deadzone(turnRequest, deadzone);
     	turnRequest = curve(turnRequest, curve);
     	
-    	double speedLimiter = 1;
+    	double speedLimiter = (-RobotMap.flightStick.getThrottle() + 1) / 2;
     	Robot.driveSystem.arcadeDrive(moveRequest, turnRequest, speedLimiter);
     }
 
