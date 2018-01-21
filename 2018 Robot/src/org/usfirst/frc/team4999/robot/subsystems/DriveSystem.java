@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
-import org.usfirst.frc.team4999.robot.commands.*;
+import org.usfirst.frc.team4999.robot.commands.drive.*;
 
 /**
  *
@@ -33,6 +33,12 @@ public class DriveSystem extends Subsystem {
     public void arcadeDrive(double moveRequest, double turnRequest, double speedLimiter) {
     	double m_r = clamp(moveRequest * speedLimiter, -1, 1);
     	drive.curvatureDrive(m_r, turnRequest, m_r < turnInPlaceZone);
+    }
+    
+    public void tankDrive(double leftSide, double rightSide, double speedLimiter) {
+    	double l_m = clamp(leftSide * speedLimiter, -1, 1);
+    	double r_m = clamp(rightSide * speedLimiter, -1, 1);
+    	drive.tankDrive(l_m, r_m);
     }
     
     private double clamp(double val, double min, double max) {
