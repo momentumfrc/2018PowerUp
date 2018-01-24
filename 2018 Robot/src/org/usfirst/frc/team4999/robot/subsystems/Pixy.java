@@ -63,6 +63,9 @@ public class Pixy extends Subsystem {
 						recieveBuffer.getShort(12)
 						));
 			}	
+			do {
+				i2c.readOnly(recieveBuffer, 2);
+			} while (recieveBuffer.getShort(0) != sync_word);
 		}
 			
 	}
