@@ -1,89 +1,115 @@
 package org.usfirst.frc.team4999.robot.subsystems;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
+import org.usfirst.frc.team4999.misc.DetectedVisionObject;
 import org.usfirst.frc.team4999.robot.commands.pixy.RecieveData;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Pixy camera for vision processing
  */
 public class Pixy extends Subsystem {
 	
-	static class Parsed_Packet{
-		int xCenter;
-		int yCenter;
-		int width;
-		int height;
-		
-		Parsed_Packet(int xCenter, int yCenter, int width, int height){
-			this.xCenter = xCenter;
-			this.yCenter = yCenter;
-			this.width = width;
-			this.height = height;
-		}
-		
-	}
-	
-	Parsed_Packet parsed_packet;
-	
-	ByteBuffer byte_array = ByteBuffer.allocateDirect(14);
+	// Pixy's slave address
 	final int index = 0x54;
-	I2C i2c = new I2C(I2C.Port.kOnboard, index);
 	
-	public void read_Byte() {
-		byte_array.rewind();
-		i2c.readOnly(byte_array, 14);
-		parse_Byte();
-	}
+	final short sync_word = (short)0xaa55;
 	
+	private ArrayList<DetectedVisionObject> detectedObjects;
+	private ByteBuffer recieveBuffer = ByteBuffer.allocateDirect(12);
+	private ByteBuffer sendBuffer = ByteBuffer.allocate(6);
+	private I2C i2c = new I2C(I2C.Port.kOnboard, index);
 	
-	private void sync() {
-		byte[] sync_byte = new byte[2];
-		do {
-			i2c.readOnly(sync_byte, 1);
-		}while(!(sync_byte[0] == 0x55 && sync_byte[1] == 0xaa));
-		byte_array.rewind();
-		byte_array.put(sync_byte);
-		byte_array.position(2);
-		i2c.readOnly(byte_array, 12);
-	}
+	private short panPos = 0;
+	private short tiltPos = 0;
 	
 	
-	private void parse_Byte() {
-		if(byte_array.getShort(0) != 0xaa55) {
-			System.out.println("Invalid Packet Recieved");
-			sync();
+	private boolean findStart() {
+		short word = (short)0xffff, lastword = (short)0xffff;
+		while(true) {
+			i2c.readOnly(recieveBuffer, 2);
+			word = recieveBuffer.getShort(0);
+			
+			if(word == 0 && lastword == 0) return false;
+			
+			if(word == sync_word && lastword == sync_word) return true;
+			
+			lastword = word;
+			
 		}
-		parsed_packet = new Parsed_Packet(
-				byte_array.getShort(6),
-				byte_array.getShort(8),
-				byte_array.getShort(10),
-				byte_array.getShort(12)
-				);
 	}
 	
-	public int getCenterX() {
-		if(parsed_packet == null)
-			return -1;
-		return parsed_packet.xCenter;
+	private void recieveObjects() {
+		while(true) {
+			i2c.readOnly(recieveBuffer, 12);
+			
+			short checksum = recieveBuffer.getShort(0);
+			if(checksum == 0) break; // checksum is 0 when there are no more objects (not a very well documented feature)
+			
+			int sum = 0;
+			for(int i = 4; i <= 12; i += 2) {
+				sum += recieveBuffer.getShort(i);
+			}
+			
+			if(sum == checksum) {
+				detectedObjects.add(new DetectedVisionObject(
+						recieveBuffer.getShort(6),
+						recieveBuffer.getShort(8),
+						recieveBuffer.getShort(10),
+						recieveBuffer.getShort(12)
+						));
+			}	
+		}
+			
 	}
-	public int getCenterY() {
-		if(parsed_packet == null)
-			return -1;
-		return parsed_packet.yCenter;
+	
+	public void recieveFrame() {
+		if(findStart()) {
+			detectedObjects.clear();
+			recieveObjects();
+		}
 	}
-	public int width() {
-		if(parsed_packet == null)
-			return -1;
-		return parsed_packet.width;
+	
+	public ArrayList<DetectedVisionObject> getObjects() {
+		return detectedObjects;
 	}
-	public int height() {
-		if(parsed_packet == null)
-			return -1;
-		return parsed_packet.height;
+	
+	public void move(short tilt, short pan) {
+		this.tiltPos = tilt;
+		this.panPos = pan;
+		sendBuffer.rewind();
+		sendBuffer.putShort((short) 0xff00);
+		sendBuffer.putShort(pan);
+		sendBuffer.putShort(tilt);
+		i2c.writeBulk(sendBuffer, 6);
+	}
+	
+	public void tilt(short tilt) {
+		move(tilt, panPos);
+	}
+	
+	public void pan(short pan) {
+		move(tiltPos, pan);
+	}
+	
+	public void setExposure(byte brightess) {
+		sendBuffer.rewind();
+		sendBuffer.putShort((short)0xfe00);
+		sendBuffer.put(brightess);
+		i2c.writeBulk(sendBuffer, 3);
+	}
+	
+	public void setLED(byte r, byte g, byte b) {
+		sendBuffer.rewind();
+		sendBuffer.putShort((short)0xfd00);
+		sendBuffer.put(r);
+		sendBuffer.put(g);
+		sendBuffer.put(b);
+		i2c.writeBulk(sendBuffer, 5);
 	}
 	
 	
