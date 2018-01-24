@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import org.opencv.core.Rect;
 
-public class DetectedVisionObject {
+public class DetectedVisionObject implements Comparable<DetectedVisionObject> {
 
 	final int xCenter;
 	final int yCenter;
@@ -26,7 +26,27 @@ public class DetectedVisionObject {
 		return new Point(xCenter, yCenter);
 	}
 	
+
+	public int getArea() {
+		return width * height;
+	}
+	
+	@Override
 	public String toString() {
 		return String.format("DetectedVisionObject[cx:%d,cy:%d,w:%d,h:%d]", xCenter, yCenter, width, height);
+	}
+	
+
+	@Override
+	public int compareTo(DetectedVisionObject o) {
+		return getArea() - o.getArea();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == null || !(o instanceof DetectedVisionObject))
+			return false;
+		DetectedVisionObject obj = (DetectedVisionObject) o;
+		return (obj.xCenter == xCenter && obj.yCenter == yCenter && obj.width == width && obj.height == height);
 	}
 }

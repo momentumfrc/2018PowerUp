@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
 	public static OI m_oi;
 	
 	ControlChooser controlChooser;
+	TestChooser testChooser;
 	
 
 	/**
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		controlChooser = new ControlChooser();
+		testChooser = new TestChooser();
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		
+		testChooser.stopCommands();
 	}
 
 	@Override
@@ -90,11 +92,17 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
+	
+	@Override
+	public void testInit() {
+		testChooser.getSelected().start();
+	}
 
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
 	}
 }
