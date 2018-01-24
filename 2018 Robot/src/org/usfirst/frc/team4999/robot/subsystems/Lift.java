@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.robot.subsystems;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.robot.commands.lift.KillLift;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -94,8 +95,7 @@ public class Lift extends PIDSubsystem {
 	
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new KillLift());
     }
 
 	@Override
