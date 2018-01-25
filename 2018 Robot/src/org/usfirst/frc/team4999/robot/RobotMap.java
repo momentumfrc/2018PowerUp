@@ -40,9 +40,12 @@ public class RobotMap {
 	public static VictorSP leftBackMotor = new VictorSP(3);
 	public static VictorSP rightFrontMotor = new VictorSP(0);
 	public static VictorSP rightBackMotor = new VictorSP(1);
-	
+	public static double auto_speed = 0.25;
 	public static XboxController xbox = new XboxController(1);
 	public static Joystick flightStick = new Joystick(0);
+	
+	public static Encoder leftDriveEncoder = new Encoder(0,1);
+	public static Encoder rightDriveEncoder = new Encoder(2,3);
 	
 	public static Encoder liftEncoder = new Encoder(4,5);
 	public static SpeedControllerGroup liftMotors = new SpeedControllerGroup(new VictorSP(4), new VictorSP(5));
