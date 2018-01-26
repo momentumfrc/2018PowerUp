@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Pixy extends Subsystem {
 	
 	// Pixy's slave address
-	final int index = 0x54;
+	final int address = 0x54;
 	
 	final short sync_word = (short)0xaa55;
 	
-	private ArrayList<DetectedVisionObject> detectedObjects;
+	private ArrayList<DetectedVisionObject> detectedObjects = new ArrayList<DetectedVisionObject>(1);
 	private ByteBuffer recieveBuffer = ByteBuffer.allocateDirect(12);
 	private ByteBuffer sendBuffer = ByteBuffer.allocate(6);
-	private I2C i2c = new I2C(I2C.Port.kOnboard, index);
+	private I2C i2c = new I2C(I2C.Port.kOnboard, address);
 	
 	private short panPos = 0;
 	private short tiltPos = 0;
@@ -43,26 +43,47 @@ public class Pixy extends Subsystem {
 		}
 	}
 	
+	public void test() {
+		recieveBuffer.rewind();
+		i2c.readOnly(recieveBuffer, 12);
+		dumpBuffer();
+	}
+	
+	private void dumpBuffer() {
+		recieveBuffer.rewind();
+		while(recieveBuffer.hasRemaining())
+			System.out.format("%02X ", recieveBuffer.get());
+		System.out.println();
+		recieveBuffer.rewind();
+	}
+	
 	private void recieveObjects() {
 		while(true) {
 			i2c.readOnly(recieveBuffer, 12);
+			System.out.println("Recieved");
 			
 			short checksum = recieveBuffer.getShort(0);
 			if(checksum == 0) break; // checksum is 0 when there are no more objects (not a very well documented feature)
 			
+			
 			int sum = 0;
-			for(int i = 4; i <= 12; i += 2) {
+			for(int i = 2; i <= 10; i += 2) {
 				sum += recieveBuffer.getShort(i);
 			}
 			
+			
 			if(sum == checksum) {
 				detectedObjects.add(new DetectedVisionObject(
+						recieveBuffer.getShort(2),
+						recieveBuffer.getShort(4),
 						recieveBuffer.getShort(6),
 						recieveBuffer.getShort(8),
-						recieveBuffer.getShort(10),
-						recieveBuffer.getShort(12)
+						recieveBuffer.getShort(10)
 						));
-			}	
+			} else {
+				System.out.println("Recieved invalid packet: ");
+				dumpBuffer();
+			}
 			do {
 				i2c.readOnly(recieveBuffer, 2);
 			} while (recieveBuffer.getShort(0) != sync_word);
@@ -72,8 +93,11 @@ public class Pixy extends Subsystem {
 	
 	public void recieveFrame() {
 		if(findStart()) {
+			System.out.println("Found start");
 			detectedObjects.clear();
 			recieveObjects();
+		} else {
+			System.out.println("Got zeros");
 		}
 	}
 	

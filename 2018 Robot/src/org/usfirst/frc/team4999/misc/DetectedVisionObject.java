@@ -6,12 +6,14 @@ import org.opencv.core.Rect;
 
 public class DetectedVisionObject implements Comparable<DetectedVisionObject> {
 
+	final int signature;
 	final int xCenter;
 	final int yCenter;
 	final int width;
 	final int height;
 	
-	public DetectedVisionObject(int xCenter, int yCenter, int width, int height){
+	public DetectedVisionObject(int signature, int xCenter, int yCenter, int width, int height){
+		this.signature = signature;
 		this.xCenter = xCenter;
 		this.yCenter = yCenter;
 		this.width = width;
