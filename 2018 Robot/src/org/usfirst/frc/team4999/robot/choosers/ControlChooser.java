@@ -4,8 +4,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TableEntryListener;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc.team4999.robot.commands.*;
 import org.usfirst.frc.team4999.robot.commands.drive.FlightStickDrive;
 import org.usfirst.frc.team4999.robot.commands.drive.XboxDrive;
 

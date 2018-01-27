@@ -8,7 +8,6 @@
 package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.robot.triggers.*;
-import org.usfirst.frc.team4999.robot.commands.*;
 import org.usfirst.frc.team4999.robot.commands.lift.KillLift;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
