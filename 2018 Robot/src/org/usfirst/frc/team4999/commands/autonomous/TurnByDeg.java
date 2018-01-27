@@ -37,7 +37,12 @@ public class TurnByDeg extends Command {
 			lStart = left.getDistance();
 			rStart = right.getDistance();
 		}
-
+		private double getAngle() { 
+	    	return (((left.getDistance() - lStart) - (right.getDistance() - rStart))/RobotMap.driveDistanceBetweenWheels) * 360;
+	    }
+		private double getAngleRate() {
+			return ((left.getRate() - right.getRate())/RobotMap.driveDistanceBetweenWheels) * 360;
+		}
 
 		@Override
 		public void setPIDSourceType(PIDSourceType pidSource) {

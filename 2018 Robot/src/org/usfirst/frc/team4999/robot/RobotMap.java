@@ -60,6 +60,7 @@ public class RobotMap {
 	public static int liftMotor1PDP = 14;
 	public static int liftMotor2PDP = 15;
 	public static int liftBrakePDP = 4;
+	public static double driveDistanceBetweenWheels;
 	
 	
 		
