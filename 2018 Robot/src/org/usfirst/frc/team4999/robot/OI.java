@@ -9,7 +9,11 @@ package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.robot.triggers.*;
 import org.usfirst.frc.team4999.robot.commands.lift.KillLift;
+import org.usfirst.frc.team4999.commands.autonomous.ForwardBackward;
+import org.usfirst.frc.team4999.robot.*;
 
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
@@ -46,8 +50,9 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	Trigger liftPowerMonitor = new LiftPowerMonitor();
-	
+	Button moveXDistance = new JoystickButton(RobotMap.flightStick, 1);
 	public OI() {
 		liftPowerMonitor.whenActive(new KillLift());
+		moveXDistance.whenActive(new ForwardBackward(5));
 	}
 }
