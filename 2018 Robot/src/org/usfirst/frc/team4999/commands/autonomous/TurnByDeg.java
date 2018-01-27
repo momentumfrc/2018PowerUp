@@ -1,9 +1,11 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
@@ -47,22 +49,41 @@ public class TurnByDeg extends Command {
 		@Override
 		public void setPIDSourceType(PIDSourceType pidSource) {
 			// TODO Auto-generated method stub
-			
+			sourcetype = pidSource;
 		}
 
 
 		@Override
 		public PIDSourceType getPIDSourceType() {
 			// TODO Auto-generated method stub
-			return null;
+			return sourcetype;
 		}
 
 
 		@Override
 		public double pidGet() {
-			// TODO Auto-generated method stub
-			return 0;
+			switch(sourcetype) {
+			case kRate:
+				return getAngleRate();
+			case kDisplacement:
+			default:
+				return getAngle();
+			}
 		}
+	}
+	
+
+	static class DriveTurn implements PIDOutput {
+		private DriveSystem output;
+		
+		public DriveTurn(DriveSystem output) {
+			this.output = output;
+		}
+		@Override
+		public void pidWrite(double output) {
+			this.output.arcadeDrive(0, output, RobotMap.auto_speed);
+		}
+		
 	}
 	
     public TurnByDeg() {
