@@ -16,16 +16,19 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ForwardBackward extends Command {
 	
-	private static PIDController pid;
-	private Encoder leftSideEncoder = RobotMap.leftDriveEncoder;
-	private Encoder rightSideEncoder = RobotMap.rightDriveEncoder;
+	private PIDController pid;
+	private Encoder left = RobotMap.leftDriveEncoder;
+	private Encoder right = RobotMap.rightDriveEncoder;
+	private double distance;
 	private static double ticksPerMeter = 1;
+	
 	
 	
 	static class AverageEncoder implements PIDSource{
 		private Encoder left, right;
 
 		private PIDSourceType sourcetype = PIDSourceType.kDisplacement;
+
 
 		
 		public AverageEncoder(Encoder left, Encoder right) {
@@ -54,55 +57,52 @@ public class ForwardBackward extends Command {
 			}
 		}
 		
-		static class DriveWithAngleCorrection implements PIDOutput {
-			private DriveSystem output;
-			private Encoder left, right;
-			private double lStart, rStart;
-			
-			private final double distanceBetweenWheels = 0.5; // meters
-			private final double moveErrGain = 0.1;
-			
-			public DriveWithAngleCorrection(DriveSystem output, Encoder left, Encoder right) {
-				this.output = output;
-				this.left = left;
-				this.right = right;
-				this.lStart = left.getDistance();
-				this.rStart = right.getDistance();
-			}
-			
-			 private double getAngle() { 
-		    	return (((left.getDistance() - lStart) - (right.getDistance() - rStart))/distanceBetweenWheels) * 360;
-		    }
+	}	
+	
 
-			@Override
-			public void pidWrite(double output) {
-				this.output.arcadeDrive(output, getAngle() * moveErrGain, RobotMap.auto_speed);
-			}
-			
+	static class DriveAngleCorrect implements PIDOutput {
+		private DriveSystem output;
+		private Encoder left, right;
+		private double lStart, rStart;
+		
+		private final double distanceBetweenWheels = 0.5; // meters
+		private final double moveErrGain = 0.1;
+		
+		public DriveAngleCorrect(DriveSystem output, Encoder left, Encoder right) {
+			this.output = output;
+			this.left = left;
+			this.right = right;
+			this.lStart = left.getDistance();
+			this.rStart = right.getDistance();
 		}
 		
-	    // Called just before this Command runs the first time
-	    protected void initialize() {
-	    	left.setDistancePerPulse(1/ticksPerMeter);
-	    	right.setDistancePerPulse(1/ticksPerMeter);
-	    	pid.setSetpoint(((left.getDistance() + right.getDistance()) / 2) + distance);
-	    	pid.enable();
+		 private double getAngle() { 
+	    	return (((left.getDistance() - lStart) - (right.getDistance() - rStart))/distanceBetweenWheels) * 360;
 	    }
-		
-		
-		
+
+		@Override
+		public void pidWrite(double output) {
+			this.output.arcadeDrive(output, getAngle() * moveErrGain, RobotMap.auto_speed);
+		}
 		
 	}
 	
 	
-	
-    public ForwardBackward() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public ForwardBackward(double distance) {
+    	requires(Robot.driveSystem);
+    	this.distance = distance;
+    	pid = new PIDController(0.2,0,0.01,new AverageEncoder(left, right),new DriveAngleCorrect(Robot.driveSystem, left, right));
     }
+  
+
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	left.setDistancePerPulse(1/ticksPerMeter);
+    	right.setDistancePerPulse(1/ticksPerMeter);
+    	pid.setSetpoint(((left.getDistance() + right.getDistance()) / 2) + distance);
+    	pid.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
