@@ -1,5 +1,11 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
+import org.usfirst.frc.team4999.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -7,6 +13,53 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnByDeg extends Command {
 
+	private Encoder left = RobotMap.leftDriveEncoder;
+	private Encoder right = RobotMap.rightDriveEncoder;
+	
+	private double ticksPerMeter = 1;
+	
+	private PIDController angleController;
+	
+	private double angle;
+	private EncoderTurnOutput angleGetter;
+	
+	static class EncoderTurnOutput implements PIDSource {
+		
+		private Encoder left, right;
+		private double lStart, rStart;
+		
+		private PIDSourceType sourcetype = PIDSourceType.kDisplacement;
+		
+		
+		public EncoderTurnOutput(Encoder left, Encoder right) {
+			this.left = left;
+			this.right = right;
+			lStart = left.getDistance();
+			rStart = right.getDistance();
+		}
+
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+		@Override
+		public double pidGet() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+	}
+	
     public TurnByDeg() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -33,4 +86,5 @@ public class TurnByDeg extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
 }
