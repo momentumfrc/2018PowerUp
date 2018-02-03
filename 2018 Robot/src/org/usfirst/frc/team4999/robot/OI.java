@@ -7,9 +7,7 @@
 
 package org.usfirst.frc.team4999.robot;
 
-import org.usfirst.frc.team4999.robot.triggers.*;
 import org.usfirst.frc.team4999.robot.commands.*;
-import org.usfirst.frc.team4999.robot.commands.lift.KillLift;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
@@ -46,9 +44,4 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Trigger liftPowerMonitor = new LiftPowerMonitor();
-	
-	public OI() {
-		liftPowerMonitor.whenActive(new KillLift());
-	}
 }
