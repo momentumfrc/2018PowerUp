@@ -22,6 +22,7 @@ import org.usfirst.frc.team4999.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
+	public static final Lift lift = new Lift();
 	public static final Pixy pixy = new Pixy();
 	public static OI m_oi;
 	
