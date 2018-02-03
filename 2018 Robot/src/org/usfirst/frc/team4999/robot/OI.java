@@ -7,14 +7,10 @@
 
 package org.usfirst.frc.team4999.robot;
 
-import org.usfirst.frc.team4999.robot.triggers.*;
-import org.usfirst.frc.team4999.robot.commands.lift.KillLift;
 import org.usfirst.frc.team4999.commands.autonomous.ForwardBackward;
-import org.usfirst.frc.team4999.robot.*;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -49,10 +45,8 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Trigger liftPowerMonitor = new LiftPowerMonitor();
 	Button moveXDistance = new JoystickButton(RobotMap.flightStick, 1);
 	public OI() {
-		liftPowerMonitor.whenActive(new KillLift());
 		moveXDistance.whenActive(new ForwardBackward(5));
 	}
 }
