@@ -3,6 +3,7 @@ import imp
 import threading
 import math
 sys.path.append('/usr/local/lib/vmxpi/')
+vmxpi = imp.load_source('vmxpi_hai_python', '/usr/local/lib/vmxpi/vmxpi_hai_python.py')
 
 class PIDController:
     """PIDController
