@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team4999.robot;
 
-import org.usfirst.frc.team4999.commands.autonomous.ForwardBackward;
+import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -47,6 +47,6 @@ public class OI {
 	
 	Button moveXDistance = new JoystickButton(RobotMap.flightStick, 1);
 	public OI() {
-		moveXDistance.whenActive(new ForwardBackward(5));
+		moveXDistance.whenActive(new MoveDistance(5));
 	}
 }

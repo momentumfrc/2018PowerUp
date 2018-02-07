@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-import org.usfirst.frc.team4999.commands.autonomous.ForwardBackward;
+import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 
@@ -25,7 +25,6 @@ import org.usfirst.frc.team4999.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
-	public static final Pixy pixy = new Pixy();
 	public static OI m_oi;	
 	ControlChooser controlChooser;
 	TestChooser testChooser;
@@ -40,7 +39,7 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		controlChooser = new ControlChooser();
 		testChooser = new TestChooser();
-		ForwardBackward auto = new ForwardBackward(5);
+		MoveDistance auto = new MoveDistance(5);
 	}
 
 	/**
