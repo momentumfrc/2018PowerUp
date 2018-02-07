@@ -26,7 +26,8 @@ public class VMXPi implements PIDSource {
 	private Object syncLock = new Object();
 	
 	private PIDSourceType m_source = PIDSourceType.kDisplacement;
-
+	
+	private long millis;
     
 	public VMXPi() {
 		try {
@@ -52,6 +53,7 @@ public class VMXPi implements PIDSource {
 							synchronized(syncLock) {
 								zAngle = buff.getDouble(1);
 								zRate = buff.getDouble(9);
+								millis = System.currentTimeMillis();
 							}
 						}
 						
@@ -73,6 +75,12 @@ public class VMXPi implements PIDSource {
 	public double getRate() {
 		synchronized(syncLock) {
 			return zRate;
+		}
+	}
+	
+	public double getTimeSinceLastPacket() {
+		synchronized(syncLock) {
+			return System.currentTimeMillis() - millis;
 		}
 	}
 	
