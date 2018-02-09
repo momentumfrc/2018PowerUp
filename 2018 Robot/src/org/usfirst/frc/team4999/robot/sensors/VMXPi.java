@@ -19,7 +19,7 @@ public class VMXPi implements PIDSource {
 	
 	private Thread recieveLoop;
 	
-	private double zAngle, zRate;
+	private double zAngle, zRate, zOffset;
 	
 	// When two synchronized blocks are synchronized on the same object, only one block is allowed to run at a time.
 	// By synchronizing before we read and write the zAngle and zRates, we can make sure they don't change while we're reading them
@@ -79,7 +79,7 @@ public class VMXPi implements PIDSource {
 	
 	public double getAngle() {
 		synchronized(syncLock) {
-			return zAngle;
+			return zAngle + zOffset;
 		}
 	}
 	
@@ -93,6 +93,10 @@ public class VMXPi implements PIDSource {
 		synchronized(syncLock) {
 			return System.currentTimeMillis() - millis;
 		}
+	}
+	
+	public void zero() {
+		zOffset = -getAngle();
 	}
 	
 	@Override
