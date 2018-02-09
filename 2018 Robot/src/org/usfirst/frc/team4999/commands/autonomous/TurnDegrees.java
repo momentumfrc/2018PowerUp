@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
+import org.usfirst.frc.team4999.robot.MoPrefs;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
@@ -45,7 +46,14 @@ public class TurnDegrees extends Command {
     	this.angle = angle;
     	angleGetter = new GyroFusion();
     	angleGetter.setPIDSourceType(PIDSourceType.kDisplacement);
-    	angleController = new PIDController(0.2,0,0.01, angleGetter,new DriveTurn(Robot.driveSystem));
+    	MoPrefs prefs = MoPrefs.getInstance();
+    	angleController = new PIDController(
+    			prefs.getTurnP(),
+    			prefs.getTurnI(),
+    			prefs.getTurnD(),
+    			angleGetter,
+    			new DriveTurn(Robot.driveSystem)
+    	);
     }
 
     // Called just before this Command runs the first time

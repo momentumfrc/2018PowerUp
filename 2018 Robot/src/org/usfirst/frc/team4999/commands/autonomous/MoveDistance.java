@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
+import org.usfirst.frc.team4999.robot.MoPrefs;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
@@ -97,7 +98,14 @@ public class MoveDistance extends Command {
     public MoveDistance(double distance) {
     	requires(Robot.driveSystem);
     	this.distance = distance;
-    	pid = new PIDController(0.2,0,0.01,new AverageEncoder(left, right),new DriveAngleCorrect(Robot.driveSystem, left, right));
+    	MoPrefs prefs = MoPrefs.getInstance();
+    	pid = new PIDController(
+    			prefs.getMoveP(), 
+    			prefs.getMoveI(), 
+    			prefs.getMoveD(),
+    			new AverageEncoder(left, right),
+    			new DriveAngleCorrect(Robot.driveSystem, left, right)
+    		);
     }
   
 
