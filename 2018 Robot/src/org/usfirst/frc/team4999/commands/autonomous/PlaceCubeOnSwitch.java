@@ -1,7 +1,5 @@
-package org.usfirst.frc.team4999.robot.commandgroups.bluealliance;
+package org.usfirst.frc.team4999.commands.autonomous;
 
-import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
-import org.usfirst.frc.team4999.commands.autonomous.TurnDegrees;
 import org.usfirst.frc.team4999.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team4999.robot.commands.lift.SetLiftToZero;
 
@@ -10,12 +8,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class PlaceCubeOnScale extends CommandGroup {
+public class PlaceCubeOnSwitch extends CommandGroup {
 	
 	public enum startSide {LEFT, MIDDLE, RIGHT};
 	public enum targetSide {LEFT, RIGHT};
 
-    public PlaceCubeOnScale(startSide start, targetSide target) {
+    public PlaceCubeOnSwitch(startSide start, targetSide target) {
+    	
     	switch(start) {
     	case LEFT:
     		switch(target) {

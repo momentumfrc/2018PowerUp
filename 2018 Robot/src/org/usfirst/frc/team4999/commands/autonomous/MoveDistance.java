@@ -2,6 +2,8 @@ package org.usfirst.frc.team4999.commands.autonomous;
 
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
+import org.usfirst.frc.team4999.robot.sensors.VMXPi;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -21,7 +23,6 @@ public class MoveDistance extends Command {
 	private Encoder right = RobotMap.rightDriveEncoder;
 	private double distance;
 	private static double ticksPerMeter = 1;
-	
 	
 	
 	static class AverageEncoder implements PIDSource{
@@ -64,6 +65,8 @@ public class MoveDistance extends Command {
 		private DriveSystem output;
 		private Encoder left, right;
 		private double lStart, rStart;
+		VMXPi vmx = VMXPi.getInstance();
+		ADIS16448_IMU adis = new ADIS16448_IMU();
 		
 		private final double distanceBetweenWheels = 0.5; // meters
 		private final double moveErrGain = 0.1;
@@ -77,7 +80,10 @@ public class MoveDistance extends Command {
 		}
 		
 		 private double getAngle() { 
-	    	return (((left.getDistance() - lStart) - (right.getDistance() - rStart))/distanceBetweenWheels) * 360;
+			 if(vmx.getTimeSinceLastPacket() > vmx.RESPONSECUTOFF) {
+				return adis.getAngleZ();
+			 }
+			 return vmx.getAngle();
 	    }
 
 		@Override
