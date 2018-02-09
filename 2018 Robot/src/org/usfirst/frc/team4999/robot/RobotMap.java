@@ -55,7 +55,9 @@ public class RobotMap {
 	
 	public static NetworkTable pidTable = NetworkTableInstance.getDefault().getTable("PID");
 	
+	//TODO: Debug pdp
 	//public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+
 	
 	public static int liftMotor1PDP = 14;
 	public static int liftMotor2PDP = 15;

@@ -40,7 +40,6 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		controlChooser = new ControlChooser();
 		testChooser = new TestChooser();
-		MoveDistance auto = new MoveDistance(5);
 	}
 
 	/**

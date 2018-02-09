@@ -13,12 +13,20 @@ public class MoPrefs {
 	private static final double TURN_P = 0.2;
 	private static final double TURN_I = 0;
 	private static final double TURN_D = 0.05;
+	private static final int 	MAX_PI_DELAY = 200;
+	private static final double AUTO_SPEED = 0.25;
 	
 	
 	
 	private void checkDouble(String key, double def) {
 		if(!prefs.containsKey(key)) {
 			prefs.putDouble(key, def);
+		}
+	}
+	
+	private void checkInt(String key, int def) {
+		if(!prefs.containsKey(key)) {
+			prefs.putInt(key, def);
 		}
 	}
 	
@@ -36,6 +44,8 @@ public class MoPrefs {
 		checkDouble("TURN_P", TURN_P);
 		checkDouble("TURN_I", TURN_I);
 		checkDouble("TURN_D", TURN_D);
+		checkInt("MAX_PI_DELAY", MAX_PI_DELAY);
+		checkDouble("AUTO_SPEED", AUTO_SPEED);
 	}
 	
 	public double getMoveP() {
@@ -55,6 +65,12 @@ public class MoPrefs {
 	}
 	public double getTurnD() {
 		return prefs.getDouble("TURN_D", TURN_D);
+	}
+	public double getMaxPiDelay() {
+		return prefs.getInt("MAX_PI_DELAY", MAX_PI_DELAY);
+	}
+	public double getAutoSpeed() {
+		return prefs.getDouble("AUTO_SPEED", AUTO_SPEED);
 	}
 
 }
