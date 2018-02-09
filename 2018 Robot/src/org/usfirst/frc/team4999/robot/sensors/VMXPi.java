@@ -29,7 +29,16 @@ public class VMXPi implements PIDSource {
 	
 	private long millis;
     
-	public VMXPi() {
+	private static VMXPi instance;
+	
+	public static VMXPi getInstance() {
+		if(instance == null) {
+			instance = new VMXPi();
+		}
+		return instance;
+	}
+	
+	private VMXPi() {
 		try {
 			server = new DatagramSocket(PORT);
 		} catch (IOException e) {
@@ -37,17 +46,19 @@ public class VMXPi implements PIDSource {
 		}
 		recieveLoop = new Thread() {
 			ByteBuffer buff = ByteBuffer.allocate(17);
+			
 			@Override
 			public void run() {
+				setName("VMX Thread");
 				while(!Thread.interrupted()) {
 					try {
 						server.receive(packet);
 						byte[] data = packet.getData();
 						int checksum = 0;
 						for(int i = 1; i < data.length; i++) {
-							checksum += data[i];
+							checksum += (data[i]&0xFF);
 						}
-						if(checksum % 255 == data[0]) {
+						if(checksum % 255 == (data[0]&0xFF)) { // 0xFF removes the sign
 							buff.rewind();
 							buff.put(data);
 							synchronized(syncLock) {
@@ -55,7 +66,7 @@ public class VMXPi implements PIDSource {
 								zRate = buff.getDouble(9);
 								millis = System.currentTimeMillis();
 							}
-						}
+						} else System.out.format("%d != %d\n", checksum % 255, (data[0]&0xFF));
 						
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -78,7 +89,7 @@ public class VMXPi implements PIDSource {
 		}
 	}
 	
-	public double getTimeSinceLastPacket() {
+	public long getTimeSinceLastPacket() {
 		synchronized(syncLock) {
 			return System.currentTimeMillis() - millis;
 		}

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
 import org.usfirst.frc.team4999.robot.choosers.*;
+import org.usfirst.frc.team4999.robot.sensors.VMXPi;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 
 /**
@@ -95,14 +96,16 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testInit() {
-		testChooser.getSelected().start();
+		//testChooser.getSelected().start();
 	}
 
+	
+	private VMXPi pi = VMXPi.getInstance();
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
-		Scheduler.getInstance().run();
+		System.out.format("Angle: %.2f, Rate: %.2f, Last Update: %d\n", pi.getAngle(), pi.getRate(), pi.getTimeSinceLastPacket());
 	}
 }
