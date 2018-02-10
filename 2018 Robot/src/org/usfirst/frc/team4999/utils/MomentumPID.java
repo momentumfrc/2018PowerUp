@@ -68,8 +68,8 @@ public class MomentumPID implements Sendable {
 		this.tD = tD;
 		this.iErrZone = iErrZone;
 		this.targetZone = targetZone;
-		setpoint = source.pidGet();
 		this.source = input;
+		setpoint = source.pidGet();
 		this.output = output;
 	}
 	
