@@ -100,6 +100,10 @@ public class MomentumPID implements Sendable {
 		return result;
 	}
 	
+	public void setOutput(PIDOutput output) {
+		this.output = output;
+	}
+	
 	public void enable() {
 		calc = new Calculator();
 		calc.start();

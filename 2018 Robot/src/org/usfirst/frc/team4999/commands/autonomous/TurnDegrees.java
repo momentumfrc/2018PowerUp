@@ -1,24 +1,22 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
-import org.usfirst.frc.team4999.commands.autonomous.MoveDistance.AverageEncoder;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4999.utils.MoPrefs;
-import org.usfirst.frc.team4999.utils.MomentumPID;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  *
  */
 public class TurnDegrees extends Command {
 
-	private MomentumPID angleController;
 	private GyroFusion angleGetter;
 	private double angle;
 	
@@ -43,35 +41,31 @@ public class TurnDegrees extends Command {
     	this.angle = angle;
     	angleGetter = RobotMap.gyro;
     	angleGetter.setPIDSourceType(PIDSourceType.kDisplacement);
-    	angleController = new MomentumPID(
-    			"Turn PID Controller",
-    			MoPrefs.getTurnP(),
-    			MoPrefs.getTurnI(),
-    			MoPrefs.getTurnD(),
-    			MoPrefs.getMoveErrZone(),
-    			MoPrefs.getMoveTargetZone(),
-    			RobotMap.gyro,
-    			null
-    		);
     	onTargetTime = new Timer();
+    	tunePID();
     }
-
+    
+    public void tunePID() {
+    	LiveWindow.add(Robot.driveSystem.turnPID);
+    	LiveWindow.setEnabled(true);
+    }
+    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	angleController.setSetpointRelative(angle);
-    	angleController.enable();
+    	Robot.driveSystem.turnPID.setSetpointRelative(angle);
+    	Robot.driveSystem.turnPID.enable();
     	onTargetTime.start();
-    	System.out.format("Beginning turn using P:%.2f I:%.2f D:%.2f\n", angleController.getP(), angleController.getI(), angleController.getD());
+    	System.out.format("Beginning turn using P:%.2f I:%.2f D:%.2f\n", Robot.driveSystem.turnPID.getP(), Robot.driveSystem.turnPID.getI(), Robot.driveSystem.turnPID.getD());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", angleGetter.getAngle(), angleController.getSetpoint(), angleController.get());
+    	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", angleGetter.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(angleController.onTarget()) {
+        if(Robot.driveSystem.turnPID.onTarget()) {
         	if(onTargetTime.hasPeriodPassed(MoPrefs.getTargetTime())) {
         		return true;
         	}
@@ -83,7 +77,6 @@ public class TurnDegrees extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	angleController.disable();
     	Robot.driveSystem.stop();
     }
 

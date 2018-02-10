@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team4999.robot;
 
-import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
+import org.usfirst.frc.team4999.commands.autonomous.*;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -45,8 +45,8 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Button moveXDistance = new JoystickButton(RobotMap.flightStick, 1);
+	Button fStickTrigger = new JoystickButton(RobotMap.flightStick, 1);
 	public OI() {
-		moveXDistance.whenActive(new MoveDistance(5));
+		fStickTrigger.whenActive(new TurnDegrees(90));
 	}
 }
