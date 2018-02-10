@@ -1,10 +1,10 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
-import org.usfirst.frc.team4999.robot.MoPrefs;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4999.utils.MoPrefs;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;

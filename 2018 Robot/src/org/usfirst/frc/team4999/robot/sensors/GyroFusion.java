@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4999.robot.sensors;
 
-import org.usfirst.frc.team4999.robot.MoPrefs;
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.utils.MoPrefs;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4999.robot;
+package org.usfirst.frc.team4999.utils;
 
 import edu.wpi.first.wpilibj.Preferences;
 
@@ -9,9 +9,13 @@ public class MoPrefs {
 	private static final double MOVE_P = 0.2;
 	private static final double MOVE_I = 0;
 	private static final double MOVE_D = 0.05;
+	private static final double MOVE_ERR_ZONE = 10;
+	private static final double MOVE_TARGET_ZONE = 10;
 	private static final double TURN_P = 0.2;
 	private static final double TURN_I = 0;
 	private static final double TURN_D = 0.05;
+	private static final double TURN_ERR_ZONE = 10;
+	private static final double TURN_TARGET_ZONE = 10;
 	private static final int 	MAX_PI_DELAY = 200;
 	private static final double AUTO_SPEED = 0.25;
 	private static final double WHEEL_DIST = 0.61;
@@ -44,6 +48,14 @@ public class MoPrefs {
 		checkDouble("MOVE_D", MOVE_D);
 		return prefs.getDouble("MOVE_D", MOVE_D);
 	}
+	public static double getMoveErrZone() {
+		checkDouble("MOVE_ERR_ZONE", MOVE_ERR_ZONE);
+		return prefs.getDouble("MOVE_ERR_ZONE", MOVE_ERR_ZONE);
+	}
+	public static double getMoveTargetZone() {
+		checkDouble("MOVE_TARGET_ZONE", MOVE_TARGET_ZONE);
+		return prefs.getDouble("MOVE_TARGET_ZONE", MOVE_TARGET_ZONE);
+	}
 	public static double getTurnP() {
 		checkDouble("TURN_P", TURN_P);
 		return prefs.getDouble("TURN_P", TURN_P);
@@ -55,6 +67,14 @@ public class MoPrefs {
 	public static double getTurnD() {
 		checkDouble("TURN_D", TURN_D);
 		return prefs.getDouble("TURN_D", TURN_D);
+	}
+	
+	public static double getTurnErrZone() {
+		checkDouble("TURN_ERR_ZONE", TURN_ERR_ZONE);
+		return prefs.getDouble("TURN_ERR_ZONE", TURN_ERR_ZONE);
+	}public static double getTurnTargetZone() {
+		checkDouble("TURN_TARGET_ZONE", TURN_TARGET_ZONE);
+		return prefs.getDouble("TURN_TARGET_ZONE", TURN_TARGET_ZONE);
 	}
 	public static int getMaxPiDelay() {
 		checkInt("MAX_PI_DELAY", MAX_PI_DELAY);

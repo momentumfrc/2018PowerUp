@@ -1,23 +1,23 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
-import org.usfirst.frc.team4999.robot.MoPrefs;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.utils.MoPrefs;
+import org.usfirst.frc.team4999.utils.MomentumPID;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  *
  */
 public class MoveDistance extends Command {
 	
-	private PIDController movePID, turnPID;
+	private MomentumPID movePID, turnPID;
 	private Encoder left = RobotMap.leftDriveEncoder;
 	private Encoder right = RobotMap.rightDriveEncoder;
 	private double distance;
@@ -59,39 +59,41 @@ public class MoveDistance extends Command {
 		
 	}	
 	
-
-	class OutputNothing implements PIDOutput {
-
-		@Override
-		public void pidWrite(double output) {
-			// Intentionally blank
-		}
-		
-	}
-	
 	
     public MoveDistance(double distance) {
     	requires(Robot.driveSystem);
     	this.distance = distance;
-    	movePID = new PIDController(
+    	movePID = new MomentumPID(
+    			"Movement PID Controller",
     			MoPrefs.getMoveP(), 
     			MoPrefs.getMoveI(), 
     			MoPrefs.getMoveD(),
+    			MoPrefs.getMoveErrZone(),
+    			MoPrefs.getMoveTargetZone(),
     			new AverageEncoder(left, right),
-    			new OutputNothing()
+    			null
     		);
-    	turnPID = new PIDController(
+    	turnPID = new MomentumPID(
+    			"Turn PID Controller",
     			MoPrefs.getTurnP(),
     			MoPrefs.getTurnI(),
     			MoPrefs.getTurnD(),
+    			MoPrefs.getMoveErrZone(),
+    			MoPrefs.getMoveTargetZone(),
     			RobotMap.gyro,
-    			new OutputNothing()
+    			null
     		);
     	onTargetTime = new Timer();
     	System.out.format("Beginning move using\n    Move P:%.2d I:%.2d D:%.2d\n    Turn: P:%.2d I:%.2d D:%.2d\n", 
     			movePID.getP(), movePID.getI(), movePID.getD(),
     			turnPID.getP(), turnPID.getI(), turnPID.getD()
     			);
+    }
+    
+    public void tunePID() {
+    	LiveWindow.add(movePID);
+    	LiveWindow.add(turnPID);
+    	LiveWindow.setEnabled(true);
     }
   
 

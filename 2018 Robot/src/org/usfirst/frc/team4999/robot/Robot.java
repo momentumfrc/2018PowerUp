@@ -16,6 +16,7 @@ import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.sensors.VMXPi;
 import org.usfirst.frc.team4999.robot.subsystems.*;
+import org.usfirst.frc.team4999.utils.MoPrefs;
 
 /**
  * The VM is configured to automatically run this class, and to call the
