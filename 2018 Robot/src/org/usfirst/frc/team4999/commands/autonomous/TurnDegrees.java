@@ -6,11 +6,10 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,14 +17,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnDegrees extends Command {
 
-	private Encoder left = RobotMap.leftDriveEncoder;
-	private Encoder right = RobotMap.rightDriveEncoder;
-	
-	private double ticksPerMeter = 1;
-	
 	private PIDController angleController;
-	GyroFusion angleGetter;
+	private GyroFusion angleGetter;
 	private double angle;
+	
+	private Timer onTargetTime;
 	
 
 	static class DriveTurn implements PIDOutput {
@@ -44,44 +40,53 @@ public class TurnDegrees extends Command {
     public TurnDegrees(double angle) {
     	requires(Robot.driveSystem);
     	this.angle = angle;
-    	angleGetter = new GyroFusion();
+    	angleGetter = RobotMap.gyro;
     	angleGetter.setPIDSourceType(PIDSourceType.kDisplacement);
-    	MoPrefs prefs = MoPrefs.getInstance();
     	angleController = new PIDController(
-    			prefs.getTurnP(),
-    			prefs.getTurnI(),
-    			prefs.getTurnD(),
+    			MoPrefs.getTurnP(),
+    			MoPrefs.getTurnI(),
+    			MoPrefs.getTurnD(),
     			angleGetter,
     			new DriveTurn(Robot.driveSystem)
     	);
+    	onTargetTime = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	left.setDistancePerPulse(1/ticksPerMeter);
-    	right.setDistancePerPulse(1/ticksPerMeter);
     	angleController.setSetpoint(angleGetter.pidGet() + angle);
     	angleController.enable();
+    	onTargetTime.start();
+    	System.out.format("Beginning turn using P:%.2f I:%.2f D:%.2f\n", angleController.getP(), angleController.getI(), angleController.getD());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", angleGetter.getAngle(), angleController.getSetpoint(), angleController.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return angleController.onTarget();
+        if(angleController.onTarget()) {
+        	if(onTargetTime.hasPeriodPassed(MoPrefs.getTargetTime())) {
+        		return true;
+        	}
+        } else {
+        	onTargetTime.reset();
+        }
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	angleController.disable();
+    	Robot.driveSystem.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	angleController.disable();
+    	end();
     }
 
 }

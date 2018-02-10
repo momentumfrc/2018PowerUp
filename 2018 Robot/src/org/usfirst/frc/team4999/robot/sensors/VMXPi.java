@@ -18,7 +18,6 @@ public class VMXPi implements PIDSource {
 	DatagramPacket packet = new DatagramPacket(new byte[17], 17);
 	
 	private Thread recieveLoop;
-	public static final long RESPONSECUTOFF = 200;
 	private double zAngle, zRate;
 	
 	// When two synchronized blocks are synchronized on the same object, only one block is allowed to run at a time.

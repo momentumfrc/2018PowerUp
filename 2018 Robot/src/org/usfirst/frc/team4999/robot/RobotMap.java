@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team4999.robot;
 
+import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
+import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
+import org.usfirst.frc.team4999.robot.sensors.VMXPi;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -52,8 +56,10 @@ public class RobotMap {
 	public static DoubleSolenoid liftShifter = new DoubleSolenoid(0,1);
 	public static Spark liftBrake = new Spark(6);
 	public static DigitalInput liftZeroSwitch = new DigitalInput(6);
-	
-	public static NetworkTable pidTable = NetworkTableInstance.getDefault().getTable("PID");
+		
+	public static ADIS16448_IMU adis = new ADIS16448_IMU();
+	public static VMXPi pi = VMXPi.getInstance();
+	public static GyroFusion gyro = new GyroFusion();
 	
 	//TODO: Debug pdp
 	//public static PowerDistributionPanel pdp = new PowerDistributionPanel();

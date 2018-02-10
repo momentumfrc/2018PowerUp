@@ -40,6 +40,9 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		controlChooser = new ControlChooser();
 		testChooser = new TestChooser();
+		
+		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getEncTicks());
+		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getEncTicks());
 	}
 
 	/**

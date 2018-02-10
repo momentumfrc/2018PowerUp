@@ -16,8 +16,7 @@ public class DriveSystem extends Subsystem {
     private SpeedControllerGroup rightside = new SpeedControllerGroup(RobotMap.rightFrontMotor, RobotMap.rightBackMotor);
     
     private DifferentialDrive drive = new DifferentialDrive(leftside, rightside);
-    
-    private final double turnInPlaceZone = 0.05;
+   
     
     public DriveSystem() {
     	super("Drive System");
@@ -32,13 +31,18 @@ public class DriveSystem extends Subsystem {
     
     public void arcadeDrive(double moveRequest, double turnRequest, double speedLimiter) {
     	double m_r = clamp(moveRequest * speedLimiter, -1, 1);
-    	drive.curvatureDrive(m_r, turnRequest, m_r < turnInPlaceZone);
+    	double t_r = clamp(turnRequest * speedLimiter, -1, 1);
+    	drive.arcadeDrive(m_r, t_r, false);
     }
     
     public void tankDrive(double leftSide, double rightSide, double speedLimiter) {
     	double l_m = clamp(leftSide * speedLimiter, -1, 1);
     	double r_m = clamp(rightSide * speedLimiter, -1, 1);
     	drive.tankDrive(l_m, r_m);
+    }
+    
+    public void stop() {
+    	tankDrive(0,0,0);
     }
     
     private double clamp(double val, double min, double max) {
