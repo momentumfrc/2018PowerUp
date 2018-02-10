@@ -101,9 +101,9 @@ public class MoveDistance extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	movePID.setSetpoint(((left.getDistance() + right.getDistance()) / 2) + distance);
+    	movePID.setSetpointRelative(distance);
     	movePID.enable();
-    	turnPID.setSetpoint(RobotMap.gyro.getAngle());
+    	turnPID.setSetpointRelative(0);
     	turnPID.enable();
     	onTargetTime.start();
     }

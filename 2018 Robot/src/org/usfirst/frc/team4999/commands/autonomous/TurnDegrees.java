@@ -1,12 +1,13 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
+import org.usfirst.frc.team4999.commands.autonomous.MoveDistance.AverageEncoder;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4999.utils.MoPrefs;
+import org.usfirst.frc.team4999.utils.MomentumPID;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnDegrees extends Command {
 
-	private PIDController angleController;
+	private MomentumPID angleController;
 	private GyroFusion angleGetter;
 	private double angle;
 	
@@ -42,19 +43,22 @@ public class TurnDegrees extends Command {
     	this.angle = angle;
     	angleGetter = RobotMap.gyro;
     	angleGetter.setPIDSourceType(PIDSourceType.kDisplacement);
-    	angleController = new PIDController(
+    	angleController = new MomentumPID(
+    			"Turn PID Controller",
     			MoPrefs.getTurnP(),
     			MoPrefs.getTurnI(),
     			MoPrefs.getTurnD(),
-    			angleGetter,
-    			new DriveTurn(Robot.driveSystem)
-    	);
+    			MoPrefs.getMoveErrZone(),
+    			MoPrefs.getMoveTargetZone(),
+    			RobotMap.gyro,
+    			null
+    		);
     	onTargetTime = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	angleController.setSetpoint(angleGetter.pidGet() + angle);
+    	angleController.setSetpointRelative(angle);
     	angleController.enable();
     	onTargetTime.start();
     	System.out.format("Beginning turn using P:%.2f I:%.2f D:%.2f\n", angleController.getP(), angleController.getI(), angleController.getD());
