@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class VMXPi implements PIDSource {
 
     private static int PORT = 5800;
+    private static int PACKET_LENGTH = 16;
+    
 	private DatagramSocket server;
-	DatagramPacket packet = new DatagramPacket(new byte[17], 17);
+	DatagramPacket packet = new DatagramPacket(new byte[PACKET_LENGTH], PACKET_LENGTH);
 	
 	private Thread recieveLoop;
 	
@@ -45,7 +47,7 @@ public class VMXPi implements PIDSource {
 			e.printStackTrace();
 		}
 		recieveLoop = new Thread() {
-			ByteBuffer buff = ByteBuffer.allocate(17);
+			ByteBuffer buff = ByteBuffer.allocate(PACKET_LENGTH);
 			
 			@Override
 			public void run() {
@@ -53,20 +55,13 @@ public class VMXPi implements PIDSource {
 				while(!Thread.interrupted()) {
 					try {
 						server.receive(packet);
-						byte[] data = packet.getData();
-						int checksum = 0;
-						for(int i = 1; i < data.length; i++) {
-							checksum += (data[i]&0xFF);
+						buff.rewind();
+						buff.put(packet.getData());
+						synchronized(syncLock) {
+							zAngle = buff.getDouble(1);
+							zRate = buff.getDouble(9);
+							millis = System.currentTimeMillis();
 						}
-						if(checksum % 255 == (data[0]&0xFF)) { // 0xFF removes the sign
-							buff.rewind();
-							buff.put(data);
-							synchronized(syncLock) {
-								zAngle = buff.getDouble(1);
-								zRate = buff.getDouble(9);
-								millis = System.currentTimeMillis();
-							}
-						} else System.out.format("%d != %d\n", checksum % 255, (data[0]&0xFF));
 						
 					} catch (IOException e) {
 						e.printStackTrace();
