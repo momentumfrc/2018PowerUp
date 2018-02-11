@@ -64,20 +64,5 @@ public class MoPrefs {
 		checkDouble("ENC_TICKS", ENC_TICKS);
 		return prefs.getDouble("ENC_TICKS", ENC_TICKS);
 	}
-	public static String getPIDTableName() {
-		return "PID";
-	}
-	public static String getPIDTableLocation() {
-		return "/home/lvuser/pidvalues";
-	}
-	public static double getDefaultP() {
-		return 0;
-	}
-	public static double getDefaultI() {
-		return 0;
-	}
-	public static double getDefaultD() {
-		return 0;
-	}
 
 }

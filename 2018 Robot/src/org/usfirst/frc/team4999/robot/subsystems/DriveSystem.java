@@ -13,6 +13,7 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.commands.drive.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.utils.MomentumPID;
+import org.usfirst.frc.team4999.utils.PIDFactory;
 
 /**
  *
@@ -28,40 +29,7 @@ public class DriveSystem extends Subsystem {
     public MomentumPID moveRatePID, turnRatePID;
     public MomentumPID pitchPID;
     
-    class AverageEncoder implements PIDSource{
-		private Encoder left, right;
-
-		private PIDSourceType sourcetype = PIDSourceType.kDisplacement;
-
-
-		
-		public AverageEncoder(Encoder left, Encoder right) {
-			this.left = left;
-			this.right = right;
-		}
-		
-		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
-			sourcetype = pidSource;
-		}
-
-		@Override
-		public PIDSourceType getPIDSourceType() {
-			return sourcetype;
-		}
-
-		@Override
-		public double pidGet() {
-			switch(sourcetype) {
-			case kRate:
-				return (left.getRate() + right.getRate()) / 2;
-			case kDisplacement:
-			default:
-				return (left.getDistance() + right.getDistance()) / 2;
-			}
-		}
-		
-	}
+    
     
     public DriveSystem() {
     	super("Drive System");
@@ -69,20 +37,9 @@ public class DriveSystem extends Subsystem {
     	addChild("Left Side", leftside);
     	addChild("Right Side", rightside);
     	
-    	movePID = new MomentumPID(
-    			"MovementPID",
-    			MoPrefs.getMoveErrZone(),
-    			MoPrefs.getMoveTargetZone(),
-    			new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder),
-    			null
-    		);
-    	turnPID = new MomentumPID(
-    			"TurnPID",
-    			MoPrefs.getMoveErrZone(),
-    			MoPrefs.getMoveTargetZone(),
-    			RobotMap.gyro,
-    			null
-    		);
+    	movePID = PIDFactory.getMovePID();
+    	turnPID = PIDFactory.getTurnPID();
+    	
     	addChild(drive);
     	addChild(movePID);
     	addChild(turnPID);
