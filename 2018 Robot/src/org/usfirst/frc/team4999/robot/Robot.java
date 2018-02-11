@@ -28,10 +28,10 @@ import org.usfirst.frc.team4999.utils.MoPrefs;
  */
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
-	public static OI m_oi;	
+	public static OI m_oi;
 	ControlChooser controlChooser;
 	TestChooser testChooser;
-	
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		controlChooser = new ControlChooser();
 		testChooser = new TestChooser();
-		
+
 		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getEncTicks());
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getEncTicks());
 	}
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		
+
 	}
 
 	/**
@@ -97,12 +97,10 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
+
 	@Override
 	public void testInit() {
 	}
-
-	
 	/**
 	 * This function is called periodically during test mode.
 	 */
@@ -113,6 +111,6 @@ public class Robot extends TimedRobot {
 	    	Robot.driveSystem.arcadeDrive(0, Robot.driveSystem.turnPID.get(), MoPrefs.getAutoSpeed());
 		} else {
 			Robot.driveSystem.arcadeDrive(0, 0, 0);
-		}	
+		}
 	}
 }

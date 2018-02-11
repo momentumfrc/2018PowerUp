@@ -63,7 +63,6 @@ public class RobotMap {
 	
 	//TODO: Debug pdp
 	//public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
 	
 	public static int liftMotor1PDP = 14;
 	public static int liftMotor2PDP = 15;
