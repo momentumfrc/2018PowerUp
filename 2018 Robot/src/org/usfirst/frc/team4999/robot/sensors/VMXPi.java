@@ -21,7 +21,7 @@ public class VMXPi implements PIDSource {
 	
 	private Thread recieveLoop;
 	
-	private double zAngle, zRate, xVelocity, yVelocity;
+	private double zAngle, zRate, pitch, roll, xVelocity, yVelocity;
 	private double zOffset;
 	
 	// When two synchronized blocks are synchronized on the same object, only one block is allowed to run at a time.
@@ -61,8 +61,10 @@ public class VMXPi implements PIDSource {
 						synchronized(syncLock) {
 							zAngle = buff.getDouble(0);
 							zRate = buff.getDouble(8);
-							xVelocity = buff.getDouble(16);
-							yVelocity = buff.getDouble(24);
+							pitch = buff.getDouble(16);
+							roll = buff.getDouble(24);
+							xVelocity = buff.getDouble(32);
+							yVelocity = buff.getDouble(40);
 							millis = System.currentTimeMillis();
 						}
 						
@@ -84,6 +86,16 @@ public class VMXPi implements PIDSource {
 	public double getRate() {
 		synchronized(syncLock) {
 			return zRate;
+		}
+	}
+	public double getPitch() {
+		synchronized(syncLock) {
+			return pitch;
+		}
+	}
+	public double getRoll() {
+		synchronized(syncLock) {
+			return roll;
 		}
 	}
 	public double getXVelocity() {
