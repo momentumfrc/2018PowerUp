@@ -34,11 +34,11 @@ while True:
     struct.pack_into(">d", out, 32, xV)
     struct.pack_into(">d", out, 40, yV)
     if vmx.getAHRS().IsCalibrating():
-        print("Calibrating... angle: %.2f, rate: %.2f, xV: %.2f, yV:%.2f" % (angle, rate, xV, yV))
+        print("Calibrating... angle: %.2f, rate: %.2f, pitch:%.2f, roll:%.2f xV: %.2f, yV:%.2f" % (angle, rate, pitch, roll, xV, yV))
     elif not vmx.getAHRS().IsConnected():
         print("Not connected...")
     else:
-        print("Sending angle %.2f rate %.2f, xV: %.2f, yV:%.2f" % (angle, rate, xV, yV))
+        print("Sending angle: %.2f, rate: %.2f, pitch:%.2f, roll:%.2f xV: %.2f, yV:%.2f" % (angle, rate, pitch, roll, xV, yV))
         sock.sendto(out, (SERVER_IP, SERVER_PORT))
 
     time.DelayMilliseconds(DELAY)

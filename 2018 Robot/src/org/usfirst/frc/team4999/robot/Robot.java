@@ -106,6 +106,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());
+		
 		if(Robot.driveSystem.turnPID.isEnabled()) {
 			//System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
 	    	Robot.driveSystem.arcadeDrive(0, Robot.driveSystem.turnPID.get(), MoPrefs.getAutoSpeed());

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class VMXPi implements PIDSource {
 
   private static int PORT = 5800;
-  private static int PACKET_LENGTH = 32;
+  private static int PACKET_LENGTH = 48;
 
 	private DatagramSocket server;
 	DatagramPacket packet = new DatagramPacket(new byte[PACKET_LENGTH], PACKET_LENGTH);

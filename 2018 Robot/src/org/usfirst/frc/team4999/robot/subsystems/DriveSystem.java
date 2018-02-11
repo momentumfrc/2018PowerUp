@@ -25,6 +25,8 @@ public class DriveSystem extends Subsystem {
     private DifferentialDrive drive = new DifferentialDrive(leftside, rightside);
   
     public MomentumPID movePID, turnPID;
+    public MomentumPID moveRatePID, turnRatePID;
+    public MomentumPID pitchPID;
     
     class AverageEncoder implements PIDSource{
 		private Encoder left, right;
@@ -68,20 +70,14 @@ public class DriveSystem extends Subsystem {
     	addChild("Right Side", rightside);
     	
     	movePID = new MomentumPID(
-    			"Movement PID Controller",
-    			MoPrefs.getMoveP(), 
-    			MoPrefs.getMoveI(), 
-    			MoPrefs.getMoveD(),
+    			"MovementPID",
     			MoPrefs.getMoveErrZone(),
     			MoPrefs.getMoveTargetZone(),
     			new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder),
     			null
     		);
     	turnPID = new MomentumPID(
-    			"Turn PID Controller",
-    			MoPrefs.getTurnP(),
-    			MoPrefs.getTurnI(),
-    			MoPrefs.getTurnD(),
+    			"TurnPID",
     			MoPrefs.getMoveErrZone(),
     			MoPrefs.getMoveTargetZone(),
     			RobotMap.gyro,
