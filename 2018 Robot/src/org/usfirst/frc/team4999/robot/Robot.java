@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
 import org.usfirst.frc.team4999.robot.choosers.*;
@@ -99,16 +100,19 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void testInit() {
-		//testChooser.getSelected().start();
 	}
 
 	
-	private VMXPi pi = VMXPi.getInstance();
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
-		System.out.format("Angle: %.2f, Rate: %.2f, Last Update: %d\n", pi.getAngle(), pi.getRate(), pi.getTimeSinceLastPacket());
+		if(Robot.driveSystem.turnPID.isEnabled()) {
+			//System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
+	    	Robot.driveSystem.arcadeDrive(0, Robot.driveSystem.turnPID.get(), MoPrefs.getAutoSpeed());
+		} else {
+			Robot.driveSystem.arcadeDrive(0, 0, 0);
+		}	
 	}
 }

@@ -42,12 +42,6 @@ public class TurnDegrees extends Command {
     	angleGetter = RobotMap.gyro;
     	angleGetter.setPIDSourceType(PIDSourceType.kDisplacement);
     	onTargetTime = new Timer();
-    	tunePID();
-    }
-    
-    public void tunePID() {
-    	LiveWindow.add(Robot.driveSystem.turnPID);
-    	LiveWindow.setEnabled(true);
     }
     
     // Called just before this Command runs the first time
@@ -61,6 +55,7 @@ public class TurnDegrees extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", angleGetter.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
+    	Robot.driveSystem.arcadeDrive(0, Robot.driveSystem.turnPID.get(), MoPrefs.getAutoSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()

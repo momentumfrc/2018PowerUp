@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.commands.drive.*;
@@ -85,6 +87,10 @@ public class DriveSystem extends Subsystem {
     			RobotMap.gyro,
     			null
     		);
+    	addChild(drive);
+    	addChild(movePID);
+    	addChild(turnPID);
+    	
     }
     
     public void initDefaultCommand() {
@@ -92,14 +98,15 @@ public class DriveSystem extends Subsystem {
     }
     
     public void arcadeDrive(double moveRequest, double turnRequest, double speedLimiter) {
-    	double m_r = clamp(moveRequest * speedLimiter, -1, 1);
-    	double t_r = clamp(turnRequest * speedLimiter, -1, 1);
+    	double m_r = clip(moveRequest, -1, 1) * speedLimiter;
+    	double t_r = clip(turnRequest, -1, 1) * speedLimiter;
+    	//System.out.format("MR:%.2f TR:%.2f\n", m_r, t_r);
     	drive.arcadeDrive(m_r, t_r, false);
     }
     
     public void tankDrive(double leftSide, double rightSide, double speedLimiter) {
-    	double l_m = clamp(leftSide * speedLimiter, -1, 1);
-    	double r_m = clamp(rightSide * speedLimiter, -1, 1);
+    	double l_m = clip(leftSide * speedLimiter, -1, 1);
+    	double r_m = clip(rightSide * speedLimiter, -1, 1);
     	drive.tankDrive(l_m, r_m);
     }
     
@@ -109,10 +116,8 @@ public class DriveSystem extends Subsystem {
     	tankDrive(0,0,0);
     }
     
-    private double clamp(double val, double min, double max) {
-    	double out = Math.min(val, max);
-    	out = Math.max(val, min);
-    	return out;
+    private double clip(double val, double min, double max) {
+    	return Math.max(Math.min(val, max), min);
     }
 }
 

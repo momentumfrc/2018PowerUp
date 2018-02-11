@@ -22,6 +22,7 @@ public class MomentumPID implements Sendable {
 		
 		public Calculator() {
 			super();
+			setName(name + " Calculator");
 		}
 		
 		@Override
@@ -34,7 +35,7 @@ public class MomentumPID implements Sendable {
 			while(!Thread.interrupted()) {
 				// Delay 50ms and calculate time for dT
 				Timer.delay(DELAY);
-				double dTime = (long)(Timer.getFPGATimestamp() * 1000) - lastTime;
+				long dTime = (long)(Timer.getFPGATimestamp() * 1000) - lastTime;
 				lastTime = (long) Timer.getFPGATimestamp() * 1000;
 				
 				// Calculate error
@@ -52,12 +53,18 @@ public class MomentumPID implements Sendable {
 				lastErr = err;
 				
 				// Combine all the parts
-				result = kP * (err + totalErr / tI + dErr * tD);
+				if(tI > 0)
+					result = kP * (err + totalErr / tI + dErr * tD);
+				else
+					result = kP * (err + dErr * tD);
 				
 				// Write the result
 				if(output != null)
 					output.pidWrite(result);
 			}
+			result = 0;
+			if(output != null)
+				output.pidWrite(0);
 		}
 	}
 
@@ -105,23 +112,26 @@ public class MomentumPID implements Sendable {
 	}
 	
 	public void enable() {
+		System.out.format("Enabling... P:%.4f I:%.4f D:%.4f\n",kP,tI,tD);
 		calc = new Calculator();
 		calc.start();
 	}
 	public void disable() {
-		calc.interrupt();
+		System.out.println("Disabling");
+		if(isEnabled())
+			calc.interrupt();
 	}
 	public void setEnabled(boolean enabled) {
 		if(enabled) {
-			if(!calc.isAlive()) {
+			if(!isEnabled()) {
 				enable();
 			}
-		} else if(calc.isAlive() && !calc.isInterrupted()) {
+		} else if(isEnabled() && !calc.isInterrupted()) {
 			disable();
 		}
 	}
 	public boolean isEnabled() {
-		return calc.isAlive();
+		return calc != null && calc.isAlive();
 	}
 	public double getP() {
 		return kP;
@@ -181,8 +191,8 @@ public class MomentumPID implements Sendable {
 		builder.addDoubleProperty("p", this::getP, this::setP);
 		builder.addDoubleProperty("i", this::getI, this::setI);
 		builder.addDoubleProperty("d", this::getD, this::setD);
-		builder.addDoubleProperty("errzone", this::getErrZone, this::setErrZone);
-		builder.addDoubleProperty("targetzone", this::getTargetZone, this::setTargetZone);
+		builder.addDoubleProperty("f", this::getErrZone, this::setErrZone); // The smartdashboard expects a PID controller to have a p,i,d,f and doesn't work if its missing something
+		//builder.addDoubleProperty("targetzone", this::getTargetZone, this::setTargetZone);
 		builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
 		builder.addBooleanProperty("enabled", this::isEnabled, this::setEnabled);
 	}
