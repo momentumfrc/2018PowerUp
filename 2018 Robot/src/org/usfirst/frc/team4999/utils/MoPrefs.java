@@ -11,9 +11,9 @@ public class MoPrefs {
 	private static final double MOVE_D = 0.05;
 	private static final double MOVE_ERR_ZONE = 10;
 	private static final double MOVE_TARGET_ZONE = 10;
-	private static final double TURN_P = 0.2;
-	private static final double TURN_I = 0;
-	private static final double TURN_D = 0.05;
+	private static final double TURN_P = 0.022;
+	private static final double TURN_I = 5000;
+	private static final double TURN_D = 800;
 	private static final double TURN_ERR_ZONE = 10;
 	private static final double TURN_TARGET_ZONE = 10;
 	private static final int 	MAX_PI_DELAY = 200;
