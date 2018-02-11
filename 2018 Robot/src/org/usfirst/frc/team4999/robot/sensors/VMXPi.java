@@ -14,14 +14,15 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class VMXPi implements PIDSource {
 
     private static int PORT = 5800;
-    private static int PACKET_LENGTH = 16;
+    private static int PACKET_LENGTH = 32;
     
 	private DatagramSocket server;
 	DatagramPacket packet = new DatagramPacket(new byte[PACKET_LENGTH], PACKET_LENGTH);
 	
 	private Thread recieveLoop;
 	
-	private double zAngle, zRate, zOffset;
+	private double zAngle, zRate, xVelocity, yVelocity;
+	private double zOffset;
 	
 	// When two synchronized blocks are synchronized on the same object, only one block is allowed to run at a time.
 	// By synchronizing before we read and write the zAngle and zRates, we can make sure they don't change while we're reading them
@@ -58,8 +59,10 @@ public class VMXPi implements PIDSource {
 						buff.rewind();
 						buff.put(packet.getData());
 						synchronized(syncLock) {
-							zAngle = buff.getDouble(1);
-							zRate = buff.getDouble(9);
+							zAngle = buff.getDouble(0);
+							zRate = buff.getDouble(8);
+							xVelocity = buff.getDouble(16);
+							yVelocity = buff.getDouble(24);
 							millis = System.currentTimeMillis();
 						}
 						
@@ -81,6 +84,16 @@ public class VMXPi implements PIDSource {
 	public double getRate() {
 		synchronized(syncLock) {
 			return zRate;
+		}
+	}
+	public double getXVelocity() {
+		synchronized(syncLock) {
+			return xVelocity;
+		}
+	}
+	public double getYVelocity() {
+		synchronized(syncLock) {
+			return yVelocity;
 		}
 	}
 	

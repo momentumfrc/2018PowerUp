@@ -10,7 +10,7 @@ vmxpi = imp.load_source('vmxpi_hal_python', '/usr/local/lib/vmxpi/vmxpi_hal_pyth
 SERVER_IP = "10.49.99.2"
 SERVER_PORT = 5800
 DELAY = 20 # ms
-PACKET_LENGTH = 16
+PACKET_LENGTH = 32
 
 vmx = vmxpi.VMXPi(False, 50)
 time = vmx.getTime()
@@ -24,10 +24,10 @@ while True:
     rate = vmx.getAHRS().GetRate()
     xV = vmx.getAHRS().GetVelocityX()
     yV = vmx.getAHRS().GetVelocityY()
-    struct.pack_into(">d", out, 1, angle)
-    struct.pack_into(">d", out, 9, rate)
-    chksum = sum(out[1:]) % 255
-    struct.pack_into(">B", out, 0, chksum)
+    struct.pack_into(">d", out, 0, angle)
+    struct.pack_into(">d", out, 8, rate)
+    struct.pack_into(">d", out, 16, xV)
+    struct.pack_into(">d", out, 24, yV)
     if vmx.getAHRS().IsCalibrating():
         print("Calibrating... angle: %.2f, rate: %.2f, xV: %.2f, yV:%.2f" % (angle, rate, xV, yV))
     elif not vmx.getAHRS().IsConnected():
