@@ -25,8 +25,7 @@ import org.usfirst.frc.team4999.utils.MoPrefs;
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
 	public static OI m_oi;
-	ControlChooser controlChooser;
-	TestChooser testChooser;
+	public static ControlChooser controlChooser = new ControlChooser();
 
 
 	/**
@@ -36,8 +35,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		controlChooser = new ControlChooser();
-		testChooser = new TestChooser();
 
 		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getEncTicks());
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getEncTicks());
@@ -50,7 +47,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		testChooser.stopCommands();
 	}
 
 	@Override
