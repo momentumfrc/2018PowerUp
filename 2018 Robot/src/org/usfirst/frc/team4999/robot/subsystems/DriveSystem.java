@@ -74,18 +74,34 @@ public class DriveSystem extends Subsystem {
     	tankDrive(0,0,0);
     }
     
-    public void driveTurn() {
+    public void driveTurnPID() {
     	if(turnPID.isEnabled())
     		arcadeDrive(0, turnPID.get(), MoPrefs.getAutoSpeed());
     	else
     		arcadeDrive(0,0,0);
     }
     
-    public void driveMove() {
+    public void driveMovePID() {
     	if(turnPID.isEnabled() && movePID.isEnabled() && pitchPID.isEnabled())
     		arcadeDrive(movePID.get() + pitchPID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
     	else if(turnPID.isEnabled() && movePID.isEnabled())
     		arcadeDrive(movePID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
+    	else
+    		arcadeDrive(0,0,0);
+    }
+    
+    public void driveMoveRatePID() {
+    	if(moveRatePID.isEnabled() && turnRatePID.isEnabled() && pitchPID.isEnabled())
+    		arcadeDrive(moveRatePID.get() + pitchPID.get(), turnRatePID.get(), 1);
+    	else if(moveRatePID.isEnabled() && turnRatePID.isEnabled())
+    		arcadeDrive(moveRatePID.get(), turnRatePID.get(), 1);
+    	else
+    		arcadeDrive(0,0,0);
+    }
+    
+    public void driveTurnRatePID() {
+    	if(turnRatePID.isEnabled())
+    		arcadeDrive(0, turnPID.get(), 1);
     	else
     		arcadeDrive(0,0,0);
     }
