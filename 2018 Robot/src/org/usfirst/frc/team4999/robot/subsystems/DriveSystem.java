@@ -1,13 +1,8 @@
 package org.usfirst.frc.team4999.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.commands.drive.*;
@@ -40,9 +35,17 @@ public class DriveSystem extends Subsystem {
     	movePID = PIDFactory.getMovePID();
     	turnPID = PIDFactory.getTurnPID();
     	
+    	moveRatePID = PIDFactory.getMoveRatePID();
+    	turnRatePID = PIDFactory.getMoveRatePID();
+    	
+    	pitchPID = PIDFactory.getTiltPID();
+    	
     	addChild(drive);
     	addChild(movePID);
     	addChild(turnPID);
+    	addChild(moveRatePID);
+    	addChild(turnRatePID);
+    	addChild(pitchPID);
     	
     }
     
@@ -53,7 +56,6 @@ public class DriveSystem extends Subsystem {
     public void arcadeDrive(double moveRequest, double turnRequest, double speedLimiter) {
     	double m_r = clip(moveRequest, -1, 1) * speedLimiter;
     	double t_r = clip(turnRequest, -1, 1) * speedLimiter;
-    	//System.out.format("MR:%.2f TR:%.2f\n", m_r, t_r);
     	drive.arcadeDrive(m_r, t_r, false);
     }
     
@@ -66,11 +68,31 @@ public class DriveSystem extends Subsystem {
     public void stop() {
     	movePID.disable();
     	turnPID.disable();
+    	moveRatePID.disable();
+    	turnRatePID.disable();
+    	pitchPID.disable();
     	tankDrive(0,0,0);
+    }
+    
+    public void driveTurn() {
+    	if(turnPID.isEnabled())
+    		arcadeDrive(0, turnPID.get(), MoPrefs.getAutoSpeed());
+    	else
+    		arcadeDrive(0,0,0);
+    }
+    
+    public void driveMove() {
+    	if(turnPID.isEnabled() && movePID.isEnabled() && pitchPID.isEnabled())
+    		arcadeDrive(movePID.get() + pitchPID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
+    	else if(turnPID.isEnabled() && movePID.isEnabled())
+    		arcadeDrive(movePID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
+    	else
+    		arcadeDrive(0,0,0);
     }
     
     private double clip(double val, double min, double max) {
     	return Math.max(Math.min(val, max), min);
     }
+    
 }
 

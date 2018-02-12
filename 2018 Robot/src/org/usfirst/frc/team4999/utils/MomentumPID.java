@@ -9,13 +9,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class MomentumPID implements Sendable {
 	
 	private double kP, tI, tD, iErrZone;
-	private double targetZone;
+	private double targetZone, targetTime;
 	private double result;
 	private PIDSource source;
 	private PIDOutput output;
 	private double setpoint;
 	private Calculator calc;
 	private String name, subsystem = "Ungrouped";
+	
+	private Timer onTargetTimer;
 	
 	private Runnable updateListener = ()->{};
 		
@@ -57,7 +59,7 @@ public class MomentumPID implements Sendable {
 				lastErr = err;
 				
 				// Combine all the parts
-				if(tI > 0)
+				if(tI > 0) // Prevent divide by zero errors
 					result = kP * (err + totalErr / tI + dErr * tD);
 				else
 					result = kP * (err + dErr * tD);
@@ -66,6 +68,7 @@ public class MomentumPID implements Sendable {
 				if(output != null)
 					output.pidWrite(result);
 			}
+			// Safety measure - When the controller is disabled, set its output to zero
 			result = 0;
 			if(output != null)
 				output.pidWrite(0);
@@ -82,8 +85,8 @@ public class MomentumPID implements Sendable {
 		this.kP = kP;
 		this.tI = tI;
 		this.tD = tD;
-		 
-				
+		onTargetTimer = new Timer();
+		onTargetTimer.start();
 	}
 	
 	public double getSetpoint() {
@@ -103,6 +106,22 @@ public class MomentumPID implements Sendable {
 	
 	public boolean onTarget() {
 		return Math.abs(setpoint - source.pidGet()) < targetZone;
+	}
+	
+	public boolean onTargetForTime() {
+		if(onTarget() && onTargetTimer.hasPeriodPassed(targetTime)) {
+			return true;
+		} else if (!onTarget()) {
+			onTargetTimer.reset();
+		}
+		return false;
+	}
+	
+	public void setTargetTime(double time) {
+		targetTime = time;
+	}
+	public double getTargetTime() {
+		return targetTime;
 	}
 	
 	/**

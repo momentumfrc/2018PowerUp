@@ -9,13 +9,9 @@ package org.usfirst.frc.team4999.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
 import org.usfirst.frc.team4999.robot.choosers.*;
-import org.usfirst.frc.team4999.robot.sensors.VMXPi;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 

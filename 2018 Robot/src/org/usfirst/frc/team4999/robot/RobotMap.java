@@ -11,8 +11,6 @@ import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.sensors.VMXPi;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;

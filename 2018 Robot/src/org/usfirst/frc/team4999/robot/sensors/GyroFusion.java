@@ -10,11 +10,14 @@ public class GyroFusion implements PIDSource {
 	VMXPi vmx = RobotMap.pi;
 	ADIS16448_IMU adis = RobotMap.adis;
 	
-	private double adisOffset = 0;
+	private double adisYawOffset = 0, adisPitchOffset = 0, adisRollOffset = 0;
+	private double vmxYawOffset = 0, vmxPitchOffset = 0, vmxRollOffset = 0;
 
 	private PIDSourceType pidType = PIDSourceType.kRate;
 	
 	private int maxDelay = MoPrefs.getMaxPiDelay();
+	
+	private boolean firstTimeBack = false;
 	
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
@@ -26,12 +29,29 @@ public class GyroFusion implements PIDSource {
 		return pidType;
 	}
 	
-	public double getAngle() {
-		if(vmx.getTimeSinceLastPacket() > maxDelay) {
-			return adis.getAngleZ() + adisOffset;
+	private double whichSensor(double adisAngle, double vmxAngle) {
+		if(vmx.getTimeSinceLastPacket() > maxDelay) { // If no connection w/ vmx, use adis
+			firstTimeBack = true;
+			return adisAngle;
+		} else if(firstTimeBack) { // If just reestablished connection, calculate vmx's offsets and use adis
+			firstTimeBack = false;
+			vmxYawOffset = adis.getAngleZ() + adisYawOffset - vmx.getAngle();
+			vmxPitchOffset = adis.getAngleX() + adisPitchOffset - vmx.getPitch();
+			vmxRollOffset = adis.getAngleY() + adisRollOffset - vmx.getRoll();
+			return adisAngle;
+		} else { // Normally calculate adis' offsets and use vmx
+			adisYawOffset = vmx.getAngle() + vmxYawOffset - adis.getAngleZ();
+			adisPitchOffset = vmx.getPitch() + vmxYawOffset - adis.getAngleX();
+			adisRollOffset = vmx.getRoll() + vmxRollOffset - adis.getAngleY();
+			return vmxAngle;
 		}
-		adisOffset = vmx.getAngle() - adis.getAngleZ();
-		return vmx.getAngle();
+	}
+	
+	public double getAngle() {
+		double vmxAngle = vmx.getAngle() + vmxYawOffset;
+		double adisAngle = adis.getAngleZ() + adisYawOffset;
+		
+		return whichSensor(adisAngle, vmxAngle);
 	}
 	
 	public double getRate() {
@@ -39,6 +59,22 @@ public class GyroFusion implements PIDSource {
 			return adis.getRateZ();
 		}
 		return vmx.getRate();
+	}
+	
+	// TODO: Make sure the adis' yaw axis matches the pi's yaw axis, and adjust if necessary
+	
+	public double getPitch() {
+		double vmxAngle = vmx.getPitch() + vmxPitchOffset;
+		double adisAngle = adis.getAngleX() + adisPitchOffset;
+		
+		return whichSensor(adisAngle, vmxAngle);
+	}
+	
+	public double getRoll() {
+		double vmxAngle = vmx.getRoll() + vmxRollOffset;
+		double adisAngle = adis.getAngleZ() + adisRollOffset;
+		
+		return whichSensor(adisAngle, vmxAngle);
 	}
 
 	@Override
