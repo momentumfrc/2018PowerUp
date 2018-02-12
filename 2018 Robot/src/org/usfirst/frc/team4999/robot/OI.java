@@ -7,10 +7,10 @@
 
 package org.usfirst.frc.team4999.robot;
 
-import org.usfirst.frc.team4999.commands.autonomous.*;
+import org.usfirst.frc.team4999.commands.*;
+import org.usfirst.frc.team4999.triggers.*;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,8 +45,8 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Button fStickTrigger = new JoystickButton(RobotMap.flightStick, 1);
+	Trigger killPID = new KillPID();
 	public OI() {
-		fStickTrigger.whenActive(new TurnDegrees(90));
+		killPID.whenActive(new TeleopNoPID());
 	}
 }

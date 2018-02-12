@@ -18,26 +18,11 @@ public class TurnDegrees extends Command {
 	private double angle;
 	
 	private DriveSystem drive = Robot.driveSystem;
-	
 
-	static class DriveTurn implements PIDOutput {
-		private DriveSystem output;
-		
-		public DriveTurn(DriveSystem output) {
-			this.output = output;
-		}
-		@Override
-		public void pidWrite(double output) {
-			this.output.arcadeDrive(0, output, RobotMap.auto_speed);
-		}
-		
-	}
-	
     public TurnDegrees(double angle) {
     	requires(drive);
     	this.angle = angle;
     	angleGetter = RobotMap.gyro;
-    	angleGetter.setPIDSourceType(PIDSourceType.kDisplacement);
     }
     
     // Called just before this Command runs the first time

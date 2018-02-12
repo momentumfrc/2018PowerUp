@@ -34,4 +34,14 @@ public class FlightStickWrapper extends DriveController {
 		return map(-flightStick.getThrottle(), -1, 1, 0, 1);
 	}
 
+	@Override
+	public boolean getReverseDirection() {
+		return flightStick.getRawButtonPressed(2);
+	}
+
+	@Override
+	public boolean getKillPID() {
+		return flightStick.getRawButton(7);
+	}
+	
 }

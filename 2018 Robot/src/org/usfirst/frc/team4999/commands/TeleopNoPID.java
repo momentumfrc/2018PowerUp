@@ -15,6 +15,8 @@ public class TeleopNoPID extends Command {
 	private DriveSystem drive = Robot.driveSystem;
 	private ControlChooser chooser = Robot.controlChooser;
 	
+	private boolean reversed;
+	
     public TeleopNoPID() {
         requires(drive);
     }
@@ -26,7 +28,9 @@ public class TeleopNoPID extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	DriveController controller = chooser.getSelected();
-    	drive.arcadeDrive(controller.getMoveRequest(), controller.getTurnRequest(), controller.getSpeedLimiter());
+    	if(controller.getReverseDirection())
+    		reversed = !reversed;
+    	drive.arcadeDrive((reversed)?-controller.getMoveRequest():controller.getMoveRequest(), controller.getTurnRequest(), controller.getSpeedLimiter());
     }
 
     // Make this return true when this Command no longer needs to run execute()

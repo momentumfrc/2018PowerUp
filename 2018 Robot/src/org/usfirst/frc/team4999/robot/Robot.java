@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
@@ -79,7 +80,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-
+		TeleopPID teleopPID = new TeleopPID();
+		teleopPID.start();
 	}
 
 	/**

@@ -16,6 +16,8 @@ public class TeleopPID extends Command {
 	private DriveSystem drive = Robot.driveSystem;
 	private ControlChooser chooser = Robot.controlChooser;
 	
+	private boolean reversed;
+	
     public TeleopPID() {
     	requires(drive);
     }
@@ -30,7 +32,12 @@ public class TeleopPID extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	DriveController controller = chooser.getSelected();
+    	
+    	if(controller.getReverseDirection())
+    		reversed = !reversed;
+    	
     	double moveRequest = controller.map(controller.getMoveRequest() * controller.getSpeedLimiter(), -1, 1, -MoPrefs.getMaxMoveSpeed(), MoPrefs.getMaxMoveSpeed());
+    	moveRequest = (reversed)?-moveRequest:moveRequest;
     	double turnRequest = controller.map(controller.getTurnRequest() * controller.getSpeedLimiter(), -1, 1, -MoPrefs.getMaxTurnSpeed(), MoPrefs.getMaxTurnSpeed());
     	
     	drive.moveRatePID.setSetpoint(moveRequest);

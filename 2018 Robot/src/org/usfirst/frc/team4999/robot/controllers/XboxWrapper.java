@@ -40,4 +40,14 @@ public class XboxWrapper extends DriveController {
 		speedLimit = clip(speed, 0, 1);
 	}
 
+	@Override
+	public boolean getReverseDirection() {
+		return xbox.getXButtonPressed();
+	}
+
+	@Override
+	public boolean getKillPID() {
+		return xbox.getStartButton();
+	}
+
 }
