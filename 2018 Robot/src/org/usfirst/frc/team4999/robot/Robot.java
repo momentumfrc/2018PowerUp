@@ -9,9 +9,11 @@ package org.usfirst.frc.team4999.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import org.usfirst.frc.team4999.commands.*;
+import org.usfirst.frc.team4999.commands.autonomous.*;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
@@ -26,7 +28,12 @@ import org.usfirst.frc.team4999.utils.MoPrefs;
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
 	public static OI m_oi;
+	
 	public static ControlChooser controlChooser = new ControlChooser();
+	public static StartPosChooser startPos = new StartPosChooser();
+	public static AutoModeChooser target = new AutoModeChooser();
+	
+	private Command autoCommand;
 
 
 	/**
@@ -68,7 +75,41 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		System.out.println(DriverStation.getInstance().getGameSpecificMessage());
+		String fieldPos = DriverStation.getInstance().getGameSpecificMessage();
+		TargetPosition switchPos, scalePos;
+		if(fieldPos.length() >= 2) {
+			switchPos = posFromChar(fieldPos.charAt(0));
+			scalePos = posFromChar(fieldPos.charAt(1));
+		} else {
+			System.out.println("Recieved invalid data from FMS: " + fieldPos);
+			return;
+		}
+		
+		switch(target.getSelected()) {
+		case SWITCH:
+			autoCommand = new PlaceCubeOnSwitch(startPos.getSelected(), switchPos);
+			break;
+		case SCALE:
+			autoCommand = new PlaceCubeOnScale(startPos.getSelected(), scalePos);
+			break;
+		case FALLBACK_DISTANCE:
+			autoCommand = new DistanceBasedFallback();
+		case FALLBACK_TIME:
+			autoCommand = new TimeBasedFallback();
+		}
+		
+		autoCommand.start();
+		
+	}
+	
+	private TargetPosition posFromChar(char pos) {
+		if(pos == 'L')
+			return TargetPosition.LEFT;
+		else if(pos == 'R')
+			return TargetPosition.RIGHT;
+		else
+			System.out.println("Recieved invalid input " + pos);
+		return TargetPosition.LEFT;
 	}
 
 	/**
@@ -76,6 +117,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
  	}
 
 	@Override

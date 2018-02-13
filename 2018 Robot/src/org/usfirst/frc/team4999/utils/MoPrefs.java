@@ -12,6 +12,8 @@ public class MoPrefs {
 	private static final double ENC_TICKS = 700; // Number of encoder ticks per meter of travel
 	private static final double MAX_MOVE_SPEED = 2; // Maximum velocity of the robot in meters/second
 	private static final double MAX_TURN_SPEED = 4; // Maximum angular velocity of the robot in degrees/second
+	private static final double FALLBACK_AUTO_TIME = 3; // Time, in seconds, the robot will drive for when in fallback auto mode
+	private static final double FALLBACK_AUTO_DISTANCE = 3.5; // Distance the robot will drive for, in meters, in fallback auto mode
 	
 	
 	
@@ -49,6 +51,14 @@ public class MoPrefs {
 	public static double getMaxTurnSpeed() {
 		checkDouble("MAX_TURN_SPEED", MAX_TURN_SPEED);
 		return prefs.getDouble("MAX_TURN_SPEED", MAX_TURN_SPEED);
+	}
+	public static double getFallbackAutoTime() {
+		checkDouble("FALLBACK_AUTO_TIME",FALLBACK_AUTO_TIME);
+		return prefs.getDouble("FALLBACK_AUTO_TIME", FALLBACK_AUTO_TIME);
+	}
+	public static double getFallbackAutoDistance() {
+		checkDouble("FALLBACK_AUTO_DISTANCE", FALLBACK_AUTO_DISTANCE);
+		return prefs.getDouble("FALLBACK_AUTO_DISTANCE", FALLBACK_AUTO_DISTANCE);
 	}
 
 }
