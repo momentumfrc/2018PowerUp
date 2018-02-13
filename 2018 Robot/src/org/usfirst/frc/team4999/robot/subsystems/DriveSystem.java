@@ -86,6 +86,8 @@ public class DriveSystem extends Subsystem {
     		arcadeDrive(movePID.get() + pitchPID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
     	else if(turnPID.isEnabled() && movePID.isEnabled())
     		arcadeDrive(movePID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
+    	else if(movePID.isEnabled())
+    		arcadeDrive(movePID.get(), 0, MoPrefs.getAutoSpeed());
     	else
     		arcadeDrive(0,0,0);
     }
@@ -95,6 +97,8 @@ public class DriveSystem extends Subsystem {
     		arcadeDrive(moveRatePID.get() + pitchPID.get(), turnRatePID.get(), 1);
     	else if(moveRatePID.isEnabled() && turnRatePID.isEnabled())
     		arcadeDrive(moveRatePID.get(), turnRatePID.get(), 1);
+    	else if(moveRatePID.isEnabled())
+    		arcadeDrive(moveRatePID.get(), 0, 1);
     	else
     		arcadeDrive(0,0,0);
     }
