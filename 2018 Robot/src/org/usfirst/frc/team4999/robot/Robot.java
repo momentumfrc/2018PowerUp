@@ -131,6 +131,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		System.out.format("Angle: %.2f Dist:%.2fm Rate:%.2fm/s\n", RobotMap.gyro.getAngle(), RobotMap.leftDriveEncoder.getDistance(), RobotMap.leftDriveEncoder.getRate());
+		if(RobotMap.flightStick.getRawButton(5))
+			RobotMap.leftDriveEncoder.reset();
 		Scheduler.getInstance().run();
 	}
 
@@ -144,11 +147,11 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());
 		
-		if(Robot.driveSystem.turnPID.isEnabled()) {
-			//System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
-	    	Robot.driveSystem.arcadeDrive(0, Robot.driveSystem.turnPID.get(), MoPrefs.getAutoSpeed());
-		} else {
-			Robot.driveSystem.arcadeDrive(0, 0, 0);
-		}
+		
+		Robot.driveSystem.driveDisplacementPID();
+		System.out.format("MOVE Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.leftDriveEncoder.getDistance(), Robot.driveSystem.movePID.getSetpoint(), Robot.driveSystem.movePID.get());
+		System.out.format("TURN Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
+		System.out.println("---------------");
+
 	}
 }

@@ -92,6 +92,19 @@ public class DriveSystem extends Subsystem {
     		arcadeDrive(0,0,0);
     }
     
+    public void driveDisplacementPID() {
+    	if(turnPID.isEnabled() && movePID.isEnabled() && pitchPID.isEnabled())
+    		arcadeDrive(movePID.get() + pitchPID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
+    	else if(turnPID.isEnabled() && movePID.isEnabled())
+    		arcadeDrive(movePID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
+    	else if(movePID.isEnabled())
+    		arcadeDrive(movePID.get(), 0, MoPrefs.getAutoSpeed());
+    	else if(turnPID.isEnabled())
+    		arcadeDrive(0, turnPID.get(), MoPrefs.getAutoSpeed());
+    	else
+    		arcadeDrive(0,0,0);
+    }
+    
     public void driveMoveRatePID() {
     	if(moveRatePID.isEnabled() && turnRatePID.isEnabled() && pitchPID.isEnabled())
     		arcadeDrive(moveRatePID.get() + pitchPID.get(), turnRatePID.get(), 1);

@@ -9,7 +9,7 @@ public class MoPrefs {
 	private static final int 	MAX_PI_DELAY = 200;
 	private static final double AUTO_SPEED = 0.25;
 	private static final double WHEEL_DIST = 0.61;
-	private static final double ENC_TICKS = 700; // Number of encoder ticks per meter of travel
+	private static final double ENC_TICKS = 562.666378; // Number of encoder ticks per meter of travel
 	private static final double MAX_MOVE_SPEED = 2; // Maximum velocity of the robot in meters/second
 	private static final double MAX_TURN_SPEED = 4; // Maximum angular velocity of the robot in degrees/second
 	private static final double FALLBACK_AUTO_TIME = 3; // Time, in seconds, the robot will drive for when in fallback auto mode

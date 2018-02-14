@@ -46,7 +46,7 @@ public class RobotMap {
 	public static XboxController xbox = new XboxController(1);
 	public static Joystick flightStick = new Joystick(0);
 	
-	public static Encoder leftDriveEncoder = new Encoder(0,1);
+	public static Encoder leftDriveEncoder = new Encoder(0,1, true);
 	public static Encoder rightDriveEncoder = new Encoder(2,3);
 	
 	public static Encoder liftEncoder = new Encoder(4,5);

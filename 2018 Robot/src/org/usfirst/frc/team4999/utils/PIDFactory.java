@@ -172,6 +172,8 @@ public class PIDFactory {
 	public static MomentumPID getTurnPID() {
 		MomentumPID ret;
 		String path = BASE + TURN_FILE;
+		PIDSource source = new GyroFusion();
+		source.setPIDSourceType(PIDSourceType.kDisplacement);
 		if(checkFile(path)) {
 			Properties props = openFile(path);
 			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
@@ -180,7 +182,7 @@ public class PIDFactory {
 			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
 			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
 			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
-			ret = new MomentumPID("TurnPID",p,i,d,errZone,targetZone,RobotMap.gyro, null);
+			ret = new MomentumPID("TurnPID",p,i,d,errZone,targetZone,source, null);
 			ret.setTargetTime(targetTime);
 		} else {
 			double p = Double.parseDouble(DEFAULT_P);
@@ -189,7 +191,7 @@ public class PIDFactory {
 			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
 			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
 			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
-			ret = new MomentumPID("TurnPID",p,i,d,errZone,targetZone,RobotMap.gyro, null);
+			ret = new MomentumPID("TurnPID",p,i,d,errZone,targetZone,source, null);
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveTurnPID(ret));
