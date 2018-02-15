@@ -35,7 +35,7 @@ public class TurnDegrees extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", angleGetter.getAngle(), drive.turnPID.getSetpoint(), drive.turnPID.get());
-    	drive.driveTurnPID();
+    	drive.driveDisplacementPID();
     }
 
     // Make this return true when this Command no longer needs to run execute()

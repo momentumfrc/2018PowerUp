@@ -9,6 +9,7 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.utils.MomentumPID;
 import org.usfirst.frc.team4999.utils.PIDFactory;
+import org.usfirst.frc.team4999.utils.PIDThread;
 
 /**
  *
@@ -23,6 +24,8 @@ public class DriveSystem extends Subsystem {
     public MomentumPID movePID, turnPID;
     public MomentumPID moveRatePID, turnRatePID;
     public MomentumPID pitchPID;
+    
+    public PIDThread calculator;
     
     
     
@@ -39,6 +42,9 @@ public class DriveSystem extends Subsystem {
     	turnRatePID = PIDFactory.getMoveRatePID();
     	
     	pitchPID = PIDFactory.getTiltPID();
+    	
+    	calculator = new PIDThread(new MomentumPID[] {movePID,turnPID,moveRatePID,turnRatePID,pitchPID});
+    	calculator.start();
     	
     	addChild(drive);
     	addChild(movePID);
@@ -74,35 +80,19 @@ public class DriveSystem extends Subsystem {
     	tankDrive(0,0,0);
     }
     
-    public void driveTurnPID() {
-    	if(turnPID.isEnabled())
-    		arcadeDrive(0, turnPID.get(), MoPrefs.getAutoSpeed());
-    	else
-    		arcadeDrive(0,0,0);
-    }
-    
-    public void driveMovePID() {
-    	if(turnPID.isEnabled() && movePID.isEnabled() && pitchPID.isEnabled())
-    		arcadeDrive(movePID.get() + pitchPID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
-    	else if(turnPID.isEnabled() && movePID.isEnabled())
-    		arcadeDrive(movePID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
-    	else if(movePID.isEnabled())
-    		arcadeDrive(movePID.get(), 0, MoPrefs.getAutoSpeed());
-    	else
-    		arcadeDrive(0,0,0);
-    }
-    
     public void driveDisplacementPID() {
-    	if(turnPID.isEnabled() && movePID.isEnabled() && pitchPID.isEnabled())
-    		arcadeDrive(movePID.get() + pitchPID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
-    	else if(turnPID.isEnabled() && movePID.isEnabled())
-    		arcadeDrive(movePID.get(), turnPID.get(), MoPrefs.getAutoSpeed());
-    	else if(movePID.isEnabled())
-    		arcadeDrive(movePID.get(), 0, MoPrefs.getAutoSpeed());
-    	else if(turnPID.isEnabled())
-    		arcadeDrive(0, turnPID.get(), MoPrefs.getAutoSpeed());
-    	else
-    		arcadeDrive(0,0,0);
+    	double moveRequest = 0, turnRequest = 0;
+    	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
+    		arcadeDrive(pitchPID.get(), 0, 1);
+    		System.out.println("TILTING!!!");
+    		return;
+    	}
+    	if(movePID.isEnabled())
+    		moveRequest = movePID.get();
+    	if(turnPID.isEnabled())
+    		turnRequest = turnPID.get();
+    	
+    	arcadeDrive(moveRequest, turnRequest, MoPrefs.getAutoSpeed());
     }
     
     public void driveMoveRatePID() {

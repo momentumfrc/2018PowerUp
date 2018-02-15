@@ -134,7 +134,14 @@ public class PIDFactory {
 
 		@Override
 		public double pidGet() {
-			return RobotMap.gyro.getPitch();
+			double angle = RobotMap.gyro.getRoll();
+			double tiltRange = MoPrefs.getTiltRange();
+			if(angle > tiltRange)
+				return angle - tiltRange;
+			else if(angle < -tiltRange)
+				return angle + tiltRange;
+			else
+				return 0;
 		}
 		
 	}

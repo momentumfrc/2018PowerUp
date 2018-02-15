@@ -8,72 +8,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class MomentumPID implements Sendable {
 	
+	private final static double DELAY = 0.05;
+	
 	private double kP, tI, tD, iErrZone;
 	private double targetZone, targetTime;
 	private double result;
 	private PIDSource source;
 	private PIDOutput output;
 	private double setpoint;
-	private Calculator calc;
 	private String name, subsystem = "Ungrouped";
 	
 	private Timer onTargetTimer;
 	
+	private double totalErr;
+	private double lastErr;
+	private long lastTime;
+	private boolean enabled;
+	
 	private Runnable updateListener = ()->{};
-		
-	class Calculator extends Thread {
-		
-		private final static double DELAY = 0.05;
-		private long lastTime;
-		
-		public Calculator() {
-			super();
-			setName(name + " Calculator");
-		}
-		
-		@Override
-		public void run() {
-			
-			lastTime = (long) Timer.getFPGATimestamp() * 1000;
-			
-			double totalErr = 0, lastErr = 0;
-			
-			while(!Thread.interrupted()) {
-				// Delay 50ms and calculate time for dT
-				Timer.delay(DELAY);
-				long dTime = (long)(Timer.getFPGATimestamp() * 1000) - lastTime;
-				lastTime = (long) Timer.getFPGATimestamp() * 1000;
-				
-				// Calculate error
-				double err = setpoint - source.pidGet();
-				
-				// Calculate totalErr
-				if(Math.abs(err) > iErrZone) {
-					totalErr = 0;
-				} else {
-					totalErr += err * dTime;
-				}
-				
-				// Calculate dErr
-				double dErr = (err - lastErr) / dTime;
-				lastErr = err;
-				
-				// Combine all the parts
-				if(tI > 0) // Prevent divide by zero errors
-					result = kP * (err + totalErr / tI + dErr * tD);
-				else
-					result = kP * (err + dErr * tD);
-				
-				// Write the result
-				if(output != null)
-					output.pidWrite(result);
-			}
-			// Safety measure - When the controller is disabled, set its output to zero
-			result = 0;
-			if(output != null)
-				output.pidWrite(0);
-		}
-	}
 	
 	public MomentumPID(String name, double kP, double tI, double tD, double iErrZone, double targetZone, PIDSource input, PIDOutput output) {
 		this.name = name;
@@ -87,6 +39,45 @@ public class MomentumPID implements Sendable {
 		this.tD = tD;
 		onTargetTimer = new Timer();
 		onTargetTimer.start();
+		lastTime = (long) Timer.getFPGATimestamp() * 1000;
+	}
+
+	
+	public void calculate() {
+		// Delay 50ms and calculate time for dT
+		Timer.delay(DELAY);
+		long dTime = (long)(Timer.getFPGATimestamp() * 1000) - lastTime;
+		lastTime = (long) Timer.getFPGATimestamp() * 1000;
+		
+		// Calculate error
+		double err = setpoint - source.pidGet();
+		
+		// Calculate totalErr
+		if(Math.abs(err) > iErrZone) {
+			totalErr = 0;
+		} else {
+			totalErr += err * dTime;
+		}
+		
+		// Calculate dErr
+		double dErr = (err - lastErr) / dTime;
+		lastErr = err;
+		
+		// Combine all the parts
+		if(tI > 0) // Prevent divide by zero errors
+			result = kP * (err + totalErr / tI + dErr * tD);
+		else
+			result = kP * (err + dErr * tD);
+		
+		// Write the result
+		if(output != null)
+			output.pidWrite(result);
+	}
+	
+	public void zeroOutput() {
+		result = 0;
+		if(output != null)
+			output.pidWrite(result);
 	}
 	
 	public double getSetpoint() {
@@ -138,25 +129,21 @@ public class MomentumPID implements Sendable {
 	
 	public void enable() {
 		System.out.format("Enabling... P:%.4f I:%.4f D:%.4f\n",kP,tI,tD);
-		calc = new Calculator();
-		calc.start();
+		enabled = true;
 	}
 	public void disable() {
 		System.out.println("Disabling");
-		if(isEnabled())
-			calc.interrupt();
+		zeroOutput();
+		enabled = false;
 	}
 	public void setEnabled(boolean enabled) {
-		if(enabled) {
-			if(!isEnabled()) {
-				enable();
-			}
-		} else if(isEnabled() && !calc.isInterrupted()) {
+		if(enabled)
+			enable();
+		else
 			disable();
-		}
 	}
 	public boolean isEnabled() {
-		return calc != null && calc.isAlive();
+		return enabled;
 	}
 	public double getP() {
 		return kP;

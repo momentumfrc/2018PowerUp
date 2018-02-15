@@ -14,6 +14,7 @@ public class MoPrefs {
 	private static final double MAX_TURN_SPEED = 4; // Maximum angular velocity of the robot in degrees/second
 	private static final double FALLBACK_AUTO_TIME = 3; // Time, in seconds, the robot will drive for when in fallback auto mode
 	private static final double FALLBACK_AUTO_DISTANCE = 3.5; // Distance the robot will drive for, in meters, in fallback auto mode
+	private static final double TILT_RANGE = 2;
 	
 	
 	
@@ -59,6 +60,10 @@ public class MoPrefs {
 	public static double getFallbackAutoDistance() {
 		checkDouble("FALLBACK_AUTO_DISTANCE", FALLBACK_AUTO_DISTANCE);
 		return prefs.getDouble("FALLBACK_AUTO_DISTANCE", FALLBACK_AUTO_DISTANCE);
+	}
+	public static double getTiltRange() {
+		checkDouble("TILT_RANGE",TILT_RANGE);
+		return prefs.getDouble("TILT_RANGE", TILT_RANGE);
 	}
 
 }
