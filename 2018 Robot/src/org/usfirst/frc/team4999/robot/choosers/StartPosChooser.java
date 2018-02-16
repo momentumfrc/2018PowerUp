@@ -11,7 +11,7 @@ public class StartPosChooser extends SendableChooser<StartPosition> {
 	public StartPosChooser() {
 		super();
 		addObject("Left", StartPosition.LEFT);
-		addObject("Middle", StartPosition.MIDDLE);
+		addDefault("Middle", StartPosition.MIDDLE);
 		addObject("Right", StartPosition.RIGHT);
 		SmartDashboard.putData(NAME, this);
 	}

@@ -11,11 +11,16 @@ import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.sensors.VMXPi;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU.*;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -42,9 +47,10 @@ public class RobotMap {
 	public static VictorSP leftBackMotor = new VictorSP(3);
 	public static VictorSP rightFrontMotor = new VictorSP(0);
 	public static VictorSP rightBackMotor = new VictorSP(1);
-	public static double auto_speed = 0.25;
+	
 	public static XboxController xbox = new XboxController(1);
 	public static Joystick flightStick = new Joystick(0);
+	public static Joystick f310 = new Joystick(2);
 	
 	public static Encoder leftDriveEncoder = new Encoder(0,1, true);
 	public static Encoder rightDriveEncoder = new Encoder(2,3);
@@ -54,9 +60,10 @@ public class RobotMap {
 	public static DoubleSolenoid liftShifter = new DoubleSolenoid(0,1);
 	public static Spark liftBrake = new Spark(6);
 	public static DigitalInput liftZeroSwitch = new DigitalInput(6);
-		
-	public static ADIS16448_IMU adis = new ADIS16448_IMU();
+	
+	public static ADIS16448_IMU adis = new ADIS16448_IMU(Axis.kZ, AHRSAlgorithm.kMadgwick);
 	public static VMXPi pi = VMXPi.getInstance();
+	public static AHRS vmx = new AHRS(SerialPort.Port.kUSB);
 	public static GyroFusion gyro = new GyroFusion();
 	
 	//TODO: Debug pdp

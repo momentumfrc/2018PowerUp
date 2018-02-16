@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
+import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -134,7 +135,9 @@ public class PIDFactory {
 
 		@Override
 		public double pidGet() {
-			double angle = RobotMap.gyro.getRoll();
+			double angle = RobotMap.gyro.getPitch();
+			if(RobotMap.gyro.currentSensor() == Sensor.ADIS)
+				angle = 0;
 			double tiltRange = MoPrefs.getTiltRange();
 			if(angle > tiltRange)
 				return angle - tiltRange;
@@ -149,6 +152,9 @@ public class PIDFactory {
 	public static MomentumPID getMovePID() {
 		MomentumPID ret;
 		String path = BASE + MOVE_FILE;
+		//PIDSource source = new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
+		PIDSource source = RobotMap.leftDriveEncoder;
+		source.setPIDSourceType(PIDSourceType.kDisplacement);
 		if(checkFile(path)) {
 			Properties props = openFile(path);
 			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
@@ -157,7 +163,7 @@ public class PIDFactory {
 			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
 			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
 			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
-			ret = new MomentumPID("MovePID",p,i,d,errZone,targetZone,new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder), null);
+			ret = new MomentumPID("MovePID",p,i,d,errZone,targetZone,source, null);
 			ret.setTargetTime(targetTime);
 		} else {
 			double p = Double.parseDouble(DEFAULT_P);
@@ -166,7 +172,7 @@ public class PIDFactory {
 			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
 			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
 			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
-			ret = new MomentumPID("MovePID",p,i,d,errZone,targetZone,new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder), null);
+			ret = new MomentumPID("MovePID",p,i,d,errZone,targetZone,source, null);
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveMovePID(ret));

@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
 import org.usfirst.frc.team4999.robot.choosers.*;
+import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 
@@ -131,9 +133,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		System.out.format("Angle: %.2f Dist:%.2fm Rate:%.2fm/s\n", RobotMap.gyro.getAngle(), RobotMap.leftDriveEncoder.getDistance(), RobotMap.leftDriveEncoder.getRate());
-		if(RobotMap.flightStick.getRawButton(5))
-			RobotMap.leftDriveEncoder.reset();
+		
+		SmartDashboard.putString("Connected Gyro", (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX");
+		
+		//System.out.format("ADIS Pitch:%.2f Roll:%.2f Yaw:%.2f\n", RobotMap.adis.getPitch(), RobotMap.adis.getRoll(), RobotMap.adis.getYaw());
+		
+		//System.out.format("Angle: %.2f Sensor:%s Dist:%.2fm Rate:%.2fm/s\n", RobotMap.gyro.getAngle(), (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX", RobotMap.leftDriveEncoder.getDistance(), RobotMap.leftDriveEncoder.getRate());
+		/*if(RobotMap.flightStick.getRawButton(5))
+			RobotMap.leftDriveEncoder.reset();*/
 		Scheduler.getInstance().run();
 	}
 
@@ -151,6 +158,7 @@ public class Robot extends TimedRobot {
 		Robot.driveSystem.driveDisplacementPID();
 		System.out.format("MOVE Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.leftDriveEncoder.getDistance(), Robot.driveSystem.movePID.getSetpoint(), Robot.driveSystem.movePID.get());
 		System.out.format("TURN Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
+		System.out.format("TILT Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getPitch(), Robot.driveSystem.pitchPID.getSetpoint(), Robot.driveSystem.pitchPID.get());
 		System.out.println("---------------");
 
 	}
