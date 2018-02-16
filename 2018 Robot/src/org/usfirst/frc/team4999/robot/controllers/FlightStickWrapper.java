@@ -43,5 +43,15 @@ public class FlightStickWrapper extends DriveController {
 	public boolean getKillPID() {
 		return flightStick.getRawButton(7);
 	}
+
+	@Override
+	public double getLiftSpeed() {
+		double speed = 0;
+		if(flightStick.getPOV() == 0)
+			speed = getSpeedLimiter();
+		else if(flightStick.getPOV() == 180)
+			speed = -getSpeedLimiter();
+		return speed;
+	}
 	
 }

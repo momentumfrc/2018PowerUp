@@ -23,10 +23,7 @@ public class DriveSystem extends Subsystem {
   
     public MomentumPID movePID, turnPID;
     public MomentumPID moveRatePID, turnRatePID;
-    public MomentumPID pitchPID;
-    
-    public PIDThread calculator;
-    
+    public MomentumPID pitchPID;    
     
     
     public DriveSystem() {
@@ -42,9 +39,6 @@ public class DriveSystem extends Subsystem {
     	turnRatePID = PIDFactory.getMoveRatePID();
     	
     	pitchPID = PIDFactory.getTiltPID();
-    	
-    	calculator = new PIDThread(new MomentumPID[] {movePID,turnPID,moveRatePID,turnRatePID,pitchPID});
-    	calculator.start();
     	
     	addChild(drive);
     	addChild(movePID);

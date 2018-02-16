@@ -13,6 +13,11 @@ public class PIDThread extends Thread {
 			this.controllers.add(cont);
 		setName("PID Calculator");
 	}
+	public PIDThread(int size) {
+		super();
+		this.controllers = new ArrayList<MomentumPID>(size);
+		setName("PID Calculator");
+	}
 	
 	@Override
 	public void run() {

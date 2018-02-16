@@ -5,6 +5,8 @@ public abstract class DriveController {
 	abstract public double getTurnRequest();
 	abstract public double getSpeedLimiter();
 	
+	abstract public double getLiftSpeed();
+	
 	abstract public boolean getReverseDirection();
 	abstract public boolean getKillPID();
 	

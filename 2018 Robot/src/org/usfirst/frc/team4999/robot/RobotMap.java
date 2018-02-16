@@ -43,37 +43,41 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
+	// Drive System
 	public static VictorSP leftFrontMotor = new VictorSP(2);
 	public static VictorSP leftBackMotor = new VictorSP(3);
 	public static VictorSP rightFrontMotor = new VictorSP(0);
 	public static VictorSP rightBackMotor = new VictorSP(1);
+	public static Encoder leftDriveEncoder = new Encoder(0,1, true);
+	public static Encoder rightDriveEncoder = new Encoder(2,3);
 	
+	// Controls
 	public static XboxController xbox = new XboxController(1);
 	public static Joystick flightStick = new Joystick(0);
 	public static Joystick f310 = new Joystick(2);
 	
-	public static Encoder leftDriveEncoder = new Encoder(0,1, true);
-	public static Encoder rightDriveEncoder = new Encoder(2,3);
-	
+	// Lift
 	public static Encoder liftEncoder = new Encoder(4,5);
 	public static SpeedControllerGroup liftMotors = new SpeedControllerGroup(new VictorSP(4), new VictorSP(5));
 	public static DoubleSolenoid liftShifter = new DoubleSolenoid(0,1);
-	public static Spark liftBrake = new Spark(6);
+	public static DoubleSolenoid liftBrake = new DoubleSolenoid(2,3);
 	public static DigitalInput liftZeroSwitch = new DigitalInput(6);
 	
+	// Gyros
 	public static ADIS16448_IMU adis = new ADIS16448_IMU(Axis.kZ, AHRSAlgorithm.kMadgwick);
-	public static VMXPi pi = VMXPi.getInstance();
 	public static AHRS vmx = new AHRS(SerialPort.Port.kUSB);
 	public static GyroFusion gyro = new GyroFusion();
+	
+	// Grabber
+	public static Spark elbow = new Spark(6);
+	public static DoubleSolenoid clawArms = new DoubleSolenoid(4,5);
+	
 	
 	//TODO: Debug pdp
 	//public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	public static int liftMotor1PDP = 14;
-	public static int liftMotor2PDP = 15;
-	public static int liftBrakePDP = 4;
-	public static double driveDistanceBetweenWheels;
-	
+	public static int liftMotor2PDP = 15;	
 	
 		
 }

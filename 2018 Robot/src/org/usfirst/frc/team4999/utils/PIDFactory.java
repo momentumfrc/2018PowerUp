@@ -22,6 +22,8 @@ public class PIDFactory {
 	private static final String MOVE_RATE_FILE = "moveRatePID.properties";
 	private static final String TURN_RATE_FILE = "turnRatePID.properties";
 	private static final String TILT_FILE = "tiltPID.properties";
+	private static final String FAST_LIFT_FILE = "fastLiftPID.properties";
+	private static final String SLOW_LIFT_FILE = "slowLiftPID.properties";
 	
 	private static final String DEFAULT_P = "0";
 	private static final String DEFAULT_I = "0";
@@ -29,6 +31,14 @@ public class PIDFactory {
 	private static final String DEFAULT_ERR_ZONE = "10";
 	private static final String DEFAULT_TARGET_ZONE = "3";
 	private static final String DEFAULT_TARGET_TIME = "0.5";
+	
+	private static final PIDThread calculator = new PIDThread(7);
+	
+	public static void addToCalculator(MomentumPID cont) {
+		calculator.addController(cont);
+		if(!calculator.isAlive())
+			calculator.start();
+	}
 	
 	private static Properties openFile(String file) {
 		System.out.println("Loading " + file);
@@ -176,6 +186,7 @@ public class PIDFactory {
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveMovePID(ret));
+		addToCalculator(ret);
 		return ret;
 	}
 	
@@ -208,6 +219,7 @@ public class PIDFactory {
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveTurnPID(ret));
+		addToCalculator(ret);
 		return ret;
 	}
 	
@@ -241,6 +253,7 @@ public class PIDFactory {
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveMoveRatePID(ret));
+		addToCalculator(ret);
 		return ret;
 	}
 	public static void saveMoveRatePID(MomentumPID pid) {
@@ -273,6 +286,7 @@ public class PIDFactory {
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveTurnRatePID(ret));
+		addToCalculator(ret);
 		return ret;
 	}
 	public static void saveTurnRatePID(MomentumPID pid) {
@@ -304,10 +318,76 @@ public class PIDFactory {
 			ret.setTargetTime(targetTime);
 		}
 		ret.setListener(()->saveTiltPID(ret));
+		addToCalculator(ret);
 		return ret;
 	}
 	public static void saveTiltPID(MomentumPID pid) {
 		savePID(pid, BASE + TILT_FILE);
+	}
+	
+	public static MomentumPID getFastLiftPID() {
+		MomentumPID ret;
+		String path = BASE + FAST_LIFT_FILE;
+		PIDSource source = RobotMap.liftEncoder;
+		source.setPIDSourceType(PIDSourceType.kDisplacement);
+		if(checkFile(path)) {
+			Properties props = openFile(path);
+			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
+			double i = Double.parseDouble(props.getProperty("I", DEFAULT_I));
+			double d = Double.parseDouble(props.getProperty("D", DEFAULT_D));
+			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
+			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
+			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
+			ret = new MomentumPID("FastLiftPID",p,i,d,errZone,targetZone,source, null);
+			ret.setTargetTime(targetTime);
+		} else {
+			double p = Double.parseDouble(DEFAULT_P);
+			double i = Double.parseDouble(DEFAULT_I);
+			double d = Double.parseDouble(DEFAULT_D);
+			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
+			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
+			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
+			ret = new MomentumPID("FastLiftPID",p,i,d,errZone,targetZone,source, null);
+			ret.setTargetTime(targetTime);
+		}
+		ret.setListener(()->saveFastLiftPID(ret));
+		addToCalculator(ret);
+		return ret;
+	}
+	public static void saveFastLiftPID(MomentumPID pid) {
+		savePID(pid, BASE + FAST_LIFT_FILE);
+	}
+	public static MomentumPID getSlowLiftPID() {
+		MomentumPID ret;
+		String path = BASE + SLOW_LIFT_FILE;
+		PIDSource source = RobotMap.liftEncoder;
+		source.setPIDSourceType(PIDSourceType.kDisplacement);
+		if(checkFile(path)) {
+			Properties props = openFile(path);
+			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
+			double i = Double.parseDouble(props.getProperty("I", DEFAULT_I));
+			double d = Double.parseDouble(props.getProperty("D", DEFAULT_D));
+			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
+			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
+			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
+			ret = new MomentumPID("SlowLiftPID",p,i,d,errZone,targetZone,source, null);
+			ret.setTargetTime(targetTime);
+		} else {
+			double p = Double.parseDouble(DEFAULT_P);
+			double i = Double.parseDouble(DEFAULT_I);
+			double d = Double.parseDouble(DEFAULT_D);
+			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
+			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
+			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
+			ret = new MomentumPID("SlowLiftPID",p,i,d,errZone,targetZone,source, null);
+			ret.setTargetTime(targetTime);
+		}
+		ret.setListener(()->saveSlowLiftPID(ret));
+		addToCalculator(ret);
+		return ret;
+	}
+	public static void saveSlowLiftPID(MomentumPID pid) {
+		savePID(pid, BASE + SLOW_LIFT_FILE);
 	}
 
 }

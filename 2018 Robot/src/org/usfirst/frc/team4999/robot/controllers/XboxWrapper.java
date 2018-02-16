@@ -49,5 +49,12 @@ public class XboxWrapper extends DriveController {
 	public boolean getKillPID() {
 		return xbox.getStartButton();
 	}
+	
+	@Override
+	public double getLiftSpeed() {
+		double speed = xbox.getY(XboxController.Hand.kRight);
+		speed = deadzone(speed, DEADZONE);
+		return speed;
+	}
 
 }

@@ -46,4 +46,11 @@ public class F310Wrapper extends DriveController {
 		return logitech.getRawButton(3);
 	}
 
+	@Override
+	public double getLiftSpeed() {
+		double speed = logitech.getRawAxis(5);
+		speed = deadzone(speed, DEADZONE);
+		return speed;
+	}
+
 }
