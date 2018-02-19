@@ -22,7 +22,6 @@ public class DriveSystem extends Subsystem {
     private DifferentialDrive drive = new DifferentialDrive(leftside, rightside);
   
     public MomentumPID movePID, turnPID;
-    public MomentumPID moveRatePID, turnRatePID;
     public MomentumPID pitchPID;    
     
     
@@ -35,16 +34,11 @@ public class DriveSystem extends Subsystem {
     	movePID = PIDFactory.getMovePID();
     	turnPID = PIDFactory.getTurnPID();
     	
-    	moveRatePID = PIDFactory.getMoveRatePID();
-    	turnRatePID = PIDFactory.getMoveRatePID();
-    	
     	pitchPID = PIDFactory.getTiltPID();
     	
     	addChild(drive);
     	addChild(movePID);
     	addChild(turnPID);
-    	addChild(moveRatePID);
-    	addChild(turnRatePID);
     	addChild(pitchPID);
     	
     }
@@ -68,8 +62,6 @@ public class DriveSystem extends Subsystem {
     public void stop() {
     	movePID.disable();
     	turnPID.disable();
-    	moveRatePID.disable();
-    	turnRatePID.disable();
     	pitchPID.disable();
     	tankDrive(0,0,0);
     }
@@ -89,22 +81,14 @@ public class DriveSystem extends Subsystem {
     	arcadeDrive(moveRequest, turnRequest, MoPrefs.getAutoSpeed());
     }
     
-    public void driveMoveRatePID() {
-    	if(moveRatePID.isEnabled() && turnRatePID.isEnabled() && pitchPID.isEnabled())
-    		arcadeDrive(moveRatePID.get() + pitchPID.get(), turnRatePID.get(), 1);
-    	else if(moveRatePID.isEnabled() && turnRatePID.isEnabled())
-    		arcadeDrive(moveRatePID.get(), turnRatePID.get(), 1);
-    	else if(moveRatePID.isEnabled())
-    		arcadeDrive(moveRatePID.get(), 0, 1);
+    public void arcadeDriveStraight(double moveRequest, double turnRequest, double speedLimit) {
+    	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
+    		arcadeDrive(pitchPID.get(), 0, 1);
+    		System.out.println("TILTING!!!");
+    		return;
+    	}
     	else
-    		arcadeDrive(0,0,0);
-    }
-    
-    public void driveTurnRatePID() {
-    	if(turnRatePID.isEnabled())
-    		arcadeDrive(0, turnPID.get(), 1);
-    	else
-    		arcadeDrive(0,0,0);
+    		arcadeDrive(moveRequest, turnPID.get(), speedLimit);
     }
     
     private double clip(double val, double min, double max) {

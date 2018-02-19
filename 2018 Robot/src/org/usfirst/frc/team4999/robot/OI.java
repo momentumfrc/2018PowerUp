@@ -46,7 +46,10 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	Trigger killPID = new KillPID();
+	Trigger driveOvercurrent = new DriveOvercurrent();
+	
 	public OI() {
 		killPID.whenActive(new TeleopNoPID());
+		driveOvercurrent.whenActive(new KillDrive());
 	}
 }

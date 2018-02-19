@@ -90,7 +90,7 @@ public class Lift extends Subsystem {
 	public void set(double power) {
 		if(power < 0 && encoder.getDistance() <= MIN_HEIGHT)
 			motors.set(0);
-		else if(power < 0 && encoder.getDistance() >= MAX_HEIGHT)
+		else if(power > 0 && encoder.getDistance() >= MAX_HEIGHT)
 			motors.set(0);
 		else
 			motors.set(power);

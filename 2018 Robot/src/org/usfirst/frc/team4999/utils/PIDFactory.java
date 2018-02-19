@@ -19,8 +19,6 @@ public class PIDFactory {
 	private static final String BASE = "/home/lvuser/";
 	private static final String MOVE_FILE = "movePID.properties";
 	private static final String TURN_FILE = "turnPID.properties";
-	private static final String MOVE_RATE_FILE = "moveRatePID.properties";
-	private static final String TURN_RATE_FILE = "turnRatePID.properties";
 	private static final String TILT_FILE = "tiltPID.properties";
 	private static final String FAST_LIFT_FILE = "fastLiftPID.properties";
 	private static final String SLOW_LIFT_FILE = "slowLiftPID.properties";
@@ -36,7 +34,7 @@ public class PIDFactory {
 	
 	public static void addToCalculator(MomentumPID cont) {
 		calculator.addController(cont);
-		if(!calculator.isAlive())
+		if(!calculator.isAlive() && !calculator.isDead())
 			calculator.start();
 	}
 	
@@ -98,6 +96,8 @@ public class PIDFactory {
 	
 	static class AverageEncoder implements PIDSource{
 		private Encoder left, right;
+		
+		private static final int SAMPLES = 10;
 
 		private PIDSourceType sourcetype = PIDSourceType.kDisplacement;
 
@@ -225,72 +225,6 @@ public class PIDFactory {
 	
 	public static void saveTurnPID(MomentumPID pid) {
 		savePID(pid, BASE+TURN_FILE);
-	}
-	
-	public static MomentumPID getMoveRatePID() {
-		MomentumPID ret;
-		String path = BASE + MOVE_RATE_FILE;
-		PIDSource source = new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
-		source.setPIDSourceType(PIDSourceType.kRate);
-		if(checkFile(path)) {
-			Properties props = openFile(path);
-			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
-			double i = Double.parseDouble(props.getProperty("I", DEFAULT_I));
-			double d = Double.parseDouble(props.getProperty("D", DEFAULT_D));
-			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
-			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
-			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
-			ret = new MomentumPID("MoveRatePID",p,i,d,errZone,targetZone,source, null);
-			ret.setTargetTime(targetTime);
-		} else {
-			double p = Double.parseDouble(DEFAULT_P);
-			double i = Double.parseDouble(DEFAULT_I);
-			double d = Double.parseDouble(DEFAULT_D);
-			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
-			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
-			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
-			ret = new MomentumPID("MoveRatePID",p,i,d,errZone,targetZone,source, null);
-			ret.setTargetTime(targetTime);
-		}
-		ret.setListener(()->saveMoveRatePID(ret));
-		addToCalculator(ret);
-		return ret;
-	}
-	public static void saveMoveRatePID(MomentumPID pid) {
-		savePID(pid, BASE + MOVE_RATE_FILE);
-	}
-	
-	public static MomentumPID getTurnRatePID() {
-		MomentumPID ret;
-		String path = BASE + TURN_RATE_FILE;
-		PIDSource source = new GyroFusion();
-		source.setPIDSourceType(PIDSourceType.kRate);
-		if(checkFile(path)) {
-			Properties props = openFile(path);
-			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
-			double i = Double.parseDouble(props.getProperty("I", DEFAULT_I));
-			double d = Double.parseDouble(props.getProperty("D", DEFAULT_D));
-			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
-			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
-			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
-			ret = new MomentumPID("TurnPID",p,i,d,errZone,targetZone,source, null);
-			ret.setTargetTime(targetTime);
-		} else {
-			double p = Double.parseDouble(DEFAULT_P);
-			double i = Double.parseDouble(DEFAULT_I);
-			double d = Double.parseDouble(DEFAULT_D);
-			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
-			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
-			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
-			ret = new MomentumPID("TurnPID",p,i,d,errZone,targetZone,source, null);
-			ret.setTargetTime(targetTime);
-		}
-		ret.setListener(()->saveTurnRatePID(ret));
-		addToCalculator(ret);
-		return ret;
-	}
-	public static void saveTurnRatePID(MomentumPID pid) {
-		savePID(pid, BASE + TURN_RATE_FILE);
 	}
 	
 	public static MomentumPID getTiltPID() {

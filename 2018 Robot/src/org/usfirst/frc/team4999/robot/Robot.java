@@ -8,7 +8,10 @@
 package org.usfirst.frc.team4999.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +22,8 @@ import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -125,7 +130,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		TeleopPID teleopPID = new TeleopPID();
+		TeleopNoPID teleopPID = new TeleopNoPID();
 		teleopPID.start();
 	}
 
@@ -137,7 +142,9 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putString("Connected Gyro", (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX");
 		
-		//System.out.format("ADIS Pitch:%.2f Roll:%.2f Yaw:%.2f\n", RobotMap.adis.getPitch(), RobotMap.adis.getRoll(), RobotMap.adis.getYaw());
+		SmartDashboard.putData(RobotMap.pdp);
+		
+		//System.out.format("Connected:%b Pitch:%.2f Roll:%.2f Yaw:%.2f ", RobotMap.vmx.isConnected(), RobotMap.vmx.getPitch(), RobotMap.vmx.getRoll(), RobotMap.vmx.getYaw());
 		
 		//System.out.format("Angle: %.2f Sensor:%s Dist:%.2fm Rate:%.2fm/s\n", RobotMap.gyro.getAngle(), (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX", RobotMap.leftDriveEncoder.getDistance(), RobotMap.leftDriveEncoder.getRate());
 		/*if(RobotMap.flightStick.getRawButton(5))
@@ -155,12 +162,11 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());
 		
-		
-		Robot.driveSystem.driveDisplacementPID();
-		System.out.format("MOVE Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.leftDriveEncoder.getDistance(), Robot.driveSystem.movePID.getSetpoint(), Robot.driveSystem.movePID.get());
-		System.out.format("TURN Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
-		System.out.format("TILT Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.gyro.getPitch(), Robot.driveSystem.pitchPID.getSetpoint(), Robot.driveSystem.pitchPID.get());
-		System.out.println("---------------");
+		/*Robot.driveSystem.driveDisplacementPID();
+		System.out.format("MOVE Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.movePID.isEnabled(), RobotMap.leftDriveEncoder.getDistance(), Robot.driveSystem.movePID.getSetpoint(), Robot.driveSystem.movePID.get());
+		System.out.format("TURN Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.turnPID.isEnabled(), RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
+		System.out.format("TILT Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.pitchPID.isEnabled(), RobotMap.gyro.getPitch(), Robot.driveSystem.pitchPID.getSetpoint(), Robot.driveSystem.pitchPID.get());
+		System.out.println("---------------");*/
 
 	}
 }

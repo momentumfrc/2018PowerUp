@@ -55,6 +55,7 @@ public class RobotMap {
 	public static XboxController xbox = new XboxController(1);
 	public static Joystick flightStick = new Joystick(0);
 	public static Joystick f310 = new Joystick(2);
+	public static Joystick wheel = new Joystick(3);
 	
 	// Lift
 	public static Encoder liftEncoder = new Encoder(4,5);
@@ -73,8 +74,7 @@ public class RobotMap {
 	public static DoubleSolenoid clawArms = new DoubleSolenoid(4,5);
 	
 	
-	//TODO: Debug pdp
-	//public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	public static int liftMotor1PDP = 14;
 	public static int liftMotor2PDP = 15;	

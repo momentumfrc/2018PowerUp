@@ -34,7 +34,7 @@ public class GyroFusion implements PIDSource {
 	}
 	
 	private double whichSensor(double adisAngle, double vmxAngle) {
-		if(vmx.isConnected()) { // If no connection w/ vmx, use adis
+		if(!vmx.isConnected()) { // If no connection w/ vmx, use adis
 			if(!firstTimeBack)
 				System.out.println("VMX not connected, using ADIS");
 			firstTimeBack = true;
@@ -71,7 +71,7 @@ public class GyroFusion implements PIDSource {
 	}
 	
 	public double getRate() {
-		if(vmx.isConnected()) {
+		if(!vmx.isConnected()) {
 			return adis.getRateZ();
 		}
 		return vmx.getRate();

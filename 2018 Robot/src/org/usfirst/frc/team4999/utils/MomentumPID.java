@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class MomentumPID implements Sendable {
 	
-	private final static double DELAY = 0.05;
+	
 	
 	private double kP, tI, tD, iErrZone;
 	private double targetZone, targetTime;
@@ -44,8 +44,7 @@ public class MomentumPID implements Sendable {
 
 	
 	public void calculate() {
-		// Delay 50ms and calculate time for dT
-		Timer.delay(DELAY);
+		// calculate time for dT
 		long dTime = (long)(Timer.getFPGATimestamp() * 1000) - lastTime;
 		lastTime = (long) Timer.getFPGATimestamp() * 1000;
 		
@@ -132,7 +131,8 @@ public class MomentumPID implements Sendable {
 		enabled = true;
 	}
 	public void disable() {
-		System.out.println("Disabling");
+		if(enabled)
+			System.out.println("Disabling");
 		zeroOutput();
 		enabled = false;
 	}
