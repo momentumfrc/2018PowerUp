@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Lift extends Subsystem {
 	
 	private static final double MIN_HEIGHT = 0;
+	private static final double MAX_MOTOR_DELTA = 0.05;
 	
 	private SpeedControllerGroup motors = RobotMap.liftMotors;
 	private DoubleSolenoid shifter = RobotMap.liftShifter;
@@ -93,12 +94,18 @@ public class Lift extends Subsystem {
 	}
 	
 	public void set(double power) {
-		if(power < 0 && encoder.getDistance() <= MIN_HEIGHT)
+		// Anti-jerk: Clip the difference between the requested power and the current power
+		double delta = power - motors.get();
+		delta = clip(delta, -MAX_MOTOR_DELTA, MAX_MOTOR_DELTA);
+		double c_power = motors.get() + delta;
+		
+		// Hard endstops: don't let the motors go above a max and min height
+		if(c_power < 0 && encoder.getDistance() <= MIN_HEIGHT)
 			motors.set(0);
-		else if(power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight())
+		else if(c_power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight())
 			motors.set(0);
 		else
-			motors.set(power);
+			motors.set(c_power);
 	}
 	public void setHeight(double height) {
 		double clippedHeight = clip(height, MIN_HEIGHT, MoPrefs.getMaxLiftHeight());

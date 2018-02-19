@@ -81,4 +81,7 @@ public class RobotMap {
 	
 	public static int leftIntakePDP = 12;
 	public static int rightIntakePDP = 13;
+	
+	public static int liftMotor1PDP = 14;
+	public static int liftMotor2PDP = 15;
 }
