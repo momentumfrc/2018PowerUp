@@ -22,7 +22,7 @@ public class PIDFactory {
 	private static final String TILT_FILE = "tiltPID.properties";
 	private static final String FAST_LIFT_FILE = "fastLiftPID.properties";
 	private static final String SLOW_LIFT_FILE = "slowLiftPID.properties";
-	private static final String CLAW_FILE = "clawPID.properties";
+	private static final String ELBOW_FILE = "elbowPID.properties";
 	
 	private static final String DEFAULT_P = "0";
 	private static final String DEFAULT_I = "0";
@@ -358,9 +358,9 @@ public class PIDFactory {
 		
 	}
 	
-	public static MomentumPID getClawPID() {
+	public static MomentumPID getElbowPID() {
 		MomentumPID ret;
-		String path = BASE + CLAW_FILE;
+		String path = BASE + ELBOW_FILE;
 		PIDSource source = new PIDEncoderTicks(RobotMap.elbowEncoder);
 		if(checkFile(path)) {
 			Properties props = openFile(path);
@@ -382,12 +382,12 @@ public class PIDFactory {
 			ret = new MomentumPID("ClawPID",p,i,d,errZone,targetZone,source, null);
 			ret.setTargetTime(targetTime);
 		}
-		ret.setListener(()->saveClawPID(ret));
+		ret.setListener(()->saveElbowPID(ret));
 		addToCalculator(ret);
 		return ret;
 	}
-	public static void saveClawPID(MomentumPID pid) {
-		savePID(pid, BASE + CLAW_FILE);
+	public static void saveElbowPID(MomentumPID pid) {
+		savePID(pid, BASE + ELBOW_FILE);
 	}
 
 }

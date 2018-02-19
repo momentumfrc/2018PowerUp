@@ -44,6 +44,11 @@ public abstract class DriveController {
 	 * @return If the cube should be released
 	 */
 	abstract public boolean getOuttake();
+	/**
+	 * Get the delta that should be applied to the claw's setpoint
+	 * @return Claw's setpoint delta
+	 */
+	abstract public double getClaw();
 	
 	public double map(double val, double inmin, double inmax, double outmin, double outmax) {
     	return (((val - inmin) / (inmax - inmin)) * (outmax - outmin)) + outmin;

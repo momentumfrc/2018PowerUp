@@ -1,43 +1,40 @@
-package org.usfirst.frc.team4999.commands.lift;
+package org.usfirst.frc.team4999.commands.claw;
 
 import org.usfirst.frc.team4999.robot.Robot;
-import org.usfirst.frc.team4999.robot.subsystems.Lift;
+import org.usfirst.frc.team4999.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TeleopLift extends Command {
+public class ZeroElbow extends Command {
 	
-	private Lift lift = Robot.lift;
-	
-	boolean justSetZero = true;
+	private static final double ZERO_SPEED = 0.2;
 
-    public TeleopLift() {
-        requires(lift);
+    public ZeroElbow() {
+    	requires(Robot.elbow);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	lift.releaseBrake();
-    	lift.enablePID();
-    	lift.setHeight(lift.getCurrentHeight());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double speed = Robot.controlChooser.getSelected().getLiftSpeed();
-    	lift.setHeight(lift.getCurrentHeight() + speed);
+    	RobotMap.elbow.set(ZERO_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return RobotMap.elbowEncoder.getStopped();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	RobotMap.elbowEncoder.reset();
+    	Robot.elbow.retract();
+    	Robot.elbow.setDefaultCommand(new MoveElbow());
     }
 
     // Called when another command which requires one or more of the same

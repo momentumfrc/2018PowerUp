@@ -65,4 +65,10 @@ public class WheelWrapper extends DriveController {
 		return false;
 	}
 
+	@Override
+	public double getClaw() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

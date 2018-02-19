@@ -13,6 +13,8 @@ public class F310Wrapper extends DriveController {
 	
 	private static final double DEADZONE = 0.05;
 	
+	private static final double MAX_LIFT_SPEED = 1;
+	
 	
 
 	@Override
@@ -50,6 +52,7 @@ public class F310Wrapper extends DriveController {
 	public double getLiftSpeed() {
 		double speed = logitech.getRawAxis(5);
 		speed = deadzone(speed, DEADZONE);
+		speed = map(speed, -1, 1, -MAX_LIFT_SPEED, MAX_LIFT_SPEED);
 		return speed;
 	}
 
@@ -61,6 +64,11 @@ public class F310Wrapper extends DriveController {
 	@Override
 	public boolean getOuttake() {
 		return false;
+	}
+
+	@Override
+	public double getClaw() {
+		return 0;
 	}
 
 }

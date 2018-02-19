@@ -13,6 +13,8 @@ public class XboxWrapper extends DriveController {
 	private static final double TURN_CURVE = 2.5;
 	
 	private static final double DEADZONE = 0.1;
+	private static final double MAX_LIFT_SPEED = 1;
+	private static final int MAX_CLAW_SPEED = 10;
 	
 	private double speedLimit = 1;
 
@@ -55,6 +57,7 @@ public class XboxWrapper extends DriveController {
 	public double getLiftSpeed() {
 		double speed = xbox.getY(XboxController.Hand.kRight);
 		speed = deadzone(speed, DEADZONE);
+		speed = map(speed, -1, 1, -MAX_LIFT_SPEED, MAX_LIFT_SPEED);
 		return speed;
 	}
 
@@ -66,6 +69,19 @@ public class XboxWrapper extends DriveController {
 	@Override
 	public boolean getOuttake() {
 		return xbox.getBumper(Hand.kLeft);
+	}
+
+	@Override
+	public double getClaw() {
+		double right = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE);
+		double left = deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
+		if(right != 0) {
+			return map(right, -1, 0, -MAX_CLAW_SPEED, 0);
+		} else if(left != 0) {
+			return map(left, 0, 1, 0, MAX_CLAW_SPEED);
+		} else {
+			return 0;
+		}
 	}
 
 }

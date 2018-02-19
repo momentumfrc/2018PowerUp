@@ -12,6 +12,10 @@ public class FlightStickWrapper extends DriveController {
 	private static final double TURN_CURVE = 1;
 	
 	private static final double DEADZONE = 0.1;
+	
+	private static final double CLAW_SPEED = 10;
+	
+	private static final double MAX_LIFT_SPEED = 1;
 
 	@Override
 	public double getMoveRequest() {
@@ -51,6 +55,7 @@ public class FlightStickWrapper extends DriveController {
 			speed = getSpeedLimiter();
 		else if(flightStick.getPOV() == 180)
 			speed = -getSpeedLimiter();
+		speed = map(speed, 0, 1, -MAX_LIFT_SPEED, MAX_LIFT_SPEED);
 		return speed;
 	}
 
@@ -62,6 +67,16 @@ public class FlightStickWrapper extends DriveController {
 	@Override
 	public boolean getOuttake() {
 		return flightStick.getRawButton(4);
+	}
+
+	@Override
+	public double getClaw() {
+		if(flightStick.getRawButton(5))
+			return CLAW_SPEED * getSpeedLimiter();
+		else if(flightStick.getRawButton(6))
+			return -CLAW_SPEED * getSpeedLimiter();
+		else
+			return 0;
 	}
 	
 	
