@@ -8,6 +8,7 @@
 package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.commands.*;
+import org.usfirst.frc.team4999.commands.claw.*;
 import org.usfirst.frc.team4999.triggers.*;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -47,9 +48,15 @@ public class OI {
 	
 	Trigger killPID = new KillPID();
 	Trigger driveOvercurrent = new DriveOvercurrent();
+	Trigger intake = new Intake();
+	Trigger outtake = new Outtake();
 	
 	public OI() {
 		killPID.whenActive(new TeleopNoPID());
 		driveOvercurrent.whenActive(new KillDrive());
+		
+		intake.whenActive(new Grab());
+		
+		outtake.whileActive(new Release());
 	}
 }

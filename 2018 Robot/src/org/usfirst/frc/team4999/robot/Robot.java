@@ -35,6 +35,7 @@ import com.kauailabs.navx.frc.AHRS;
 public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
 	public static final Lift lift = new Lift();
+	public static final Intake intake = new Intake();
 	public static OI m_oi;
 	
 	public static ControlChooser controlChooser = new ControlChooser();

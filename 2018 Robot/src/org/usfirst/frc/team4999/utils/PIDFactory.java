@@ -22,6 +22,7 @@ public class PIDFactory {
 	private static final String TILT_FILE = "tiltPID.properties";
 	private static final String FAST_LIFT_FILE = "fastLiftPID.properties";
 	private static final String SLOW_LIFT_FILE = "slowLiftPID.properties";
+	private static final String CLAW_FILE = "clawPID.properties";
 	
 	private static final String DEFAULT_P = "0";
 	private static final String DEFAULT_I = "0";
@@ -322,6 +323,71 @@ public class PIDFactory {
 	}
 	public static void saveSlowLiftPID(MomentumPID pid) {
 		savePID(pid, BASE + SLOW_LIFT_FILE);
+	}
+	
+	static class PIDEncoderTicks implements PIDSource {
+		
+		private Encoder encoder;
+		
+		private PIDSourceType m_sourcetype = PIDSourceType.kDisplacement;
+		
+		public PIDEncoderTicks(Encoder encoder) {
+			this.encoder = encoder;
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			m_sourcetype = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return m_sourcetype;
+		}
+
+		@Override
+		public double pidGet() {
+			switch(m_sourcetype) {
+			case kRate:
+				return encoder.getRate() / encoder.getDistancePerPulse();
+			case kDisplacement:
+			default:
+				return encoder.get();
+			}
+		}
+		
+	}
+	
+	public static MomentumPID getClawPID() {
+		MomentumPID ret;
+		String path = BASE + CLAW_FILE;
+		PIDSource source = new PIDEncoderTicks(RobotMap.elbowEncoder);
+		if(checkFile(path)) {
+			Properties props = openFile(path);
+			double p = Double.parseDouble(props.getProperty("P", DEFAULT_P));
+			double i = Double.parseDouble(props.getProperty("I", DEFAULT_I));
+			double d = Double.parseDouble(props.getProperty("D", DEFAULT_D));
+			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
+			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
+			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
+			ret = new MomentumPID("ClawPID",p,i,d,errZone,targetZone,source, null);
+			ret.setTargetTime(targetTime);
+		} else {
+			double p = Double.parseDouble(DEFAULT_P);
+			double i = Double.parseDouble(DEFAULT_I);
+			double d = Double.parseDouble(DEFAULT_D);
+			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
+			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
+			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
+			ret = new MomentumPID("ClawPID",p,i,d,errZone,targetZone,source, null);
+			ret.setTargetTime(targetTime);
+		}
+		ret.setListener(()->saveClawPID(ret));
+		addToCalculator(ret);
+		return ret;
+	}
+	public static void saveClawPID(MomentumPID pid) {
+		savePID(pid, BASE + CLAW_FILE);
 	}
 
 }

@@ -53,4 +53,16 @@ public class WheelWrapper extends DriveController {
 		return wheel.getRawButtonPressed(13);
 	}
 
+	@Override
+	public boolean getIntake() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean getOuttake() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

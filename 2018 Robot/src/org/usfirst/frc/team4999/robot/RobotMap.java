@@ -71,13 +71,14 @@ public class RobotMap {
 	
 	// Grabber
 	public static Spark elbow = new Spark(6);
+	public static Encoder elbowEncoder = new Encoder(7,8);
+	public static Spark intakeLeft = new Spark(7);
+	public static Spark intakeRight = new Spark(8);
 	public static DoubleSolenoid clawArms = new DoubleSolenoid(4,5);
 	
 	
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	public static int liftMotor1PDP = 14;
-	public static int liftMotor2PDP = 15;	
-	
-		
+	public static int leftIntakePDP = 12;
+	public static int rightIntakePDP = 13;
 }

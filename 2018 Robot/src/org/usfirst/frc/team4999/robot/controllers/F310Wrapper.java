@@ -53,4 +53,14 @@ public class F310Wrapper extends DriveController {
 		return speed;
 	}
 
+	@Override
+	public boolean getIntake() {
+		return false;
+	}
+
+	@Override
+	public boolean getOuttake() {
+		return false;
+	}
+
 }

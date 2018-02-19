@@ -53,5 +53,17 @@ public class FlightStickWrapper extends DriveController {
 			speed = -getSpeedLimiter();
 		return speed;
 	}
+
+	@Override
+	public boolean getIntake() {
+		return flightStick.getRawButton(3);
+	}
+
+	@Override
+	public boolean getOuttake() {
+		return flightStick.getRawButton(4);
+	}
+	
+	
 	
 }

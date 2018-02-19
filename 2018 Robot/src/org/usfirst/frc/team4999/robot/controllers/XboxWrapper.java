@@ -2,6 +2,7 @@ package org.usfirst.frc.team4999.robot.controllers;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class XboxWrapper extends DriveController {
@@ -55,6 +56,16 @@ public class XboxWrapper extends DriveController {
 		double speed = xbox.getY(XboxController.Hand.kRight);
 		speed = deadzone(speed, DEADZONE);
 		return speed;
+	}
+
+	@Override
+	public boolean getIntake() {
+		return xbox.getBumper(Hand.kRight);
+	}
+
+	@Override
+	public boolean getOuttake() {
+		return xbox.getBumper(Hand.kLeft);
 	}
 
 }

@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Lift extends Subsystem {
 	
 	private static final double MIN_HEIGHT = 0;
-	private static final double MAX_HEIGHT = 2; // meters
 	
 	private SpeedControllerGroup motors = RobotMap.liftMotors;
 	private DoubleSolenoid shifter = RobotMap.liftShifter;
@@ -76,27 +75,33 @@ public class Lift extends Subsystem {
 	
 	public void driveSlowLiftPID() {
 		if(slowLiftPID.isEnabled() && !isBraked())
-			motors.set(slowLiftPID.get());
+			set(slowLiftPID.get());
 		else
-			motors.set(0);
+			set(0);
 	}
 	public void driveFastLiftPID() {
 		if(fastLiftPID.isEnabled() && !isBraked())
-			motors.set(fastLiftPID.get());
+			set(fastLiftPID.get());
 		else
-			motors.set(0);
+			set(0);
+	}
+	public void drivePID() {
+		if(isHighSpeed())
+			driveFastLiftPID();
+		else
+			driveSlowLiftPID();
 	}
 	
 	public void set(double power) {
 		if(power < 0 && encoder.getDistance() <= MIN_HEIGHT)
 			motors.set(0);
-		else if(power > 0 && encoder.getDistance() >= MAX_HEIGHT)
+		else if(power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight())
 			motors.set(0);
 		else
 			motors.set(power);
 	}
 	public void setHeight(double height) {
-		double clippedHeight = clip(height, MIN_HEIGHT, MAX_HEIGHT);
+		double clippedHeight = clip(height, MIN_HEIGHT, MoPrefs.getMaxLiftHeight());
 		if(isHighSpeed())
 			fastLiftPID.setSetpoint(clippedHeight);
 		else
