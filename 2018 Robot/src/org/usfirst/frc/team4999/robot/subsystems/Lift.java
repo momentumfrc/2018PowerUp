@@ -126,6 +126,10 @@ public class Lift extends Subsystem {
 		else
 			slowLiftPID.enable();
 	}
+	
+	public void setHome() {
+		encoder.reset();
+	}
 
     public void initDefaultCommand() {
         setDefaultCommand(new MaintainLiftHeight());

@@ -12,8 +12,11 @@ public class PlaceCubeOnScale extends CommandGroup {
         case LEFT:
         	switch(target) {
         	case LEFT:
+        		addSequential(new MoveDistance(7.61111));
         		break;
         	case RIGHT:
+        		addSequential(new MoveDistance(1.5));
+        		addSequential(new TurnDegrees(90));
         		break;
         	}
         	break;
@@ -28,6 +31,7 @@ public class PlaceCubeOnScale extends CommandGroup {
         case RIGHT:
         	switch(target) {
         	case LEFT:
+        		addSequential(new MoveDistance(7.61111));
         		break;
         	case RIGHT:
         		break;

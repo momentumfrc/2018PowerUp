@@ -12,7 +12,7 @@ public class MoPrefs {
 	private static final double FALLBACK_AUTO_TIME = 3; 		// Time, in seconds, the robot will drive for when in fallback auto mode
 	private static final double FALLBACK_AUTO_DISTANCE = 3.5; 	// Distance the robot will drive for, in meters, in fallback auto mode
 	private static final double TILT_RANGE = 2; 				// Degrees robot will tilt off-axis before attempting to stabilize
-	private static final double MAX_LIFT_HEIGHT = 2; 			// Maximum height of the lift
+	private static final double MAX_LIFT_HEIGHT = 2; 			// Maximum height of the lift in meters
 	private static final int MAX_ELBOW_ROTATION = 100;			// Maximum encoder ticks the elbow can displace
 	
 	

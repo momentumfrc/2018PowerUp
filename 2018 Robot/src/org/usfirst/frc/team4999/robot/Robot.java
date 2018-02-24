@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 			switchPos = posFromChar(fieldPos.charAt(0));
 			scalePos = posFromChar(fieldPos.charAt(1));
 		} else {
-			System.out.println("Recieved invalid data from FMS: " + fieldPos);
+			System.out.format("Recieved invalid data from FMS: \"%s\"\n", fieldPos);
 			return;
 		}
 		
@@ -114,6 +114,8 @@ public class Robot extends TimedRobot {
 		
 		ZeroElbow zeroElbow = new ZeroElbow();
 		ZeroLift zeroLift = new ZeroLift();
+		zeroElbow.start();
+		zeroLift.start();
 	}
 	
 	private TargetPosition posFromChar(char pos) {
@@ -122,7 +124,7 @@ public class Robot extends TimedRobot {
 		else if(pos == 'R')
 			return TargetPosition.RIGHT;
 		else
-			System.out.println("Recieved invalid input " + pos);
+			System.out.format("Recieved invalid input \"%s\"\n", pos);
 		return TargetPosition.LEFT;
 	}
 

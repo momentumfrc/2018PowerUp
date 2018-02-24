@@ -45,8 +45,9 @@ public class MomentumPID implements Sendable {
 	
 	public void calculate() {
 		// calculate time for dT
-		long dTime = (long)(Timer.getFPGATimestamp() * 1000) - lastTime;
-		lastTime = (long) Timer.getFPGATimestamp() * 1000;
+		long now = (long)(Timer.getFPGATimestamp() * 1000);
+		long dTime = now - lastTime;
+		lastTime = now;
 		
 		// Calculate error
 		double err = setpoint - source.pidGet();

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4999.robot.sensors;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
-import org.usfirst.frc.team4999.utils.MoPrefs;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -21,8 +20,6 @@ public class GyroFusion implements PIDSource {
 
 	private PIDSourceType pidType = PIDSourceType.kRate;
 	
-	private boolean firstTimeBack = false;
-	
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
 		pidType = pidSource;
@@ -35,16 +32,14 @@ public class GyroFusion implements PIDSource {
 	
 	private double whichSensor(double adisAngle, double vmxAngle) {
 		if(!vmx.isConnected()) { // If no connection w/ vmx, use adis
-			if(!firstTimeBack)
+			if(current == Sensor.VMXPI)
 				System.out.println("VMX not connected, using ADIS");
-			firstTimeBack = true;
 			
 			current = Sensor.ADIS;
 			
 			return adisAngle;
-		} else if(firstTimeBack) { // If just reestablished connection, calculate vmx's offsets and use adis
+		} else if(current == Sensor.ADIS) { // If just reestablished connection, calculate vmx's offsets and use adis
 			System.out.println("Reestablished connection, switching to VMX");
-			firstTimeBack = false;
 			vmxYawOffset = adis.getAngleZ() + adisYawOffset - vmx.getAngle();
 			vmxPitchOffset = adis.getAngleX() + adisPitchOffset - vmx.getPitch();
 			vmxRollOffset = adis.getAngleY() + adisRollOffset - vmx.getRoll();
@@ -71,10 +66,10 @@ public class GyroFusion implements PIDSource {
 	}
 	
 	public double getRate() {
-		if(!vmx.isConnected()) {
-			return adis.getRateZ();
+		if(vmx.isConnected()) {
+			return vmx.getRate();
 		}
-		return vmx.getRate();
+		return adis.getRateZ();
 	}
 	
 	// TODO: Make sure the adis' yaw axis matches the pi's yaw axis, and adjust if necessary

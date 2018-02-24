@@ -18,7 +18,8 @@ public class TurnDegrees extends Command {
 	private double angle;
 	
 	private DriveSystem drive = Robot.driveSystem;
-
+	
+	// Clockwise
     public TurnDegrees(double angle) {
     	requires(drive);
     	this.angle = angle;

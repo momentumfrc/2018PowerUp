@@ -21,12 +21,8 @@ public class VMXPi implements PIDSource {
 
 	private Thread recieveLoop;
 
-	private double zAngle, zRate, pitch, roll, xVelocity, yVelocity;
+	private volatile double zAngle, zRate, pitch, roll, xVelocity, yVelocity;
 	private double zOffset;
-
-	// When two synchronized blocks are synchronized on the same object, only one block is allowed to run at a time.
-	// By synchronizing before we read and write the zAngle and zRates, we can make sure they don't change while we're reading them
-	private Object syncLock = new Object();
 
 	private PIDSourceType m_source = PIDSourceType.kDisplacement;
 
@@ -60,15 +56,13 @@ public class VMXPi implements PIDSource {
 						server.receive(packet);
 						buff.rewind();
 						buff.put(packet.getData());
-						synchronized(syncLock) {
-							zAngle = buff.getDouble(0);
-							zRate = buff.getDouble(8);
-							pitch = buff.getDouble(16);
-							roll = buff.getDouble(24);
-							xVelocity = buff.getDouble(32);
-							yVelocity = buff.getDouble(40);
-							millis = System.currentTimeMillis();
-						}
+						zAngle = buff.getDouble(0);
+						zRate = buff.getDouble(8);
+						pitch = buff.getDouble(16);
+						roll = buff.getDouble(24);
+						xVelocity = buff.getDouble(32);
+						yVelocity = buff.getDouble(40);
+						millis = System.currentTimeMillis();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -79,41 +73,27 @@ public class VMXPi implements PIDSource {
 	}
 
 	public double getAngle() {
-		synchronized(syncLock) {
-			return zAngle + zOffset;
-		}
+		return zAngle + zOffset;
 	}
 
 	public double getRate() {
-		synchronized(syncLock) {
-			return zRate;
-		}
+		return zRate;
 	}
 	public double getPitch() {
-		synchronized(syncLock) {
-			return pitch;
-		}
+		return pitch;
 	}
 	public double getRoll() {
-		synchronized(syncLock) {
-			return roll;
-		}
+		return roll;
 	}
 	public double getXVelocity() {
-		synchronized(syncLock) {
-			return xVelocity;
-		}
+		return xVelocity;
 	}
 	public double getYVelocity() {
-		synchronized(syncLock) {
-			return yVelocity;
-		}
+		return yVelocity;
 	}
 
 	public long getTimeSinceLastPacket() {
-		synchronized(syncLock) {
-			return System.currentTimeMillis() - millis;
-		}
+		return System.currentTimeMillis() - millis;
 	}
   
 	public void zero() {
