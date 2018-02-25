@@ -125,7 +125,7 @@ public class Robot extends TimedRobot {
 		else if(pos == 'R')
 			return TargetPosition.RIGHT;
 		else
-			System.out.format("Recieved invalid input \"%s\"\n", pos);
+			System.out.format("Recieved invalid input \"%C\"\n", pos);
 		return TargetPosition.LEFT;
 	}
 
