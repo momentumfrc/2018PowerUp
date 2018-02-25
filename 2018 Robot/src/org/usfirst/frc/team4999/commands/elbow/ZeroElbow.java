@@ -1,38 +1,40 @@
-package org.usfirst.frc.team4999.commands.claw;
+package org.usfirst.frc.team4999.commands.elbow;
 
 import org.usfirst.frc.team4999.robot.Robot;
-import org.usfirst.frc.team4999.robot.subsystems.Elbow;
+import org.usfirst.frc.team4999.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class MaintainElbowPosition extends Command {
-
-	private Elbow elbow = Robot.elbow;
+public class ZeroElbow extends Command {
 	
-    public MaintainElbowPosition() {
-        requires(elbow);
+	private static final double ZERO_SPEED = 0.2;
+
+    public ZeroElbow() {
+    	requires(Robot.elbow);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	elbow.pid.setSetpointRelative(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	elbow.drivePID();
+    	RobotMap.elbow.set(ZERO_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return RobotMap.elbowEncoder.getStopped();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	RobotMap.elbowEncoder.reset();
+    	Robot.elbow.retract();
+    	Robot.elbow.setDefaultCommand(new MoveElbow());
     }
 
     // Called when another command which requires one or more of the same

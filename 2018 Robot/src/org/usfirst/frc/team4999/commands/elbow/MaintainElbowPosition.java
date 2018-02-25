@@ -1,28 +1,29 @@
-package org.usfirst.frc.team4999.commands.claw;
+package org.usfirst.frc.team4999.commands.elbow;
 
 import org.usfirst.frc.team4999.robot.Robot;
+import org.usfirst.frc.team4999.robot.subsystems.Elbow;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class MoveElbow extends Command {
+public class MaintainElbowPosition extends Command {
 
-    public MoveElbow() {
-        requires(Robot.elbow);
+	private Elbow elbow = Robot.elbow;
+	
+    public MaintainElbowPosition() {
+        requires(elbow);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elbow.pid.setSetpointRelative(0);
-    	Robot.elbow.pid.enable();
+    	elbow.pid.setSetpointRelative(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elbow.pid.setSetpoint(Robot.elbow.pid.getSetpoint() + Robot.controlChooser.getSelected().getClaw());
-    	Robot.elbow.drivePID();
+    	elbow.drivePID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
