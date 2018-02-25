@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.robot.controllers;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -17,7 +18,7 @@ public class WheelWrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double mr = -wheel.getRawAxis(2);
-		return map(mr, -1, 1, 0, 1);
+		return Utils.map(mr, -1, 1, 0, 1);
 	}
 
 	@Override

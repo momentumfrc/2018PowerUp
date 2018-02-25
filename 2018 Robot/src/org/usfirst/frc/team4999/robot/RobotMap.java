@@ -79,9 +79,14 @@ public class RobotMap {
 	
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	public static int leftIntakePDP = 12;
-	public static int rightIntakePDP = 13;
+	public static final int LEFT_INTAKE_PDP = 12;
+	public static final int RIGHT_INTAKE_PDP = 13;
 	
-	public static int liftMotor1PDP = 14;
-	public static int liftMotor2PDP = 15;
+	public static final int LIFT_MOTOR1_PDP = 14;
+	public static final int LIFT_MOTOR2_PDP = 15;
+	
+	public static final int RF_DRIVE_MOTOR_PDP = 0;
+	public static final int RB_DRIVE_MOTOR_PDP = 1;
+	public static final int LF_DRIVE_MOTOR_PDP = 2;
+	public static final int LB_DRIVE_MOTOR_PDP = 3;
 }

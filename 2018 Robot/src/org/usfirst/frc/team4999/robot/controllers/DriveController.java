@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4999.robot.controllers;
 
+import org.usfirst.frc.team4999.utils.Utils;
+
 public abstract class DriveController {
 	/**
 	 * Get the speed at which the robot should move
@@ -46,15 +48,13 @@ public abstract class DriveController {
 	 */
 	abstract public double getClaw();
 	
-	public double map(double val, double inmin, double inmax, double outmin, double outmax) {
-    	return (((val - inmin) / (inmax - inmin)) * (outmax - outmin)) + outmin;
-    }
+	
     
     public double deadzone(double val, double deadzone) {
     	if(val < -deadzone)
-    		return map(val, -1, -deadzone, -1, 0);
+    		return Utils.map(val, -1, -deadzone, -1, 0);
     	else if(val > deadzone) 
-    		return map(val, deadzone, 1, 0, 1);
+    		return Utils.map(val, deadzone, 1, 0, 1);
     	else
     		return 0;
     }
@@ -69,7 +69,4 @@ public abstract class DriveController {
 			return -powed;
     }
     
-    public double clip(double val, double min, double max) {
-    	return Math.max(Math.min(val, max), min);
-    }
 }

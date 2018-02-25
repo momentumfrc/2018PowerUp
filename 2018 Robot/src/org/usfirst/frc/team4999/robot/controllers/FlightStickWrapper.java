@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.robot.controllers;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -36,7 +37,7 @@ public class FlightStickWrapper extends DriveController {
 
 	@Override
 	public double getSpeedLimiter() {
-		return map(-flightStick.getThrottle(), -1, 1, 0, 1);
+		return Utils.map(-flightStick.getThrottle(), -1, 1, 0, 1);
 	}
 
 	@Override

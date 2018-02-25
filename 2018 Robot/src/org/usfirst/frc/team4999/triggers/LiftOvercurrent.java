@@ -24,7 +24,7 @@ public class LiftOvercurrent extends Trigger {
 	}
 
     public boolean get() {
-    	if(pdp.getCurrent(RobotMap.liftMotor1PDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.liftMotor2PDP) > CUTOFF_CURRENT) {
+    	if(pdp.getCurrent(RobotMap.LIFT_MOTOR1_PDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.LIFT_MOTOR2_PDP) > CUTOFF_CURRENT) {
     		return time.hasPeriodPassed(CUTOFF_TIME);
     	}
         time.reset();

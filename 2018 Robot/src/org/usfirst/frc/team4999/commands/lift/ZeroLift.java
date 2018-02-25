@@ -46,7 +46,7 @@ public class ZeroLift extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(pdp.getCurrent(RobotMap.liftMotor1PDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.liftMotor2PDP) > CUTOFF_CURRENT) {
+    	if(pdp.getCurrent(RobotMap.LIFT_MOTOR1_PDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.LIFT_MOTOR2_PDP) > CUTOFF_CURRENT) {
     		if(overCurrent.hasPeriodPassed(CUTOFF_TIME)) {
     			return true;
     		}

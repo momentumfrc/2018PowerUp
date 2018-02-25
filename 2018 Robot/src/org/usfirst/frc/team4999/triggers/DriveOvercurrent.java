@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
  */
 public class DriveOvercurrent extends Trigger {
 	
-	private static final int[] MOTORS = {0,1,2,3};
+	private int[] MOTORS = {RobotMap.RF_DRIVE_MOTOR_PDP, RobotMap.RB_DRIVE_MOTOR_PDP, RobotMap.LF_DRIVE_MOTOR_PDP, RobotMap.LB_DRIVE_MOTOR_PDP};
 	
 	private static final double CUTOFF_CURRENT = 30;
 	private static final double CUTOFF_TIME = 1;

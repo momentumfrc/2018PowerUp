@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.robot.controllers;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
@@ -42,7 +43,7 @@ public class XboxWrapper extends DriveController {
 	}
 	
 	public void setSpeedLimit(double speed) {
-		speedLimit = clip(speed, 0, 1);
+		speedLimit = Utils.clip(speed, 0, 1);
 	}
 
 	@Override
@@ -87,9 +88,9 @@ public class XboxWrapper extends DriveController {
 		double right = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE);
 		double left = deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
 		if(right != 0) {
-			return map(right, -1, 0, -MAX_CLAW_SPEED, 0);
+			return Utils.map(right, -1, 0, -MAX_CLAW_SPEED, 0);
 		} else if(left != 0) {
-			return map(left, 0, 1, 0, MAX_CLAW_SPEED);
+			return Utils.map(left, 0, 1, 0, MAX_CLAW_SPEED);
 		} else {
 			return 0;
 		}

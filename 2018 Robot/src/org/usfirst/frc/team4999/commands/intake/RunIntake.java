@@ -38,7 +38,7 @@ public class RunIntake extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(pdp.getCurrent(RobotMap.leftIntakePDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.rightIntakePDP) > CUTOFF_CURRENT)
+    	if(pdp.getCurrent(RobotMap.LEFT_INTAKE_PDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.RIGHT_INTAKE_PDP) > CUTOFF_CURRENT)
     		return timer.hasPeriodPassed(CUTOFF_TIME);
     	else
     		timer.reset();
