@@ -27,9 +27,9 @@ public class DriveOvercurrent extends Trigger {
 
     public boolean get() {
     	// Return true if any of the motors is above the cutoff current for the cutoff time
-        for(int i : MOTORS) {
-        	if(pdp.getCurrent(i) > CUTOFF_CURRENT) {
-        		return time.hasPeriodPassed(CUTOFF_TIME);
+        for(int i : MOTORS) { // for each motor
+        	if(pdp.getCurrent(i) > CUTOFF_CURRENT) { // if its above the cutoff current
+        		return time.hasPeriodPassed(CUTOFF_TIME); // return true if any of the motors has been above the cutoff current for the cutoff time
         	}
         }
         time.reset();
