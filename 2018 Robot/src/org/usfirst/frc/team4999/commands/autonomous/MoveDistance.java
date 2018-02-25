@@ -3,6 +3,7 @@ package org.usfirst.frc.team4999.commands.autonomous;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -13,6 +14,9 @@ public class MoveDistance extends Command {
 	private double distance;
 	
 	private DriveSystem drive = Robot.driveSystem;
+	
+	private static final double TIMEOUT = 15;
+	private Timer timer = new Timer();
 	
     public MoveDistance(double distance) {
     	requires(drive);
@@ -32,6 +36,7 @@ public class MoveDistance extends Command {
     	drive.turnPID.setSetpointRelative(0);
     	drive.turnPID.enable();
     	drive.pitchPID.enable();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,7 +46,7 @@ public class MoveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return drive.movePID.onTargetForTime();
+    	return drive.movePID.onTargetForTime() || timer.hasPeriodPassed(TIMEOUT);
     }
 
     // Called once after isFinished returns true
