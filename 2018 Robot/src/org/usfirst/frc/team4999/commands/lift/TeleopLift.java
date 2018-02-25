@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.commands.lift;
 
 import org.usfirst.frc.team4999.robot.Robot;
+import org.usfirst.frc.team4999.robot.controllers.LiftPosition;
 import org.usfirst.frc.team4999.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,8 +28,8 @@ public class TeleopLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double speed = Robot.controlChooser.getSelected().getLiftSpeed();
-    	lift.setHeight(lift.getCurrentHeight() + speed);
+    	double pos = Robot.controlChooser.getSelected().getLiftPosition();
+    	lift.setHeight(pos);
     }
 
     // Make this return true when this Command no longer needs to run execute()

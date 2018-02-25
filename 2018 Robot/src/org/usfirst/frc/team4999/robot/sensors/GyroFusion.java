@@ -30,31 +30,44 @@ public class GyroFusion implements PIDSource {
 		return pidType;
 	}
 	
-	private double whichSensor(double adisAngle, double vmxAngle) {
-		if(!vmx.isConnected()) { // If no connection w/ vmx, use adis
-			if(current == Sensor.VMXPI)
+	
+	private void setCurrentSensor() {
+		if(!vmx.isConnected()) {
+			if(current == Sensor.VMXPI) {
 				System.out.println("VMX not connected, using ADIS");
-			
+			}
 			current = Sensor.ADIS;
-			
-			return adisAngle;
-		} else if(current == Sensor.ADIS) { // If just reestablished connection, calculate vmx's offsets and use adis
-			System.out.println("Reestablished connection, switching to VMX");
+		} else {
+			if(current == Sensor.ADIS) {
+				System.out.println("VMX connected");
+				calculateOffsets(Sensor.VMXPI);
+			}
+			current = Sensor.VMXPI;
+		}
+	}
+	
+	private void calculateOffsets(Sensor sensor) {
+		switch(sensor) {
+		case VMXPI:
 			vmxYawOffset = adis.getAngleZ() + adisYawOffset - vmx.getAngle();
 			vmxPitchOffset = adis.getAngleX() + adisPitchOffset - vmx.getPitch();
 			vmxRollOffset = adis.getAngleY() + adisRollOffset - vmx.getRoll();
-			
-			current = Sensor.ADIS;
-			
-			return adisAngle;
-		} else { // Normally calculate adis' offsets and use vmx
+			break;
+		case ADIS:
 			adisYawOffset = vmx.getAngle() + vmxYawOffset - adis.getAngleZ();
 			adisPitchOffset = vmx.getPitch() + vmxYawOffset - adis.getAngleX();
 			adisRollOffset = vmx.getRoll() + vmxRollOffset - adis.getAngleY();
-			
-			current = Sensor.VMXPI;
-			
-			return vmxAngle;
+			break;
+		}
+	}
+	
+	private double whichValue(double vmx, double adis) {
+		switch(currentSensor()) {
+		case ADIS:
+			return adis;
+		case VMXPI:
+		default:
+			return vmx;
 		}
 	}
 	
@@ -62,14 +75,19 @@ public class GyroFusion implements PIDSource {
 		double vmxAngle = vmx.getAngle() + vmxYawOffset;
 		double adisAngle = adis.getAngleZ() + adisYawOffset;
 		
-		return whichSensor(adisAngle, vmxAngle);
+		setCurrentSensor();
+		calculateOffsets(Sensor.ADIS);
+		
+		return whichValue(vmxAngle, adisAngle);
 	}
 	
 	public double getRate() {
-		if(vmx.isConnected()) {
-			return vmx.getRate();
-		}
-		return adis.getRateZ();
+		double vmxRate = vmx.getRate();
+		double adisRate = adis.getRateZ();
+		
+		setCurrentSensor();
+		
+		return whichValue(vmxRate, adisRate);
 	}
 	
 	// TODO: Make sure the adis' yaw axis matches the pi's yaw axis, and adjust if necessary
@@ -78,14 +96,18 @@ public class GyroFusion implements PIDSource {
 		double vmxAngle = vmx.getPitch() + vmxPitchOffset;
 		double adisAngle = adis.getAngleY() + adisPitchOffset;
 		
-		return whichSensor(adisAngle, vmxAngle);
+		setCurrentSensor();
+		calculateOffsets(Sensor.ADIS);
+		return whichValue(vmxAngle, adisAngle);
 	}
 	
 	public double getRoll() {
 		double vmxAngle = vmx.getRoll() + vmxRollOffset;
 		double adisAngle = adis.getAngleX() + adisRollOffset;
 		
-		return whichSensor(adisAngle, vmxAngle);
+		setCurrentSensor();
+		calculateOffsets(Sensor.ADIS);
+		return whichValue(vmxAngle, adisAngle);
 	}
 	
 	public Sensor currentSensor() {
