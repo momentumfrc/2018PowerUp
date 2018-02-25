@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
-import org.usfirst.frc.team4999.commands.claw.ZeroElbow;
+import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
 	public static final Lift lift = new Lift();
 	public static final Intake intake = new Intake();
+	public static final Claw claw = new Claw();
 	public static final Elbow elbow = new Elbow();
 	public static OI m_oi;
 	

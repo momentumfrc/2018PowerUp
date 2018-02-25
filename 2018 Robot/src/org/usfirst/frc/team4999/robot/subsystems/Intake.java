@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4999.robot.subsystems;
 
+import org.usfirst.frc.team4999.commands.intake.StopIntake;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.utils.MomentumPID;
@@ -18,8 +19,7 @@ public class Intake extends Subsystem {
     private Spark intakeLeft = RobotMap.intakeLeft;
     private Spark intakeRight = RobotMap.intakeRight;
     
-    private DoubleSolenoid intakeSolenoid = RobotMap.clawArms;
-    
+    private boolean holding = false;
     
     public Intake() {
     	super();
@@ -30,19 +30,16 @@ public class Intake extends Subsystem {
     	intakeRight.set(speed);
     	intakeLeft.set(speed);
     }
-    public boolean isGripping() {
-    	return intakeSolenoid.get() == DoubleSolenoid.Value.kForward;
-    }
-    public void grip() {
-    	intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-    }
-    public void release() {
-    	intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-    }
-
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new StopIntake());
+    }
+    
+    public void setHolding(boolean holding) {
+    	this.holding = holding;
+    }
+    
+    public boolean holding() {
+    	return holding;
     }
 }
 

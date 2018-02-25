@@ -11,8 +11,9 @@ public class WheelWrapper extends DriveController {
 	private static final double[] Gears = {0.2, 0.4, 0.6, 0.8, 1};
 	private int currentGear = 2;
 	
-	private int liftSpeed = 1;
-
+	private int currentPos = 0;
+	private boolean povHeld = false;
+	
 	@Override
 	public double getMoveRequest() {
 		double mr = -wheel.getRawAxis(2);
@@ -34,13 +35,20 @@ public class WheelWrapper extends DriveController {
 	}
 
 	@Override
-	public double getLiftSpeed() {
-		if(wheel.getPOV() == 0)
-			return liftSpeed;
-		else if(wheel.getPOV() == 180)
-			return -liftSpeed;
-		else
-			return 0;
+	public double getLiftPosition() {
+		double[] values = LiftPosition.values();
+		int pov = wheel.getPOV();
+		if(pov == -1) {
+			povHeld = false;
+		} else if(!povHeld) {
+			povHeld = true;
+			if(pov == 0 && currentPos < values.length-1) {
+				currentPos++;
+			} else if(pov == 180 && currentPos > 0) {
+				currentPos--;
+			}
+		}
+		return values[currentPos];
 	}
 
 	@Override
@@ -60,7 +68,7 @@ public class WheelWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getOuttake() {
+	public boolean getArms() {
 		// TODO Auto-generated method stub
 		return false;
 	}

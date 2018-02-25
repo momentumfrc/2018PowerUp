@@ -17,11 +17,7 @@ public abstract class DriveController {
 	 */
 	abstract public double getSpeedLimiter();
 	
-	/**
-	 * Get the speed the lift should move at. Positive is up and negative is down
-	 * @return Requested lift speed
-	 */
-	abstract public double getLiftSpeed();
+	abstract public double getLiftPosition();
 	
 	/**
 	 * Get whether to flip front and back on the robot
@@ -41,9 +37,9 @@ public abstract class DriveController {
 	abstract public boolean getIntake();
 	/**
 	 * Trigger releasing a held cube
-	 * @return If the cube should be released
+	 * @return If the arms should be toggled
 	 */
-	abstract public boolean getOuttake();
+	abstract public boolean getArms();
 	/**
 	 * Get the delta that should be applied to the claw's setpoint
 	 * @return Claw's setpoint delta

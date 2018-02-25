@@ -8,7 +8,8 @@
 package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.commands.*;
-import org.usfirst.frc.team4999.commands.claw.*;
+import org.usfirst.frc.team4999.commands.elbow.*;
+import org.usfirst.frc.team4999.commands.intake.*;
 import org.usfirst.frc.team4999.commands.lift.*;
 import org.usfirst.frc.team4999.triggers.*;
 
@@ -51,15 +52,17 @@ public class OI {
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
 	Trigger intake = new Intake();
-	Trigger outtake = new Outtake();
+	Trigger arms = new TriggerArms();
 	
 	public OI() {
 		killPID.whenActive(new TeleopNoPID());
 		driveOvercurrent.whenActive(new KillDrive());
 		liftOvercurrent.whenActive(new KillLift());
 		
-		intake.whenActive(new Grab());
+		// When one button is pushed, check if a cube is currently being held. If a cube is being held, shoot it. Otherwise, run the intake until a cube is being held.
+		intake.whenActive(new IntakeOrShoot());
 		
-		outtake.whileActive(new Release());
+		// When another button is pushed, toggle the arms
+		arms.whenActive(new ToggleArms());
 	}
 }

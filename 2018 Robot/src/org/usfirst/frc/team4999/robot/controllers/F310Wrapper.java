@@ -13,9 +13,8 @@ public class F310Wrapper extends DriveController {
 	
 	private static final double DEADZONE = 0.05;
 	
-	private static final double MAX_LIFT_SPEED = 1;
-	
-	
+	private int currentPos = 0;
+	private boolean povHeld = false;
 
 	@Override
 	public double getMoveRequest() {
@@ -49,11 +48,20 @@ public class F310Wrapper extends DriveController {
 	}
 
 	@Override
-	public double getLiftSpeed() {
-		double speed = logitech.getRawAxis(5);
-		speed = deadzone(speed, DEADZONE);
-		speed = map(speed, -1, 1, -MAX_LIFT_SPEED, MAX_LIFT_SPEED);
-		return speed;
+	public double getLiftPosition() {
+		double[] values = LiftPosition.values();
+		int pov = logitech.getPOV();
+		if(pov == -1) {
+			povHeld = false;
+		} else if(!povHeld) {
+			povHeld = true;
+			if(pov == 0 && currentPos < values.length-1) {
+				currentPos++;
+			} else if(pov == 180 && currentPos > 0) {
+				currentPos--;
+			}
+		}
+		return values[currentPos];
 	}
 
 	@Override
@@ -62,7 +70,7 @@ public class F310Wrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getOuttake() {
+	public boolean getArms() {
 		return false;
 	}
 
