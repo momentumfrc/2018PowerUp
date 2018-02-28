@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 /**
  *
  */
-public class Intake extends Trigger {
+public class ShootTrigger extends Trigger {
 
     public boolean get() {
-        return Robot.controlChooser.getSelected().getIntake();
+        return Robot.controlChooser.getSelected().getShoot();
     }
 }

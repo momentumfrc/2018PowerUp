@@ -36,12 +36,12 @@ public abstract class DriveController {
 	 * Trigger the intake
 	 * @return If the intake should be running
 	 */
-	abstract public boolean getIntake();
+	abstract public boolean getHunt();
 	/**
 	 * Trigger releasing a held cube
 	 * @return If the arms should be toggled
 	 */
-	abstract public boolean getArms();
+	abstract public boolean getShoot();
 	/**
 	 * Get the delta that should be applied to the claw's setpoint
 	 * @return Claw's setpoint delta

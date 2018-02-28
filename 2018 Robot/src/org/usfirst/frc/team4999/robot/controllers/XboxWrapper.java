@@ -74,12 +74,12 @@ public class XboxWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getIntake() {
+	public boolean getHunt() {
 		return xbox.getBumper(Hand.kRight);
 	}
 
 	@Override
-	public boolean getArms() {
+	public boolean getShoot() {
 		return xbox.getBumper(Hand.kLeft);
 	}
 

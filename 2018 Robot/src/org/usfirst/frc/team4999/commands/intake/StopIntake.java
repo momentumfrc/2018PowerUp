@@ -9,29 +9,28 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class StopIntake extends Command {
-
-	private Intake intake = Robot.intake;
 	
+	Intake intake = Robot.intake;
+
     public StopIntake() {
-        super();
         requires(intake);
     }
 
-    // Called once when the command executes
+    // Called just before this Command runs the first time
     protected void initialize() {
     }
-    
+
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	intake.setIntake(0);
+    	intake.stop();
     }
 
     // Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return false;
-	}
-	
-	// Called once after isFinished returns true
+    protected boolean isFinished() {
+        return false;
+    }
+
+    // Called once after isFinished returns true
     protected void end() {
     }
 
@@ -39,5 +38,4 @@ public class StopIntake extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-
 }

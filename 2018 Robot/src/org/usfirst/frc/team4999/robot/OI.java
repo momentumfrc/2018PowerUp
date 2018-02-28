@@ -51,18 +51,19 @@ public class OI {
 	Trigger killPID = new KillPID();
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
-	Trigger intake = new Intake();
-	Trigger arms = new TriggerArms();
+	Trigger hunt = new HuntTrigger();
+	Trigger shoot = new ShootTrigger();
 	
 	public OI() {
 		killPID.whenActive(new TeleopNoPID());
 		driveOvercurrent.whenActive(new KillDrive());
 		liftOvercurrent.whenActive(new KillLift());
 		
-		// When one button is pushed, check if a cube is currently being held. If a cube is being held, shoot it. Otherwise, run the intake until a cube is being held.
-		intake.whenActive(new IntakeOrShoot());
+		hunt.whenActive(new Hunt());
+		hunt.whenInactive(new Grab());
 		
-		// When another button is pushed, toggle the arms
-		arms.whenActive(new ToggleArms());
+		shoot.whenActive(new Shoot());
+		shoot.whenInactive(new StopIntake());
+		
 	}
 }

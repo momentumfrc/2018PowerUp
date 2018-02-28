@@ -65,12 +65,12 @@ public class F310Wrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getIntake() {
+	public boolean getHunt() {
 		return false;
 	}
 
 	@Override
-	public boolean getArms() {
+	public boolean getShoot() {
 		return false;
 	}
 

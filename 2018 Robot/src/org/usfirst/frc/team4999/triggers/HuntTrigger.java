@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 /**
  *
  */
-public class TriggerArms extends Trigger {
+public class HuntTrigger extends Trigger {
 
     public boolean get() {
-        return Robot.controlChooser.getSelected().getArms();
+        return Robot.controlChooser.getSelected().getHunt();
     }
 }

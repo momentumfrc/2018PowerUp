@@ -63,13 +63,13 @@ public class WheelWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getIntake() {
+	public boolean getHunt() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean getArms() {
+	public boolean getShoot() {
 		// TODO Auto-generated method stub
 		return false;
 	}

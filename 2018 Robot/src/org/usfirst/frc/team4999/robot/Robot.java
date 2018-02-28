@@ -38,7 +38,6 @@ public class Robot extends TimedRobot {
 	public static final DriveSystem driveSystem = new DriveSystem();
 	public static final Lift lift = new Lift();
 	public static final Intake intake = new Intake();
-	public static final Claw claw = new Claw();
 	public static final Elbow elbow = new Elbow();
 	public static OI m_oi;
 	
@@ -125,7 +124,7 @@ public class Robot extends TimedRobot {
 		else if(pos == 'R')
 			return TargetPosition.RIGHT;
 		else
-			System.out.format("Recieved invalid input \"%C\"\n", pos);
+			System.out.format("Recieved invalid input \"%c\"\n", pos);
 		return TargetPosition.LEFT;
 	}
 
