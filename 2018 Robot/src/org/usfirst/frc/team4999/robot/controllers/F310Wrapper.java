@@ -75,7 +75,7 @@ public class F310Wrapper extends DriveController {
 	}
 
 	@Override
-	public double getClaw() {
+	public double getElbowSpeed() {
 		return 0;
 	}
 

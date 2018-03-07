@@ -14,7 +14,7 @@ public class FlightStickWrapper extends DriveController {
 	
 	private static final double DEADZONE = 0.1;
 	
-	private static final double CLAW_SPEED = 10;
+	private static final double ELBOW_SPEED = 0.4;
 	
 	private int currentPos = 0;
 	private boolean povHeld = false;
@@ -78,11 +78,11 @@ public class FlightStickWrapper extends DriveController {
 	}
 
 	@Override
-	public double getClaw() {
+	public double getElbowSpeed() {
 		if(flightStick.getRawButton(5))
-			return CLAW_SPEED * getSpeedLimiter();
+			return ELBOW_SPEED * getSpeedLimiter();
 		else if(flightStick.getRawButton(6))
-			return -CLAW_SPEED * getSpeedLimiter();
+			return -ELBOW_SPEED * getSpeedLimiter();
 		else
 			return 0;
 	}

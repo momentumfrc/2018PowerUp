@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import org.usfirst.frc.team4999.commands.TeleopNoPID;
+import org.usfirst.frc.team4999.commands.DriveNoPID;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.utils.MomentumPID;
@@ -44,7 +44,7 @@ public class DriveSystem extends Subsystem {
     }
     
     public void initDefaultCommand() {
-    	setDefaultCommand(new TeleopNoPID());
+    	setDefaultCommand(new DriveNoPID());
     }
     
     public void arcadeDrive(double moveRequest, double turnRequest, double speedLimiter) {

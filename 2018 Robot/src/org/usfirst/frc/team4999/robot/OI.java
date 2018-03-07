@@ -55,7 +55,7 @@ public class OI {
 	Trigger shoot = new ShootTrigger();
 	
 	public OI() {
-		killPID.whenActive(new TeleopNoPID());
+		killPID.whenActive(new DriveNoPID());
 		driveOvercurrent.whenActive(new KillDrive());
 		liftOvercurrent.whenActive(new KillLift());
 		
@@ -63,7 +63,6 @@ public class OI {
 		hunt.whenInactive(new Grab());
 		
 		shoot.whenActive(new Shoot());
-		shoot.whenInactive(new StopIntake());
 		
 	}
 }

@@ -75,7 +75,7 @@ public class WheelWrapper extends DriveController {
 	}
 
 	@Override
-	public double getClaw() {
+	public double getElbowSpeed() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

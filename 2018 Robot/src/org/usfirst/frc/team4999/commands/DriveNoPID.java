@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TeleopNoPID extends Command {
+public class DriveNoPID extends Command {
 	
 	private DriveSystem drive = Robot.driveSystem;
 	private ControlChooser chooser = Robot.controlChooser;
 	
 	private boolean reversed;
 	
-    public TeleopNoPID() {
+    public DriveNoPID() {
         requires(drive);
     }
 

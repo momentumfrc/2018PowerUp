@@ -46,7 +46,7 @@ public abstract class DriveController {
 	 * Get the delta that should be applied to the claw's setpoint
 	 * @return Claw's setpoint delta
 	 */
-	abstract public double getClaw();
+	abstract public double getElbowSpeed();
 	
 	
     

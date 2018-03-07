@@ -14,7 +14,7 @@ public class XboxWrapper extends DriveController {
 	private static final double TURN_CURVE = 2.5;
 	
 	private static final double DEADZONE = 0.1;
-	private static final int MAX_CLAW_SPEED = 10;
+	private static final double MAX_CLAW_SPEED = 0.2;
 	
 	private double speedLimit = 1;
 	
@@ -84,7 +84,7 @@ public class XboxWrapper extends DriveController {
 	}
 
 	@Override
-	public double getClaw() {
+	public double getElbowSpeed() {
 		double right = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE);
 		double left = deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
 		if(right != 0) {

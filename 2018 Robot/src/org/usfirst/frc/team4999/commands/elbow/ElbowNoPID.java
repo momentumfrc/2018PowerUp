@@ -7,22 +7,19 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveElbow extends Command {
+public class ElbowNoPID extends Command {
 
-    public MoveElbow() {
+    public ElbowNoPID() {
         requires(Robot.elbow);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elbow.pid.setSetpointRelative(0);
-    	Robot.elbow.pid.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elbow.pid.setSetpoint(Robot.elbow.pid.getSetpoint() + Robot.controlChooser.getSelected().getClaw());
-    	Robot.elbow.drivePID();
+    	Robot.elbow.setElbowMotor(Robot.controlChooser.getSelected().getElbowSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()
