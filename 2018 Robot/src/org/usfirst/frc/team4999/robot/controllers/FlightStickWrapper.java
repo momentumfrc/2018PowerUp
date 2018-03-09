@@ -80,9 +80,9 @@ public class FlightStickWrapper extends DriveController {
 	@Override
 	public double getElbowSpeed() {
 		if(flightStick.getRawButton(5))
-			return ELBOW_SPEED * getSpeedLimiter();
+			return ELBOW_SPEED;
 		else if(flightStick.getRawButton(6))
-			return -ELBOW_SPEED * getSpeedLimiter();
+			return -ELBOW_SPEED;
 		else
 			return 0;
 	}
