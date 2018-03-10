@@ -27,10 +27,16 @@ public abstract class DriveController {
 	 */
 	abstract public boolean getReverseDirection();
 	/**
-	 * Get whether to enter a failsafe teleop mode
+	 * Get whether the drivetrain should enter a failsafe teleop mode
 	 * @return If failsafe teleop should be entered
 	 */
-	abstract public boolean getKillPID();
+	abstract public boolean getFailsafeDrive();
+	
+	/**
+	 * Get whether the elbow should enter a failsafe teleop mode (disables PID)
+	 * @return If the failsafe should be activated
+	 */
+	abstract public boolean getFailsafeElbow();
 	
 	/**
 	 * Trigger the intake

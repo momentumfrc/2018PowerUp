@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
-import org.usfirst.frc.team4999.commands.elbow.ElbowNoPID;
+import org.usfirst.frc.team4999.commands.elbow.TeleopElbowPID;
 import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.robot.choosers.*;
@@ -139,8 +139,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		ElbowNoPID elbowCommand = new ElbowNoPID();
 		DriveTiltPID driveCommand = new DriveTiltPID();
+		TeleopElbowPID elbowCommand = new TeleopElbowPID();
 		driveCommand.start();
 		elbowCommand.start();
 	}

@@ -46,8 +46,13 @@ public class FlightStickWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getKillPID() {
+	public boolean getFailsafeDrive() {
 		return flightStick.getRawButton(7);
+	}
+	
+	@Override
+	public boolean getFailsafeElbow() {
+		return flightStick.getRawButton(8);
 	}
 
 	@Override
@@ -86,6 +91,8 @@ public class FlightStickWrapper extends DriveController {
 		else
 			return 0;
 	}
+
+	
 	
 	
 	

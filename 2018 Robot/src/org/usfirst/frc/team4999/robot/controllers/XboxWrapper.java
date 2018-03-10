@@ -14,9 +14,10 @@ public class XboxWrapper extends DriveController {
 	private static final double TURN_CURVE = 2.5;
 	
 	private static final double DEADZONE = 0.1;
-	private static final double MAX_CLAW_SPEED = 0.2;
+	private static final double MAX_CLAW_SPEED = 0.4;
 	
-	private double speedLimit = 1;
+	private static final double[] SPEEDS = {0.2, 0.4, 0.6, 0.8, 1};
+	private int currentSpeed = SPEEDS.length - 1;
 	
 	private int currentPos = 0;
 	private boolean povHeld = false;
@@ -39,20 +40,27 @@ public class XboxWrapper extends DriveController {
 
 	@Override
 	public double getSpeedLimiter() {
-		return speedLimit;
-	}
-	
-	public void setSpeedLimit(double speed) {
-		speedLimit = Utils.clip(speed, 0, 1);
+		if(xbox.getYButtonPressed() && currentSpeed < SPEEDS.length - 1) {
+			currentSpeed++;
+		} else if(xbox.getXButtonPressed() && currentSpeed > 0) {
+			currentSpeed--;
+		}
+		
+		return SPEEDS[currentSpeed];
 	}
 
 	@Override
 	public boolean getReverseDirection() {
-		return xbox.getXButtonPressed();
+		return xbox.getBButtonPressed();
+	}
+	
+	@Override
+	public boolean getFailsafeElbow() {
+		return xbox.getBackButton();
 	}
 
 	@Override
-	public boolean getKillPID() {
+	public boolean getFailsafeDrive() {
 		return xbox.getStartButton();
 	}
 	
@@ -85,15 +93,8 @@ public class XboxWrapper extends DriveController {
 
 	@Override
 	public double getElbowSpeed() {
-		double right = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE);
-		double left = deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
-		if(right != 0) {
-			return Utils.map(right, -1, 0, -MAX_CLAW_SPEED, 0);
-		} else if(left != 0) {
-			return Utils.map(left, 0, 1, 0, MAX_CLAW_SPEED);
-		} else {
-			return 0;
-		}
+		double val = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
+		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
 
 }

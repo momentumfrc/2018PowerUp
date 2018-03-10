@@ -58,7 +58,7 @@ public class WheelWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getKillPID() {
+	public boolean getFailsafeDrive() {
 		return wheel.getRawButtonPressed(13);
 	}
 

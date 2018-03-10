@@ -48,14 +48,16 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Trigger killPID = new KillPID();
+	Trigger failsafeDrive = new FailsafeDrive();
+	Trigger failsafeElbow = new FailsafeElbow();
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
 	Trigger hunt = new HuntTrigger();
 	Trigger shoot = new ShootTrigger();
 	
 	public OI() {
-		killPID.whenActive(new DriveNoPID());
+		failsafeDrive.whenActive(new DriveNoPID());
+		failsafeElbow.whenActive(new ElbowNoPID());
 		driveOvercurrent.whenActive(new KillDrive());
 		liftOvercurrent.whenActive(new KillLift());
 		
