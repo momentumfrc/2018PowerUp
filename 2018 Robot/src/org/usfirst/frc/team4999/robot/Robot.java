@@ -139,9 +139,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		DriveNoPID teleopPID = new DriveNoPID();
 		ElbowNoPID elbowCommand = new ElbowNoPID();
-		teleopPID.start();
+		DriveTiltPID driveCommand = new DriveTiltPID();
+		driveCommand.start();
 		elbowCommand.start();
 	}
 

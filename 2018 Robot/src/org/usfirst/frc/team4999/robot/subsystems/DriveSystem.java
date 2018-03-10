@@ -86,11 +86,19 @@ public class DriveSystem extends Subsystem {
     		arcadeDrive(pitchPID.get(), 0, 1);
     		System.out.println("TILTING!!!");
     		return;
-    	}
-    	else
+    	} else {
     		arcadeDrive(moveRequest, turnPID.get(), speedLimit);
+    	}
     }
     
+    public void arcadeDriveTilt(double moveRequest, double turnRequest, double speedLimit) {
+    	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
+    		arcadeDrive(pitchPID.get(), 0, 1);
+    		System.out.println("TILTING!!");
+    	} else {
+    		arcadeDrive(moveRequest, turnRequest, speedLimit);
+    	}
+    }
     private double clip(double val, double min, double max) {
     	return Math.max(Math.min(val, max), min);
     }
