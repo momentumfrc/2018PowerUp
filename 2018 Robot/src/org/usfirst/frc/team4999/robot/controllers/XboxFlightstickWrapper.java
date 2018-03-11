@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.robot.controllers;
 
 import org.usfirst.frc.team4999.robot.RobotMap;
+import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,16 +26,16 @@ public class XboxFlightstickWrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = xbox.getY(XboxController.Hand.kLeft);
-    	moveRequest = deadzone(moveRequest, DEADZONE);
-    	moveRequest = curve(moveRequest, MOVE_CURVE);
+    	moveRequest = Utils.deadzone(moveRequest, DEADZONE);
+    	moveRequest = Utils.curve(moveRequest, MOVE_CURVE);
     	return moveRequest;
 	}
 
 	@Override
 	public double getTurnRequest() {
 		double turnRequest = RobotMap.xbox.getX(XboxController.Hand.kRight);
-    	turnRequest = deadzone(turnRequest, DEADZONE);
-    	turnRequest = curve(turnRequest, TURN_CURVE);
+    	turnRequest = Utils.deadzone(turnRequest, DEADZONE);
+    	turnRequest = Utils.curve(turnRequest, TURN_CURVE);
     	return turnRequest;
 	}
 
@@ -77,12 +78,12 @@ public class XboxFlightstickWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getFailsafeElbow() {
+	public boolean getFailsafeCubes() {
 		return flightStick.getRawButton(8);
 	}
 
 	@Override
-	public boolean getHunt() {
+	public boolean getIntake() {
 		return flightStick.getRawButton(3);
 	}
 
@@ -99,6 +100,11 @@ public class XboxFlightstickWrapper extends DriveController {
 			return -ELBOW_SPEED;
 		else
 			return 0;
+	}
+
+	@Override
+	public int getCubeManagerButton() {
+		return 0;
 	}
 
 }

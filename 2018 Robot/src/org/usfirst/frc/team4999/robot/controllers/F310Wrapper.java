@@ -26,16 +26,16 @@ public class F310Wrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = logitech.getY(Hand.kLeft);
-    	moveRequest = deadzone(moveRequest, DEADZONE);
-    	moveRequest = curve(moveRequest, MOVE_CURVE);
+    	moveRequest = Utils.deadzone(moveRequest, DEADZONE);
+    	moveRequest = Utils.curve(moveRequest, MOVE_CURVE);
     	return moveRequest;
 	}
 
 	@Override
 	public double getTurnRequest() {
 		double turnRequest = logitech.getX(Hand.kRight);
-    	turnRequest = deadzone(turnRequest, DEADZONE);
-    	turnRequest = curve(turnRequest, TURN_CURVE);
+    	turnRequest = Utils.deadzone(turnRequest, DEADZONE);
+    	turnRequest = Utils.curve(turnRequest, TURN_CURVE);
     	return turnRequest;
 	}
 
@@ -61,8 +61,44 @@ public class F310Wrapper extends DriveController {
 	}
 	
 	@Override
-	public boolean getFailsafeElbow() {
+	public boolean getFailsafeCubes() {
 		return logitech.getBackButton();
+	}
+
+	@Override
+	public int getCubeManagerButton() {
+		if(logitech.getBumperPressed(Hand.kRight))
+			return 1;
+		else if(logitech.getBumperReleased(Hand.kRight))
+			return 2;
+		
+		switch(logitech.getPOV()) {
+		case 0:
+			return 3;
+		case 180:
+			return 4;
+		}
+		
+		if(logitech.getBumperPressed(Hand.kLeft))
+			return 5;
+		
+		return 0;
+	}
+
+	@Override
+	public boolean getIntake() {
+		return false;
+	}
+
+	@Override
+	public boolean getShoot() {
+		return false;
+	}
+
+	@Override
+	public double getElbowSpeed() {
+		double val = -Utils.deadzone(logitech.getTriggerAxis(Hand.kRight), DEADZONE) + Utils.deadzone(logitech.getTriggerAxis(Hand.kLeft), DEADZONE);
+		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
 
 	@Override
@@ -80,22 +116,6 @@ public class F310Wrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
-	}
-
-	@Override
-	public boolean getHunt() {
-		return logitech.getBumper(Hand.kRight);
-	}
-
-	@Override
-	public boolean getShoot() {
-		return logitech.getBumper(Hand.kLeft);
-	}
-
-	@Override
-	public double getElbowSpeed() {
-		double val = -deadzone(logitech.getTriggerAxis(Hand.kRight), DEADZONE) + deadzone(logitech.getTriggerAxis(Hand.kLeft), DEADZONE);
-		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
 
 }

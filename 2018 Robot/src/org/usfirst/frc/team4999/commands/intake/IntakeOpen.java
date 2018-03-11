@@ -1,25 +1,20 @@
 package org.usfirst.frc.team4999.commands.intake;
 
 import org.usfirst.frc.team4999.robot.Robot;
-import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.subsystems.Intake;
-import org.usfirst.frc.team4999.utils.PDPWrapper;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Grab extends Command {
+public class IntakeOpen extends Command {
 	
 	Intake intake = Robot.intake;
-	PDPWrapper currentChecker = new PDPWrapper();
 
-	private static final double CUTOFF_CURRENT = 8;
-	private static final int CUTOFF_TIME = 500;
 
-    public Grab() {
-       requires(intake);
+    public IntakeOpen() {
+    	requires(intake);
     }
 
     // Called just before this Command runs the first time
@@ -28,12 +23,12 @@ public class Grab extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	intake.grab();
+    	intake.hunt();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return currentChecker.checkOvercurrent(new int[] {RobotMap.LEFT_INTAKE_PDP, RobotMap.RIGHT_INTAKE_PDP}, CUTOFF_CURRENT, CUTOFF_TIME);
+        return false;
     }
 
     // Called once after isFinished returns true

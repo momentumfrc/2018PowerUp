@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4999.robot;
 
+import org.usfirst.frc.team4999.robot.controllers.LogitechF310;
 import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.sensors.VMXPi;
@@ -54,7 +55,7 @@ public class RobotMap {
 	// Controls
 	public static XboxController xbox = new XboxController(1);
 	public static Joystick flightStick = new Joystick(0);
-	public static Joystick f310 = new Joystick(2);
+	public static LogitechF310 f310 = new LogitechF310(2);
 	public static Joystick wheel = new Joystick(3);
 	
 	// Lift

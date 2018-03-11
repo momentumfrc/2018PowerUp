@@ -235,43 +235,11 @@ public class PIDFactory {
 		savePID(pid, BASE + SLOW_LIFT_FILE);
 	}
 	
-	static class PIDEncoderTicks implements PIDSource {
-		
-		private Encoder encoder;
-		
-		private PIDSourceType m_sourcetype = PIDSourceType.kDisplacement;
-		
-		public PIDEncoderTicks(Encoder encoder) {
-			this.encoder = encoder;
-		}
-
-		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
-			m_sourcetype = pidSource;
-		}
-
-		@Override
-		public PIDSourceType getPIDSourceType() {
-			return m_sourcetype;
-		}
-
-		@Override
-		public double pidGet() {
-			switch(m_sourcetype) {
-			case kRate:
-				return encoder.getRate() / encoder.getDistancePerPulse();
-			case kDisplacement:
-			default:
-				return encoder.get();
-			}
-		}
-		
-	}
-	
 	public static MomentumPID getElbowPID() {
 		MomentumPID ret;
 		String path = BASE + ELBOW_FILE;
-		PIDSource source = new PIDEncoderTicks(RobotMap.elbowEncoder);
+		PIDSource source = RobotMap.elbowEncoder;
+		source.setPIDSourceType(PIDSourceType.kDisplacement);
 		ret = loadPID(path, source, null);
 		ret.setListener(()->saveElbowPID(ret));
 		addToCalculator(ret);

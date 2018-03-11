@@ -8,13 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Hunt extends Command {
+public class Hold extends Command {
 	
 	Intake intake = Robot.intake;
-
-
-    public Hunt() {
-    	requires(intake);
+	
+    public Hold() {
+        requires(intake);
     }
 
     // Called just before this Command runs the first time
@@ -23,12 +22,12 @@ public class Hunt extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	intake.hunt();
+    	intake.hold();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return !intake.checkHeld();
     }
 
     // Called once after isFinished returns true

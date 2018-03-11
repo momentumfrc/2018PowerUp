@@ -8,12 +8,15 @@
 package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.commands.*;
+import org.usfirst.frc.team4999.commands.cubemanager.CubeManager;
+import org.usfirst.frc.team4999.commands.cubemanager.Hunt;
 import org.usfirst.frc.team4999.commands.elbow.*;
 import org.usfirst.frc.team4999.commands.intake.*;
 import org.usfirst.frc.team4999.commands.lift.*;
 import org.usfirst.frc.team4999.triggers.*;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -49,22 +52,49 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	Trigger failsafeDrive = new FailsafeDrive();
-	Trigger failsafeElbow = new FailsafeElbow();
+	
+	
+	Trigger failsafeCubes = new FailsafeCubesTrigger();
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
-	Trigger hunt = new HuntTrigger();
-	Trigger shoot = new ShootTrigger();
+	ToggleTrigger hunt = new IntakeTrigger();
+	ToggleTrigger shoot = new ShootTrigger();
+	CubeManagerTrigger cubeManager = new CubeManagerTrigger();
 	
 	public OI() {
 		failsafeDrive.whenActive(new DriveNoPID());
-		failsafeElbow.whenActive(new ElbowNoPID());
+		
+		failsafeCubes.whenActive(new FailsafeCubes());
 		driveOvercurrent.whenActive(new KillDrive());
 		liftOvercurrent.whenActive(new KillLift());
 		
+		cubeManager.whenActive(new CubeManager(cubeManager));
+		
 		hunt.whenActive(new Hunt());
-		hunt.whenInactive(new Grab());
+		hunt.whenInactive(new GrabAndHold());
+		hunt.disable();
 		
 		shoot.whenActive(new Shoot());
+		shoot.disable();
 		
 	}
+	
+	public void disableCubeManager() {
+		cubeManager.disable();
+		
+		hunt.enable();
+		shoot.enable();
+		(new TeleopLift()).start();
+		(new ElbowNoPID()).start();
+	}
+	
+	public void enableCubeManager() {
+		Robot.lift.getCurrentCommand().cancel();
+		Robot.elbow.getCurrentCommand().cancel();
+		cubeManager.enable();
+		
+		hunt.disable();
+		shoot.disable();
+	}
+	
 }

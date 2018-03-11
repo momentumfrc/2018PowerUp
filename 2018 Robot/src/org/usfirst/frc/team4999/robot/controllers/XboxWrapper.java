@@ -25,16 +25,16 @@ public class XboxWrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = xbox.getY(XboxController.Hand.kLeft);
-    	moveRequest = deadzone(moveRequest, DEADZONE);
-    	moveRequest = curve(moveRequest, MOVE_CURVE);
+    	moveRequest = Utils.deadzone(moveRequest, DEADZONE);
+    	moveRequest = Utils.curve(moveRequest, MOVE_CURVE);
     	return moveRequest;
 	}
 
 	@Override
 	public double getTurnRequest() {
 		double turnRequest = RobotMap.xbox.getX(XboxController.Hand.kRight);
-    	turnRequest = deadzone(turnRequest, DEADZONE);
-    	turnRequest = curve(turnRequest, TURN_CURVE);
+    	turnRequest = Utils.deadzone(turnRequest, DEADZONE);
+    	turnRequest = Utils.curve(turnRequest, TURN_CURVE);
     	return turnRequest;
 	}
 
@@ -55,7 +55,7 @@ public class XboxWrapper extends DriveController {
 	}
 	
 	@Override
-	public boolean getFailsafeElbow() {
+	public boolean getFailsafeCubes() {
 		return xbox.getBackButton();
 	}
 
@@ -64,6 +64,42 @@ public class XboxWrapper extends DriveController {
 		return xbox.getStartButton();
 	}
 	
+	@Override
+	public int getCubeManagerButton() {
+		if(xbox.getBumperPressed(Hand.kRight))
+			return 1;
+		else if(xbox.getBumperReleased(Hand.kRight))
+			return 2;
+		
+		switch(xbox.getPOV()) {
+		case 0:
+			return 3;
+		case 180:
+			return 4;
+		}
+		
+		if(xbox.getBumperPressed(Hand.kLeft))
+			return 5;
+		
+		return 0;
+	}
+
+	@Override
+	public boolean getIntake() {
+		return xbox.getBumper(Hand.kRight);
+	}
+
+	@Override
+	public boolean getShoot() {
+		return xbox.getBumper(Hand.kLeft);
+	}
+
+	@Override
+	public double getElbowSpeed() {
+		double val = -Utils.deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + Utils.deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
+		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
+	}
+
 	@Override
 	public double getLiftPosition() {
 		double[] values = LiftPosition.values();
@@ -79,22 +115,6 @@ public class XboxWrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
-	}
-
-	@Override
-	public boolean getHunt() {
-		return xbox.getBumper(Hand.kRight);
-	}
-
-	@Override
-	public boolean getShoot() {
-		return xbox.getBumper(Hand.kLeft);
-	}
-
-	@Override
-	public double getElbowSpeed() {
-		double val = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
-		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
 
 }

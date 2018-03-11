@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 	public static AutoModeChooser target = new AutoModeChooser();
 	
 	private Command autoCommand;
-
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 
 		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
+		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getElbowEncTicks());
 	}
 
 	/**
@@ -139,10 +140,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		Scheduler.getInstance().removeAll();
 		DriveTiltPID driveCommand = new DriveTiltPID();
-		TeleopElbowPID elbowCommand = new TeleopElbowPID();
 		driveCommand.start();
-		elbowCommand.start();
 	}
 
 	/**

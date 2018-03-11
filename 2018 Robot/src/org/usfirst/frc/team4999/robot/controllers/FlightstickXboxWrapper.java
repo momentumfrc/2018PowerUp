@@ -25,16 +25,16 @@ public class FlightstickXboxWrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = -flightStick.getY();
-    	moveRequest = deadzone(moveRequest, DEADZONE);
-    	moveRequest = curve(moveRequest, MOVE_CURVE);
+    	moveRequest = Utils.deadzone(moveRequest, DEADZONE);
+    	moveRequest = Utils.curve(moveRequest, MOVE_CURVE);
     	return moveRequest;
 	}
 
 	@Override
 	public double getTurnRequest() {
 		double turnRequest = flightStick.getTwist();
-    	turnRequest = deadzone(turnRequest, DEADZONE);
-    	turnRequest = curve(turnRequest, TURN_CURVE);
+    	turnRequest = Utils.deadzone(turnRequest, DEADZONE);
+    	turnRequest = Utils.curve(turnRequest, TURN_CURVE);
     	return turnRequest;
 	}
 
@@ -72,12 +72,12 @@ public class FlightstickXboxWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getFailsafeElbow() {
+	public boolean getFailsafeCubes() {
 		return xbox.getBackButton();
 	}
 
 	@Override
-	public boolean getHunt() {
+	public boolean getIntake() {
 		return xbox.getBumper(Hand.kRight);
 	}
 
@@ -88,8 +88,13 @@ public class FlightstickXboxWrapper extends DriveController {
 
 	@Override
 	public double getElbowSpeed() {
-		double val = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
+		double val = -Utils.deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + Utils.deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
 		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
+	}
+
+	@Override
+	public int getCubeManagerButton() {
+		return 0;
 	}
 
 }

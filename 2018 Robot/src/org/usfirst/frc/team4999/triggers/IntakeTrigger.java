@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 /**
  *
  */
-public class ShootTrigger extends ToggleTrigger {
+public class IntakeTrigger extends ToggleTrigger {
 
 	@Override
     public boolean getTrigger() {
-        return Robot.controlChooser.getSelected().getShoot();
+        return Robot.controlChooser.getSelected().getIntake();
     }
 }

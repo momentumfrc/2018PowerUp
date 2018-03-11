@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 /**
  *
  */
-public class FailsafeElbow extends Trigger {
+public class FailsafeCubesTrigger extends Trigger {
 
     public boolean get() {
-        return Robot.controlChooser.getSelected().getFailsafeElbow();
+        return Robot.controlChooser.getSelected().getFailsafeCubes();
     }
 }

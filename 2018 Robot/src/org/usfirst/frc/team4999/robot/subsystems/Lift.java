@@ -35,6 +35,9 @@ public class Lift extends Subsystem {
 		fastLiftPID = PIDFactory.getFastLiftPID();
 		currentLiftPID = slowLiftPID;
 		
+		addChild(slowLiftPID);
+		addChild(fastLiftPID);
+		
 	}
 	
 	public boolean isBraked() {

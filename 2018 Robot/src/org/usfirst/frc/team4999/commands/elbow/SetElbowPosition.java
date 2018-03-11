@@ -12,9 +12,9 @@ public class SetElbowPosition extends Command {
 
 	private Elbow elbow = Robot.elbow;
 	
-	private int pos;
+	private double pos;
 	
-    public SetElbowPosition(int newPos) {
+    public SetElbowPosition(double newPos) {
     	this.pos = newPos;
     	requires(elbow);
     }

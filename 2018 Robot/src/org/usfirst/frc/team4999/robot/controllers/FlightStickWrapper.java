@@ -4,6 +4,7 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class FlightStickWrapper extends DriveController {
 	
@@ -22,16 +23,16 @@ public class FlightStickWrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = -flightStick.getY();
-    	moveRequest = deadzone(moveRequest, DEADZONE);
-    	moveRequest = curve(moveRequest, MOVE_CURVE);
+    	moveRequest = Utils.deadzone(moveRequest, DEADZONE);
+    	moveRequest = Utils.curve(moveRequest, MOVE_CURVE);
     	return moveRequest;
 	}
 
 	@Override
 	public double getTurnRequest() {
 		double turnRequest = flightStick.getTwist();
-    	turnRequest = deadzone(turnRequest, DEADZONE);
-    	turnRequest = curve(turnRequest, TURN_CURVE);
+    	turnRequest = Utils.deadzone(turnRequest, DEADZONE);
+    	turnRequest = Utils.curve(turnRequest, TURN_CURVE);
     	return turnRequest;
 	}
 
@@ -51,8 +52,48 @@ public class FlightStickWrapper extends DriveController {
 	}
 	
 	@Override
-	public boolean getFailsafeElbow() {
+	public boolean getFailsafeCubes() {
 		return flightStick.getRawButton(8);
+	}
+
+	@Override
+	public int getCubeManagerButton() {
+		if(flightStick.getRawButtonPressed(3))
+			return 1;
+		else if(flightStick.getRawButtonReleased(3))
+			return 2;
+		
+		switch(flightStick.getPOV()) {
+		case 0:
+			return 3;
+		case 180:
+			return 4;
+		}
+		
+		if(flightStick.getRawButtonPressed(4))
+			return 5;
+		
+		return 0;
+	}
+
+	@Override
+	public boolean getIntake() {
+		return flightStick.getRawButton(3);
+	}
+
+	@Override
+	public boolean getShoot() {
+		return flightStick.getRawButton(4);
+	}
+
+	@Override
+	public double getElbowSpeed() {
+		if(flightStick.getRawButton(5))
+			return ELBOW_SPEED;
+		else if(flightStick.getRawButton(6))
+			return -ELBOW_SPEED;
+		else
+			return 0;
 	}
 
 	@Override
@@ -70,26 +111,6 @@ public class FlightStickWrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
-	}
-
-	@Override
-	public boolean getHunt() {
-		return flightStick.getRawButton(3);
-	}
-
-	@Override
-	public boolean getShoot() {
-		return flightStick.getRawButton(4);
-	}
-
-	@Override
-	public double getElbowSpeed() {
-		if(flightStick.getRawButton(5))
-			return ELBOW_SPEED;
-		else if(flightStick.getRawButton(6))
-			return -ELBOW_SPEED;
-		else
-			return 0;
 	}
 
 	
