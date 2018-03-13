@@ -103,5 +103,10 @@ public class F310XboxWrapper extends DriveController {
 	public int getCubeManagerButton() {
 		return 0;
 	}
+	
+	@Override
+	public boolean climb() {
+		return f310.getBumper(Hand.kRight);
+	}
 
 }

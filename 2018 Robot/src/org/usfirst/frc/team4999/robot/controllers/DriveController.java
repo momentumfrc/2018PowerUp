@@ -66,4 +66,6 @@ public abstract class DriveController {
 	 */
 	abstract public int getCubeManagerButton();
 	
+	abstract public boolean climb();
+	
 }

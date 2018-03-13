@@ -94,8 +94,16 @@ public class Robot extends TimedRobot {
 		if(fieldPos.length() >= 2) {
 			switchPos = posFromChar(fieldPos.charAt(0));
 			scalePos = posFromChar(fieldPos.charAt(1));
+			if(switchPos == null || scalePos == null) {
+				System.out.format("Recieved invalid data from FMS: \"%s\"\n", fieldPos);
+				autoCommand = new TimeBasedFallback();
+				autoCommand.start();
+				return;
+			}
 		} else {
 			System.out.format("Recieved invalid data from FMS: \"%s\"\n", fieldPos);
+			autoCommand = new TimeBasedFallback();
+			autoCommand.start();
 			return;
 		}
 		
@@ -127,7 +135,7 @@ public class Robot extends TimedRobot {
 			return TargetPosition.RIGHT;
 		else
 			System.out.format("Recieved invalid input \"%c\"\n", pos);
-		return TargetPosition.LEFT;
+		return null;
 	}
 
 	/**

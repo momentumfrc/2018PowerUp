@@ -113,6 +113,11 @@ public class FlightStickWrapper extends DriveController {
 		return values[currentPos];
 	}
 
+	@Override
+	public boolean climb() {
+		return flightStick.getRawButton(12);
+	}
+
 	
 	
 	

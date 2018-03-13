@@ -60,6 +60,8 @@ public class OI {
 	ToggleTrigger hunt = new IntakeTrigger();
 	ToggleTrigger shoot = new ShootTrigger();
 	CubeManagerTrigger cubeManager = new CubeManagerTrigger();
+	Trigger climb = new ClimbTrigger();
+	
 	
 	public OI() {
 		failsafeDrive.whenActive(new DriveNoPID());
@@ -67,6 +69,9 @@ public class OI {
 		failsafeCubes.whenActive(new FailsafeCubes());
 		driveOvercurrent.whenActive(new KillDrive());
 		liftOvercurrent.whenActive(new KillLift());
+		
+		climb.whenActive(new PrepareClimb());
+		climb.whenInactive(new SetLiftHeight(0, false));
 		
 		cubeManager.whenActive(new CubeManager(cubeManager));
 		

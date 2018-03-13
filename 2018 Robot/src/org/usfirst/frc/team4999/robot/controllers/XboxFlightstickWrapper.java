@@ -5,6 +5,7 @@ import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class XboxFlightstickWrapper extends DriveController {
 	
@@ -105,6 +106,11 @@ public class XboxFlightstickWrapper extends DriveController {
 	@Override
 	public int getCubeManagerButton() {
 		return 0;
+	}
+
+	@Override
+	public boolean climb() {
+		return xbox.getBumper(Hand.kRight);
 	}
 
 }

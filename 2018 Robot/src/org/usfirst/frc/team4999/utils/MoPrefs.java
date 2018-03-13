@@ -15,6 +15,7 @@ public class MoPrefs {
 	private static final double MAX_LIFT_HEIGHT = 2; 			// Maximum height of the lift in meters
 	private static final int 	MAX_ELBOW_ROTATION = 100;		// Maximum encoder ticks the elbow can displace
 	private static final double ELBOW_ENC_TICKS = 0.0194;		// Encoder ticks per degree
+	private static final double CLIMB_HEIGHT = 2.2;				// Height (in meters) the lift should go to when climbing
 	
 	
 	private static void checkDouble(String key, double def) {
@@ -63,6 +64,10 @@ public class MoPrefs {
 	public static double getElbowEncTicks() {
 		checkDouble("ELBOW_ENC_TICKS", ELBOW_ENC_TICKS);
 		return prefs.getDouble("ELBOW_ENC_TICKS", ELBOW_ENC_TICKS);
+	}
+	public static double getClimbHeight() {
+		checkDouble("CLIMB_HEIGHT", CLIMB_HEIGHT);
+		return prefs.getDouble("CLIMB_HEIGHT", CLIMB_HEIGHT);
 	}
 	
 

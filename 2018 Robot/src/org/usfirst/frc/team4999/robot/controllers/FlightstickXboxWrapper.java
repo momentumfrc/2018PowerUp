@@ -97,4 +97,9 @@ public class FlightstickXboxWrapper extends DriveController {
 		return 0;
 	}
 
+	@Override
+	public boolean climb() {
+		return flightStick.getRawButton(12);
+	}
+
 }
