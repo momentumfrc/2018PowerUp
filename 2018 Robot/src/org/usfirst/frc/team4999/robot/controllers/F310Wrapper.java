@@ -96,12 +96,12 @@ public class F310Wrapper extends DriveController {
 
 	@Override
 	public boolean getIntake() {
-		return false;
+		return logitech.getBumper(Hand.kRight);
 	}
 
 	@Override
 	public boolean getShoot() {
-		return false;
+		return logitech.getBumper(Hand.kLeft);
 	}
 
 	@Override

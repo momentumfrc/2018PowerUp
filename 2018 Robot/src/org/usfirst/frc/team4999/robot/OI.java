@@ -75,7 +75,7 @@ public class OI {
 		
 		cubeManager.whenActive(new CubeManager(cubeManager));
 		
-		hunt.whenActive(new Hunt());
+		hunt.whenActive(new IntakeOpen());
 		hunt.whenInactive(new GrabAndHold());
 		hunt.disable();
 		

@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 
 		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
-		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getElbowEncTicks());
+		RobotMap.elbowEncoder.setDistancePerPulse(1/MoPrefs.getElbowEncTicks());
 	}
 
 	/**

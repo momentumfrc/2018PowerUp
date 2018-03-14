@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
@@ -71,7 +72,7 @@ public class PIDFactory {
 		saveFile(props, path);
 	}
 	
-	private static MomentumPID loadPID(String path, PIDSource source, PIDOutput output) {
+	private static MomentumPID loadPID(String name, String path, PIDSource source, PIDOutput output) {
 		MomentumPID ret;
 		if(checkFile(path)) {
 			Properties props = openFile(path);
@@ -81,7 +82,7 @@ public class PIDFactory {
 			double errZone = Double.parseDouble(props.getProperty("Error Zone", DEFAULT_ERR_ZONE));
 			double targetZone = Double.parseDouble(props.getProperty("Target Zone", DEFAULT_TARGET_ZONE));
 			double targetTime = Double.parseDouble(props.getProperty("Target Time", DEFAULT_TARGET_TIME));
-			ret = new MomentumPID("MovePID",p,i,d,errZone,targetZone,source, output);
+			ret = new MomentumPID(name,p,i,d,errZone,targetZone,source, output);
 			ret.setTargetTime(targetTime);
 		} else {
 			double p = Double.parseDouble(DEFAULT_P);
@@ -90,7 +91,7 @@ public class PIDFactory {
 			double errZone = Double.parseDouble(DEFAULT_ERR_ZONE);
 			double targetZone = Double.parseDouble(DEFAULT_TARGET_ZONE);
 			double targetTime = Double.parseDouble(DEFAULT_TARGET_TIME);
-			ret = new MomentumPID("MovePID",p,i,d,errZone,targetZone,source, output);
+			ret = new MomentumPID(name,p,i,d,errZone,targetZone,source, output);
 			ret.setTargetTime(targetTime);
 		}
 		return ret;
@@ -148,13 +149,14 @@ public class PIDFactory {
 		public PIDSourceType getPIDSourceType() {
 			return type;
 		}
-
+		
 		@Override
 		public double pidGet() {
 			double angle = RobotMap.gyro.getPitch();
 			if(RobotMap.gyro.currentSensor() == Sensor.ADIS)
 				angle = 0;
 			double tiltRange = MoPrefs.getTiltRange();
+			//System.out.format("Range:%.2f Angle:%.2f\n", tiltRange, angle);
 			if(angle > tiltRange)
 				return angle - tiltRange;
 			else if(angle < -tiltRange)
@@ -171,7 +173,7 @@ public class PIDFactory {
 		//PIDSource source = new AverageEncoder(RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
 		PIDSource source = RobotMap.leftDriveEncoder;
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
-		ret = loadPID(path, source, null);
+		ret = loadPID("MovePID",path, source, null);
 		ret.setListener(()->saveMovePID(ret));
 		addToCalculator(ret);
 		return ret;
@@ -185,7 +187,7 @@ public class PIDFactory {
 		String path = BASE + TURN_FILE;
 		PIDSource source = new GyroFusion();
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
-		ret = loadPID(path, source, null);
+		ret = loadPID("TurnPID",path, source, null);
 		ret.setListener(()->saveTurnPID(ret));
 		addToCalculator(ret);
 		return ret;
@@ -199,7 +201,7 @@ public class PIDFactory {
 		MomentumPID ret;
 		String path = BASE + TILT_FILE;
 		PIDSource source = new GyroPitch();
-		ret = loadPID(path, source, null);
+		ret = loadPID("TiltPID",path, source, null);
 		ret.setListener(()->saveTiltPID(ret));
 		addToCalculator(ret);
 		return ret;
@@ -213,7 +215,7 @@ public class PIDFactory {
 		String path = BASE + FAST_LIFT_FILE;
 		PIDSource source = RobotMap.liftEncoder;
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
-		ret = loadPID(path, source, null);
+		ret = loadPID("FastLiftPID",path, source, null);
 		ret.setListener(()->saveFastLiftPID(ret));
 		addToCalculator(ret);
 		return ret;
@@ -226,7 +228,7 @@ public class PIDFactory {
 		String path = BASE + SLOW_LIFT_FILE;
 		PIDSource source = RobotMap.liftEncoder;
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
-		ret = loadPID(path, source, null);
+		ret = loadPID("SlowLiftPID",path, source, null);
 		ret.setListener(()->saveSlowLiftPID(ret));
 		addToCalculator(ret);
 		return ret;
@@ -240,7 +242,7 @@ public class PIDFactory {
 		String path = BASE + ELBOW_FILE;
 		PIDSource source = RobotMap.elbowEncoder;
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
-		ret = loadPID(path, source, null);
+		ret = loadPID("ElbowPID",path, source, null);
 		ret.setListener(()->saveElbowPID(ret));
 		addToCalculator(ret);
 		return ret;

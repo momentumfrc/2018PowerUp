@@ -22,7 +22,7 @@ public class CubeManager extends InstantCommand {
 		AIM_SCALE_HIGH
 	};
 
-	private static State currentState;
+	private static State currentState = State.STOW;
 	
 	private CubeManagerTrigger buttonGetter;
 	

@@ -28,7 +28,7 @@ public class XboxWrapper extends DriveController {
 	private Timer climbTimer = new Timer();
 	
 	public XboxWrapper() {
-		climbTimer.reset();
+		climbTimer.start();
 	}
 
 	@Override

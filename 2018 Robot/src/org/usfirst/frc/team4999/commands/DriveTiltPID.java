@@ -23,6 +23,7 @@ public class DriveTiltPID extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	drive.pitchPID.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run

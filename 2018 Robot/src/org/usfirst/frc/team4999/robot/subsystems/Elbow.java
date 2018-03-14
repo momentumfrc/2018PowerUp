@@ -65,7 +65,7 @@ public class Elbow extends Subsystem {
     		elbow.set(0);
     		return true;
     	} else {
-    		elbow.set(ZERO_SPEED);
+    		elbow.set(-ZERO_SPEED);
     		return false;
     	}
     }
