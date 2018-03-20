@@ -75,21 +75,28 @@ public class XboxWrapper extends DriveController {
 	
 	@Override
 	public int getCubeManagerButton() {
-		if(xbox.getBumperPressed(Hand.kRight))
+		if(xbox.getAButtonPressed())
 			return 1;
-		else if(xbox.getBumperReleased(Hand.kRight))
+		else if(xbox.getAButtonReleased())
 			return 2;
 		
 		switch(xbox.getPOV()) {
+		case 315:
+		case 45:
 		case 0:
 			return 3;
+		case 135:
+		case 225:
 		case 180:
 			return 4;
 		}
 		
 		if(xbox.getBumperPressed(Hand.kLeft))
 			return 5;
-		
+		if(xbox.getTriggerAxis(Hand.kLeft) >= 0.9) 
+			return 6;
+		if(xbox.getXButtonPressed())
+			return 7;
 		return 0;
 	}
 
@@ -117,9 +124,9 @@ public class XboxWrapper extends DriveController {
 			povHeld = false;
 		} else if(!povHeld) {
 			povHeld = true;
-			if(pov == 0 && currentPos < values.length-1) {
+			if((pov == 0 || pov == 315 || pov == 45) && currentPos < values.length-1) {
 				currentPos++;
-			} else if(pov == 180 && currentPos > 0) {
+			} else if((pov == 180 || pov == 135 || pov == 180) && currentPos > 0) {
 				currentPos--;
 			}
 		}
