@@ -11,18 +11,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class Hunt extends CommandGroup {
-	
-	private static final double HUNT_ANGLE = 90;
-	
-	class SetLiftAndElbow extends CommandGroup {
-		public SetLiftAndElbow() {
-			addParallel(new SetLiftHeight(LiftPosition.GROUND, true));
-	        addParallel(new SetElbowPosition(HUNT_ANGLE));
-		}
-	}
 
-    public Hunt() {
-    	addSequential(new SetLiftAndElbow());
+    public Hunt(double lift, double elbow) {
+    	addSequential(new SetLiftAndElbow(lift, elbow));
     	addSequential(new IntakeOpen());
     }
 }

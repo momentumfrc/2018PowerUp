@@ -151,6 +151,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
 		DriveTiltPID driveCommand = new DriveTiltPID();
 		driveCommand.start();
+		new ZeroElbow().start();
 	}
 
 	/**
@@ -163,6 +164,8 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putData(RobotMap.pdp);
 		
+		System.out.format("Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
+		
 		//System.out.format("Connected:%b Pitch:%.2f Roll:%.2f Yaw:%.2f ", RobotMap.vmx.isConnected(), RobotMap.vmx.getPitch(), RobotMap.vmx.getRoll(), RobotMap.vmx.getYaw());
 		
 		//System.out.format("Angle: %.2f Sensor:%s Dist:%.2fm Rate:%.2fm/s\n", RobotMap.gyro.getAngle(), (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX", RobotMap.leftDriveEncoder.getDistance(), RobotMap.leftDriveEncoder.getRate());
@@ -173,12 +176,17 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
+		
 	}
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
+		
+		elbow.drivePID();
+		
+		//System.out.format("Accel X:%.2f Y:%.2f Z:%.2f\n", RobotMap.vmx.getWorldLinearAccelX(),RobotMap.vmx.getWorldLinearAccelY(),RobotMap.vmx.getWorldLinearAccelZ());
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());
 		
 		/*Robot.driveSystem.driveDisplacementPID();

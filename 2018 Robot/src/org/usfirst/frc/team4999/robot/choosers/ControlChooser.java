@@ -14,7 +14,8 @@ public class ControlChooser extends SendableChooser<DriveController> {
 		addDefault("Flight Stick", new FlightStickWrapper());
 		addObject("Xbox Controller", new XboxWrapper());
 		addObject("Logitech F310", new F310Wrapper());
-		addObject("F310 and Xbox", new F310XboxWrapper());
+		addObject("F310 drive, Xbox intake", new F310XboxWrapper());
+		addObject("Xbox drive, F310 intake", new XboxF310Wrapper());
 		addObject("Flightstick drive, Xbox intake", new FlightstickXboxWrapper());
 		addObject("Xbox drive, Flightstick intake", new XboxFlightstickWrapper());
 		

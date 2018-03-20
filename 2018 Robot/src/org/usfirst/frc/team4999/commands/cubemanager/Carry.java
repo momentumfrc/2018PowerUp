@@ -13,9 +13,9 @@ public class Carry extends CommandGroup {
 	
 	private static final double CARRY_ANGLE = 10;
 
-    public Carry() {
+    public Carry(double lift, double elbow) {
     	addSequential(new Grab());
-    	addParallel(new SetElbowPosition(CARRY_ANGLE));
+    	addParallel(new SetLiftAndElbow(lift, elbow));
     	addSequential(new Hold());
     }
 }
