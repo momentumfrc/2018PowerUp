@@ -24,23 +24,6 @@ public class DriveTiltPID extends Command {
     }
 
     
-    private boolean active = false;
-    private PDPWrapper pdp = new PDPWrapper();
-    private boolean getOvercurrentFirst() {
-    	if(pdp.checkOvercurrent(new int[] {RobotMap.LB_DRIVE_MOTOR_PDP, RobotMap.LF_DRIVE_MOTOR_PDP, RobotMap.RB_DRIVE_MOTOR_PDP, RobotMap.RF_DRIVE_MOTOR_PDP}, RobotMap.DRIVE_CUTOFF_CURRENT, RobotMap.DRIVE_CUTOFF_TIME)) {
-    		if(!active) {
-    			active = true;
-    			return true;
-    		} else {
-    			return false;
-    		}
-    	} else {
-    		active = false;
-    		return false;
-    	}
-    }
-    
-    
     // Called just before this Command runs the first time
     protected void initialize() {
     	drive.pitchPID.enable();
@@ -49,7 +32,7 @@ public class DriveTiltPID extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	DriveController controller = chooser.getSelected();
-    	if(controller.getReverseDirection() || getOvercurrentFirst())
+    	if(controller.getReverseDirection())
     		reversed = !reversed;
     	drive.arcadeDriveTilt((reversed)?-controller.getMoveRequest():controller.getMoveRequest(), controller.getTurnRequest(), controller.getSpeedLimiter());
     }

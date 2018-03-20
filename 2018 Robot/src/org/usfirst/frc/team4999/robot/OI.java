@@ -67,7 +67,7 @@ public class OI {
 		failsafeDrive.whenActive(new DriveNoPID());
 		
 		failsafeCubes.whenActive(new FailsafeCubes());
-		driveOvercurrent.whenActive(new KillDrive());
+		driveOvercurrent.whenActive(new DriveOvercurrentDetect(driveOvercurrent));
 		liftOvercurrent.whenActive(new KillLift());
 		
 		climb.whenActive(new PrepareClimb());

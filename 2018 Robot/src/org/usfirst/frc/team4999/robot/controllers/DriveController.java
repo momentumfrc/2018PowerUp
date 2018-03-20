@@ -68,4 +68,7 @@ public abstract class DriveController {
 	
 	abstract public boolean climb();
 	
+	public void vibrate(double intensity) {
+	}
+	
 }

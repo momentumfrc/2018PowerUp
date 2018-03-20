@@ -4,6 +4,7 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -141,6 +142,11 @@ public class XboxWrapper extends DriveController {
 			climbTimer.reset();
 			return false;
 		}
+	}
+	
+	@Override
+	public void vibrate(double intensity) {
+		xbox.setRumble(RumbleType.kLeftRumble, intensity);
 	}
 
 }
