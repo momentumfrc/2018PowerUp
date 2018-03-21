@@ -15,6 +15,8 @@ public class FlightStickWrapper extends DriveController {
 	
 	private static final double DEADZONE = 0.1;
 	
+	private static final double LIFT_SPEED = 0.8;
+	
 	private static final double ELBOW_SPEED = 0.4;
 	
 	private int currentPos = 0;
@@ -111,6 +113,17 @@ public class FlightStickWrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
+	}
+	
+	@Override
+	public double getLiftSpeed() {
+		int pov = flightStick.getPOV();
+		if(pov == 315 || pov == 0 || pov == 45)
+			return LIFT_SPEED;
+		else if(pov == 135 || pov == 180 || pov == 225)
+			return -LIFT_SPEED;
+		else
+			return 0;
 	}
 
 	@Override

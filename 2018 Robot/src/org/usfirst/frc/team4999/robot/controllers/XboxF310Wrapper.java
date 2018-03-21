@@ -6,6 +6,7 @@ import org.usfirst.frc.team4999.utils.Utils;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 public class XboxF310Wrapper extends DriveController {
 
@@ -20,6 +21,8 @@ public class XboxF310Wrapper extends DriveController {
 	
 	private static final double[] SPEEDS = {0.2, 0.4, 0.6, 0.8, 1};
 	private int currentSpeed = SPEEDS.length - 1;
+	
+	private static final double LIFT_SPEED = 0.8;
 	
 	private static final double CLIMB_HOLD_TIME = 2;
 	
@@ -76,12 +79,12 @@ public class XboxF310Wrapper extends DriveController {
 
 	@Override
 	public boolean getIntake() {
-		return logitech.getBumper(Hand.kRight);
+		return logitech.getBumper(Hand.kLeft);
 	}
 
 	@Override
 	public boolean getShoot() {
-		return logitech.getBumper(Hand.kLeft);
+		return logitech.getBumper(Hand.kRight);
 	}
 
 	@Override
@@ -106,6 +109,17 @@ public class XboxF310Wrapper extends DriveController {
 		}
 		return values[currentPos];
 	}
+	
+	@Override
+	public double getLiftSpeed() {
+		int pov = xbox.getPOV();
+		if(pov == 315 || pov == 0 || pov == 45)
+			return LIFT_SPEED;
+		else if(pov == 135 || pov == 180 || pov == 225)
+			return -LIFT_SPEED;
+		else
+			return 0;
+	}
 
 	@Override
 	public int getCubeManagerButton() {
@@ -120,6 +134,16 @@ public class XboxF310Wrapper extends DriveController {
 			climbTimer.reset();
 			return false;
 		}
+	}
+	
+	@Override
+	public void vibrate(double intensity) {
+		xbox.setRumble(RumbleType.kLeftRumble, intensity);
+	}
+	
+	@Override
+	public boolean useCubeManager() {
+		return false;
 	}
 
 }

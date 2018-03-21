@@ -26,6 +26,8 @@ public class XboxWrapper extends DriveController {
 	private int currentPos = 0;
 	private boolean povHeld = false;
 	
+	private static final double LIFT_SPEED = 0.8;
+	
 	private Timer climbTimer = new Timer();
 	
 	public XboxWrapper() {
@@ -132,6 +134,17 @@ public class XboxWrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
+	}
+	
+	@Override
+	public double getLiftSpeed() {
+		int pov = xbox.getPOV();
+		if(pov == 315 || pov == 0 || pov == 45)
+			return LIFT_SPEED;
+		else if(pov == 135 || pov == 180 || pov == 225)
+			return -LIFT_SPEED;
+		else
+			return 0;
 	}
 
 	@Override

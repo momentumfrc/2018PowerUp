@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4999.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
 import org.usfirst.frc.team4999.commands.elbow.TeleopElbowPID;
+import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleop;
 import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.robot.choosers.*;
@@ -60,6 +62,10 @@ public class Robot extends TimedRobot {
 		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
 		RobotMap.elbowEncoder.setDistancePerPulse(1/MoPrefs.getElbowEncTicks());
+		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
+		
+		CameraServer.getInstance().startAutomaticCapture();
+		
 	}
 
 	/**
@@ -151,7 +157,9 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
 		DriveTiltPID driveCommand = new DriveTiltPID();
 		driveCommand.start();
-		new ZeroElbow().start();
+		new ZeroAndTeleop().start();
+		if(!controlChooser.getSelected().useCubeManager())
+			m_oi.disableCubeManager();
 	}
 
 	/**

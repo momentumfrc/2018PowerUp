@@ -22,7 +22,6 @@ public class Lift extends Subsystem {
 	
 	private SpeedControllerGroup motors = RobotMap.liftMotors;
 	private DoubleSolenoid shifter = RobotMap.liftShifter;
-	private DoubleSolenoid brake = RobotMap.liftBrake;
 	
 	private Encoder encoder = RobotMap.liftEncoder;
 	
@@ -40,16 +39,6 @@ public class Lift extends Subsystem {
 		
 	}
 	
-	public boolean isBraked() {
-		return brake.get() == DoubleSolenoid.Value.kForward;
-	}
-	
-	public void brake() {
-		brake.set(DoubleSolenoid.Value.kForward);
-	}
-	public void releaseBrake() {
-		brake.set(DoubleSolenoid.Value.kReverse);
-	}
 	
 	public boolean isHighSpeed() {
 		return shifter.get() == DoubleSolenoid.Value.kForward;
@@ -64,7 +53,7 @@ public class Lift extends Subsystem {
 	}
 	
 	public void driveLiftPID() {
-		if(currentLiftPID.isEnabled() && !isBraked())
+		if(currentLiftPID.isEnabled())
 			set(currentLiftPID.get());
 		else
 			set(0);

@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elbow extends Subsystem {
 	
-	private static final int MIN_POS = 0;
+	private static final int MIN_POS = 150;
 	
-	private static final double ZERO_SPEED = 0.2;
-	private static final double ZERO_CUTOFF_CURRENT = 10; // amperes
+	private static final double ZERO_SPEED = 0.4;
+	private static final double ZERO_CUTOFF_CURRENT = 3; // amperes
 	private static final int ZERO_CUTOFF_TIME = 500; // ms
 	
 	private PDPWrapper pdp = new PDPWrapper();

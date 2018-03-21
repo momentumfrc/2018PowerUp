@@ -53,6 +53,7 @@ public abstract class DriveController {
 	abstract public double getElbowSpeed();
 	
 	abstract public double getLiftPosition();
+	abstract public double getLiftSpeed();
 	
 	/**
 	 * Gets input to send to cube manager
@@ -67,6 +68,10 @@ public abstract class DriveController {
 	abstract public int getCubeManagerButton();
 	
 	abstract public boolean climb();
+	
+	public boolean useCubeManager() {
+		return true;
+	}
 	
 	public void vibrate(double intensity) {
 	}

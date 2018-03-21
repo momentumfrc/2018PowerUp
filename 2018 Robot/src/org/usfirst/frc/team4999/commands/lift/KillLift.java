@@ -22,7 +22,6 @@ public class KillLift extends InstantCommand {
     protected void initialize() {
     	lift.disablePID();
     	lift.set(0);
-    	lift.brake();
     }
 
 }

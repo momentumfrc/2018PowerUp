@@ -14,6 +14,8 @@ public class F310XboxWrapper extends DriveController {
 	private static final double MOVE_CURVE = 2;
 	private static final double TURN_CURVE = 1;
 	
+	private static final double LIFT_SPEED = 0.8;
+	
 	private static final double DEADZONE = 0.05;
 	
 	private static final double MAX_CLAW_SPEED = 0.4;
@@ -76,6 +78,17 @@ public class F310XboxWrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
+	}
+	
+	@Override
+	public double getLiftSpeed() {
+		int pov = f310.getPOV();
+		if(pov == 315 || pov == 0 || pov == 45)
+			return LIFT_SPEED;
+		else if(pov == 135 || pov == 180 || pov == 225)
+			return -LIFT_SPEED;
+		else
+			return 0;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.usfirst.frc.team4999.commands.cubemanager;
 import org.usfirst.frc.team4999.commands.elbow.TeleopElbowPID;
 import org.usfirst.frc.team4999.commands.intake.Drop;
 import org.usfirst.frc.team4999.commands.intake.Shoot;
+import org.usfirst.frc.team4999.commands.lift.ManualLift;
 import org.usfirst.frc.team4999.commands.lift.TeleopLift;
 import org.usfirst.frc.team4999.robot.controllers.LiftPosition;
 import org.usfirst.frc.team4999.triggers.CubeManagerTrigger;
@@ -81,7 +82,7 @@ public class CubeManager extends InstantCommand {
     			system = SystemState.MANUAL_LOWER;
     			lift = LiftState.UNKNOWN;
     			elbow = ElbowState.UNKNOWN;
-    			(new TeleopLift()).start();
+    			(new ManualLift()).start();
     			(new TeleopElbowPID()).start();
     		}
     		break;
@@ -105,7 +106,7 @@ public class CubeManager extends InstantCommand {
     			system = SystemState.MANUAL_RAISE;
     			lift = LiftState.UNKNOWN;
     			elbow = ElbowState.UNKNOWN;
-    			(new TeleopLift()).start();
+    			(new ManualLift()).start();
     			(new TeleopElbowPID()).start();
     			break;
     		case 1:
@@ -227,7 +228,7 @@ public class CubeManager extends InstantCommand {
     			system = SystemState.MANUAL_LOWER;
     			lift = LiftState.UNKNOWN;
     			elbow = ElbowState.UNKNOWN;
-    			(new TeleopLift()).start();
+    			(new ManualLift()).start();
     			(new TeleopElbowPID()).start();
     		} else if(button == 1) {
     			system = SystemState.ELBOW_STOWED_LIFT_HELD;

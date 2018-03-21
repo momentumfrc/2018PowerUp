@@ -89,8 +89,6 @@ public class OI {
 		
 		hunt.enable();
 		shoot.enable();
-		(new TeleopLift()).start();
-		(new ElbowNoPID()).start();
 	}
 	
 	public void enableCubeManager() {

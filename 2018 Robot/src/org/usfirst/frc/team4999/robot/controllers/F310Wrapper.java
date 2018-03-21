@@ -20,6 +20,8 @@ public class F310Wrapper extends DriveController {
 	
 	private static final double CLIMB_HOLD_TIME = 2;
 	
+	private static final double LIFT_SPEED = 0.8;
+	
 	private static final double[] SPEEDS = {0.2, 0.4, 0.6, 0.8, 1};
 	private int currentSpeed = SPEEDS.length - 1;
 	
@@ -125,6 +127,17 @@ public class F310Wrapper extends DriveController {
 			}
 		}
 		return values[currentPos];
+	}
+	
+	@Override
+	public double getLiftSpeed() {
+		int pov = logitech.getPOV();
+		if(pov == 315 || pov == 0 || pov == 45)
+			return LIFT_SPEED;
+		else if(pov == 135 || pov == 180 || pov == 225)
+			return -LIFT_SPEED;
+		else
+			return 0;
 	}
 
 	@Override

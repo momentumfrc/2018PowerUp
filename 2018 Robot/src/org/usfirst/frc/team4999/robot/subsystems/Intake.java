@@ -46,10 +46,10 @@ public class Intake extends Subsystem {
     	intakeLeft.set(speed);
     }
     
-    private void grip() {
+    public void grip() {
 		claw.set(DoubleSolenoid.Value.kForward);
 	}
-	private void release() {
+	public void release() {
 		claw.set(DoubleSolenoid.Value.kReverse);
 	}
 	

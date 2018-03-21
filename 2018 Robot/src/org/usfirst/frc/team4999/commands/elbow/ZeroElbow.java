@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ZeroElbow extends Command {
 	
-	private static final double ZERO_SPEED = 0.2;
 	private boolean done = false;
 
     public ZeroElbow() {
@@ -35,6 +34,7 @@ public class ZeroElbow extends Command {
     protected void end() {
     	Robot.elbow.retract();
     	Robot.elbow.setDefaultCommand(new MaintainElbowPosition());
+    	System.out.println("Zeroed");
     }
 
     // Called when another command which requires one or more of the same
