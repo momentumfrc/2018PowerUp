@@ -18,11 +18,18 @@ public class ManualLift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	lift.shiftHigh();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	lift.set(Robot.controlChooser.getSelected().getLiftSpeed());
+    	if(Robot.controlChooser.getSelected().shiftLift()) {
+    		if(lift.isHighSpeed())
+    			lift.shiftLow();
+    		else
+    			lift.shiftHigh();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

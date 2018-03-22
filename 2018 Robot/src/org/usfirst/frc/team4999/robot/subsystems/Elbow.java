@@ -39,7 +39,7 @@ public class Elbow extends Subsystem {
      */
     public void setElbowMotor(double speed) {
     	if(speed > 0 && encoder.get() >= MoPrefs.getMaxElbowRotation()) {
-    		System.out.println("Elbow at or past maximum rotation, can only retract");
+    		System.out.format("Elbow at or past maximum rotation (%d), can only retract\n",encoder.get());
     		elbow.set(0);
     	} else if(speed < 0 && encoder.get() <= MIN_POS) {
     		System.out.println("Elbow at or past minimum rotation, can only extend");

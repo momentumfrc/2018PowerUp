@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
 import org.usfirst.frc.team4999.commands.elbow.TeleopElbowPID;
-import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleop;
+import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleopElbow;
 import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
+import org.usfirst.frc.team4999.commands.lift.ManualLift;
+import org.usfirst.frc.team4999.commands.lift.ZeroAndTeleopLift;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
@@ -157,7 +159,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
 		DriveTiltPID driveCommand = new DriveTiltPID();
 		driveCommand.start();
-		new ZeroAndTeleop().start();
+		new ZeroAndTeleopElbow().start();
+		new ZeroAndTeleopLift().start();
 		if(!controlChooser.getSelected().useCubeManager())
 			m_oi.disableCubeManager();
 	}
@@ -172,7 +175,7 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putData(RobotMap.pdp);
 		
-		System.out.format("Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
+		//System.out.format("Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
 		
 		//System.out.format("Connected:%b Pitch:%.2f Roll:%.2f Yaw:%.2f ", RobotMap.vmx.isConnected(), RobotMap.vmx.getPitch(), RobotMap.vmx.getRoll(), RobotMap.vmx.getYaw());
 		
@@ -193,6 +196,7 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		
 		elbow.drivePID();
+		System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
 		
 		//System.out.format("Accel X:%.2f Y:%.2f Z:%.2f\n", RobotMap.vmx.getWorldLinearAccelX(),RobotMap.vmx.getWorldLinearAccelY(),RobotMap.vmx.getWorldLinearAccelZ());
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());

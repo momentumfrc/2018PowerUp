@@ -145,5 +145,10 @@ public class XboxF310Wrapper extends DriveController {
 	public boolean useCubeManager() {
 		return false;
 	}
+	
+	@Override
+	public boolean shiftLift() {
+		return xbox.getBumperPressed(Hand.kLeft) || xbox.getBumperPressed(Hand.kRight);
+	}
 
 }

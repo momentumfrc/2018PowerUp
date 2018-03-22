@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Lift extends Subsystem {
 	
-	private static final double MIN_HEIGHT = 0.25; // meters
+	private static final int MIN_HEIGHT = 100; // ticks
 	private static final double MAX_MOTOR_DELTA = 0.05;
 	
 	private SpeedControllerGroup motors = RobotMap.liftMotors;
@@ -70,23 +70,24 @@ public class Lift extends Subsystem {
 	public void set(double power) {
 		// Anti-jerk: Clip the difference between the requested power and the current power
 		double delta = power - motors.get();
+		System.out.format("Clipping %.2f to within +/- %.2f\n", delta, MAX_MOTOR_DELTA);
 		delta = Utils.clip(delta, -MAX_MOTOR_DELTA, MAX_MOTOR_DELTA);
 		double c_power = motors.get() + delta;
 		
 		// Hard endstops: don't let the motors go above a max and min height
-		if(c_power < 0 && encoder.getDistance() <= MIN_HEIGHT)
+		if(c_power < 0 && encoder.get() <= MIN_HEIGHT) {
+			System.out.format("Lift at or less than minimum height (%d)\n", encoder.get());
 			motors.set(0);
-		else if(c_power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight())
+		} else if(c_power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight()) {
+			System.out.format("Lift at or greater than maximum height(%.2f >= %.2f)\n", encoder.getDistance(), MoPrefs.getMaxLiftHeight());
 			motors.set(0);
-		else
+		} else {
 			motors.set(c_power);
+		}
 	}
 	public void setHeight(double height) {
 		double clippedHeight = Utils.clip(height, MIN_HEIGHT, MoPrefs.getMaxLiftHeight());
-		if(isHighSpeed())
-			fastLiftPID.setSetpoint(clippedHeight);
-		else
-			slowLiftPID.setSetpoint(clippedHeight);
+		currentLiftPID.setSetpoint(clippedHeight);
 	}
 	
 	public void disablePID() {

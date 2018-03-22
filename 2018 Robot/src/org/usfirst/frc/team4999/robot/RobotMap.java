@@ -86,8 +86,8 @@ public class RobotMap {
 	public static final int LIFT_MOTOR1_PDP = 14;
 	public static final int LIFT_MOTOR2_PDP = 15;
 	
-	public static final int RF_DRIVE_MOTOR_PDP = 0;
-	public static final int RB_DRIVE_MOTOR_PDP = 1;
-	public static final int LF_DRIVE_MOTOR_PDP = 2;
-	public static final int LB_DRIVE_MOTOR_PDP = 3;
+	public static final int RF_DRIVE_MOTOR_PDP = 2;
+	public static final int RB_DRIVE_MOTOR_PDP = 3;
+	public static final int LF_DRIVE_MOTOR_PDP = 0;
+	public static final int LB_DRIVE_MOTOR_PDP = 1;
 }

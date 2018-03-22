@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ZeroAndTeleop extends CommandGroup {
+public class ZeroAndTeleopElbow extends CommandGroup {
 
-    public ZeroAndTeleop() {
+    public ZeroAndTeleopElbow() {
         addSequential(new ZeroElbow());
         addSequential(new TeleopElbowPID());
     }

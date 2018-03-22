@@ -69,6 +69,10 @@ public abstract class DriveController {
 	
 	abstract public boolean climb();
 	
+	public boolean shiftLift() {
+		return false;
+	}
+	
 	public boolean useCubeManager() {
 		return true;
 	}
