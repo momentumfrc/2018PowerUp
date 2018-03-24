@@ -16,6 +16,7 @@ import org.usfirst.frc.team4999.commands.lift.*;
 import org.usfirst.frc.team4999.triggers.*;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
@@ -51,17 +52,18 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Trigger failsafeDrive = new FailsafeDrive();
+	Trigger failsafeDrive = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeCubes();});
+	Trigger failsafeCubes = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeCubes();});
+	Trigger climb = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().climb();});
 	Trigger zero = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().zeroLift();});
 	
+	ToggleTrigger hunt = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getIntake();});
+	ToggleTrigger shoot = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getShoot();});
 	
-	Trigger failsafeCubes = new FailsafeCubesTrigger();
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
-	ToggleTrigger hunt = new IntakeTrigger();
-	ToggleTrigger shoot = new ShootTrigger();
+	
 	CubeManagerTrigger cubeManager = new CubeManagerTrigger();
-	Trigger climb = new ClimbTrigger();
 	
 	
 	public OI() {
@@ -71,8 +73,14 @@ public class OI {
 		driveOvercurrent.whenActive(new DriveOvercurrentDetect(driveOvercurrent));
 		liftOvercurrent.whenActive(new KillLift());
 		
-		climb.whenActive(new PrepareClimb());
-		climb.whenInactive(new SetLiftHeight(0, false));
+		//climb.whenActive(new PrepareClimb());
+		//climb.whenInactive(new SetLiftHeight(0, false));
+		
+		CommandGroup zeroAndTeleop = new CommandGroup();
+		zeroAndTeleop.addSequential(new InstantSetZero());
+		zeroAndTeleop.addSequential(new TeleopLift());
+		zero.whenActive(new ManualLiftNoLimit());
+		zero.whenInactive(zeroAndTeleop);
 		
 		cubeManager.whenActive(new CubeManager(cubeManager));
 		

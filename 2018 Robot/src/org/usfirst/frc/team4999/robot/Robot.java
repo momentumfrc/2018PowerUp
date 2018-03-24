@@ -9,28 +9,21 @@ package org.usfirst.frc.team4999.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
-import org.usfirst.frc.team4999.commands.elbow.TeleopElbowPID;
 import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleopElbow;
 import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
-import org.usfirst.frc.team4999.commands.lift.ManualLift;
-import org.usfirst.frc.team4999.commands.lift.ZeroAndTeleopLift;
+import org.usfirst.frc.team4999.commands.lift.ManualLiftNoLimit;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
-
-import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -165,9 +158,11 @@ public class Robot extends TimedRobot {
 		DriveTiltPID driveCommand = new DriveTiltPID();
 		driveCommand.start();
 		new ZeroAndTeleopElbow().start();
-		new ZeroAndTeleopLift().start();
+		new ManualLiftNoLimit().start();
 		if(!controlChooser.getSelected().useCubeManager())
 			m_oi.disableCubeManager();
+		
+		RobotMap.liftEncoder.setDistancePerPulse(MoPrefs.getLiftEncTicks());
 	}
 
 	/**
@@ -180,7 +175,9 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putData(RobotMap.pdp);
 		
-		//System.out.format("Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
+		//System.out.format("LIFT: Count:%.2f, Distance:%.2f\n");
+		
+		System.out.format("ELBOW: Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
 		
 		//System.out.format("Connected:%b Pitch:%.2f Roll:%.2f Yaw:%.2f ", RobotMap.vmx.isConnected(), RobotMap.vmx.getPitch(), RobotMap.vmx.getRoll(), RobotMap.vmx.getYaw());
 		
@@ -200,17 +197,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		
-		elbow.drivePID();
-		System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
+		//elbow.drivePID();
+		//System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
 		
 		//System.out.format("Accel X:%.2f Y:%.2f Z:%.2f\n", RobotMap.vmx.getWorldLinearAccelX(),RobotMap.vmx.getWorldLinearAccelY(),RobotMap.vmx.getWorldLinearAccelZ());
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());
 		
-		/*Robot.driveSystem.driveDisplacementPID();
+		Robot.driveSystem.driveDisplacementPID();
 		System.out.format("MOVE Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.movePID.isEnabled(), RobotMap.leftDriveEncoder.getDistance(), Robot.driveSystem.movePID.getSetpoint(), Robot.driveSystem.movePID.get());
 		System.out.format("TURN Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.turnPID.isEnabled(), RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
 		System.out.format("TILT Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.pitchPID.isEnabled(), RobotMap.gyro.getPitch(), Robot.driveSystem.pitchPID.getSetpoint(), Robot.driveSystem.pitchPID.get());
-		System.out.println("---------------");*/
+		System.out.println("---------------");
 
 	}
 }
