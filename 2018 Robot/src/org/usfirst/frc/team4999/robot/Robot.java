@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
 	public static ControlChooser controlChooser = new ControlChooser();
 	public static StartPosChooser startPos = new StartPosChooser();
 	public static AutoModeChooser target = new AutoModeChooser();
+	public static LightsChooser lights = new LightsChooser();
 	
 	private Command autoCommand;
 	
