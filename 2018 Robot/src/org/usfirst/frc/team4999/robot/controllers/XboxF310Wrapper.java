@@ -16,8 +16,8 @@ public class XboxF310Wrapper extends DriveController {
 	private static final double MOVE_CURVE = 2.5;
 	private static final double TURN_CURVE = 2.5;
 	
-	private static final double DEADZONE = 0.1;
-	private static final double MAX_CLAW_SPEED = 0.4;
+	private static final double DEADZONE = 0.1; 
+	private static final double MAX_CLAW_SPEED = 0.8;
 	
 	private static final double[] SPEEDS = {0.2, 0.4, 0.6, 0.8, 1};
 	private int currentSpeed = SPEEDS.length - 1;
@@ -115,6 +115,8 @@ public class XboxF310Wrapper extends DriveController {
 		int pov = xbox.getPOV();
 		if(pov == 315 || pov == 0 || pov == 45)
 			return LIFT_SPEED;
+		else if(Utils.deadzone(xbox.getTriggerAxis(Hand.kRight), 0.1) > 0)
+			return Utils.map(-Utils.deadzone(xbox.getTriggerAxis(Hand.kRight), 0.1), -1, 0, -0.2, 0);
 		else if(pov == 135 || pov == 180 || pov == 225)
 			return -LIFT_SPEED;
 		else
