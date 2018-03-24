@@ -80,4 +80,8 @@ public abstract class DriveController {
 	public void vibrate(double intensity) {
 	}
 	
+	public boolean zeroLift() {
+		return false;
+	}
+	
 }

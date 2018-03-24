@@ -20,7 +20,7 @@ public class ZeroLift extends Command {
 	
 	private static final double TIMEOUT = 5;
 	
-	private static final double CUTOFF_CURRENT = 5;
+	private static final double CUTOFF_CURRENT = 10;
 	private static final int CUTOFF_TIME = 500;
 	
 	private PDPWrapper pdp = new PDPWrapper();
@@ -41,7 +41,7 @@ public class ZeroLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	lift.set(-ZERO_SPEED);
+    	lift.setNoLimit(-ZERO_SPEED);
     	System.out.format("Current1:%.2f Currrent2:%.2f\n", RobotMap.pdp.getCurrent(RobotMap.LIFT_MOTOR1_PDP), RobotMap.pdp.getCurrent(RobotMap.LIFT_MOTOR2_PDP));
     }
 

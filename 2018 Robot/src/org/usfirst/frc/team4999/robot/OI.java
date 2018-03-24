@@ -52,6 +52,7 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	Trigger failsafeDrive = new FailsafeDrive();
+	Trigger zero = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().zeroLift();});
 	
 	
 	Trigger failsafeCubes = new FailsafeCubesTrigger();
