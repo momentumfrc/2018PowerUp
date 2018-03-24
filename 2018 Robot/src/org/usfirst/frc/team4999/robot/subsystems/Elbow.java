@@ -19,7 +19,7 @@ public class Elbow extends Subsystem {
 	private static final int MIN_POS = 150;
 	
 	private static final double ZERO_SPEED = 0.4;
-	private static final double ZERO_CUTOFF_CURRENT = 3; // amperes
+	private static final double ZERO_CUTOFF_CURRENT = 2.5; // amperes
 	private static final int ZERO_CUTOFF_TIME = 500; // ms
 	
 	private PDPWrapper pdp = new PDPWrapper();
@@ -38,15 +38,16 @@ public class Elbow extends Subsystem {
      * @param speed
      */
     public void setElbowMotor(double speed) {
-    	if(speed > 0 && encoder.get() >= MoPrefs.getMaxElbowRotation()) {
+    	/*if(speed > 0 && encoder.get() >= MoPrefs.getMaxElbowRotation()) {
     		System.out.format("Elbow at or past maximum rotation (%d), can only retract\n",encoder.get());
     		elbow.set(0);
     	} else if(speed < 0 && encoder.get() <= MIN_POS) {
-    		System.out.println("Elbow at or past minimum rotation, can only extend");
+    		System.out.format("Elbow at or past minimum rotation(%d), can only extend", encoder.get());
     		elbow.set(0);
-    	} else {
+    	} else {*/
+    		//System.out.format("Elbow C:%d D:%.2f\n",encoder.get(), encoder.getDistance());
     		elbow.set(speed);
-    	}
+    	//}
     }
     
     public void drivePID() {

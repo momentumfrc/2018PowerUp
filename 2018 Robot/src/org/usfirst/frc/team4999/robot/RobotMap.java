@@ -81,7 +81,7 @@ public class RobotMap {
 	
 	public static final int LEFT_INTAKE_PDP = 12;
 	public static final int RIGHT_INTAKE_PDP = 13;
-	public static final int ELBOW_PDP = 4;
+	public static final int ELBOW_PDP = 11;
 	
 	public static final int LIFT_MOTOR1_PDP = 14;
 	public static final int LIFT_MOTOR2_PDP = 15;
