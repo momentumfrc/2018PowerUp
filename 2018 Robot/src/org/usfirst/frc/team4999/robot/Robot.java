@@ -123,7 +123,11 @@ public class Robot extends TimedRobot {
 			autoCommand = new TimeBasedFallback();
 			break;
 		case FALLBACK_TIME_SHOOT:
-			autoCommand = new TimeBasedFallbackSwitch();
+			if((startPos.getSelected() == StartPosition.LEFT && switchPos == TargetPosition.LEFT) || (startPos.getSelected() == StartPosition.RIGHT && switchPos == TargetPosition.RIGHT))
+				autoCommand = new TimeBasedFallbackSwitch();
+			else
+				autoCommand = new TimeBasedFallback();
+			break;
 		}
 		
 		autoCommand.start();
@@ -162,7 +166,8 @@ public class Robot extends TimedRobot {
 		if(!controlChooser.getSelected().useCubeManager())
 			m_oi.disableCubeManager();
 		
-		RobotMap.liftEncoder.setDistancePerPulse(MoPrefs.getLiftEncTicks());
+		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
+		RobotMap.elbowEncoder.setDistancePerPulse(1/6.2222);;
 	}
 
 	/**
@@ -173,11 +178,13 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putString("Connected Gyro", (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX");
 		
-		SmartDashboard.putData(RobotMap.pdp);
+		lift.liftDashboard();
+		
+		//SmartDashboard.putData(RobotMap.pdp);
 		
 		//System.out.format("LIFT: Count:%.2f, Distance:%.2f\n");
 		
-		System.out.format("ELBOW: Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
+		//System.out.format("ELBOW: Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
 		
 		//System.out.format("Connected:%b Pitch:%.2f Roll:%.2f Yaw:%.2f ", RobotMap.vmx.isConnected(), RobotMap.vmx.getPitch(), RobotMap.vmx.getRoll(), RobotMap.vmx.getYaw());
 		
@@ -197,8 +204,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		
-		//elbow.drivePID();
-		//System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
+		elbow.drivePID();
+		System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
 		
 		//System.out.format("Accel X:%.2f Y:%.2f Z:%.2f\n", RobotMap.vmx.getWorldLinearAccelX(),RobotMap.vmx.getWorldLinearAccelY(),RobotMap.vmx.getWorldLinearAccelZ());
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());

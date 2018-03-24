@@ -16,6 +16,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU.*;
 
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -71,7 +72,7 @@ public class RobotMap {
 	
 	// Grabber
 	public static Spark elbow = new Spark(6);
-	public static Encoder elbowEncoder = new Encoder(7,8);
+	public static Encoder elbowEncoder = new Encoder(7,8, false, EncodingType.k1X);
 	public static Spark intakeLeft = new Spark(7);
 	public static Spark intakeRight = new Spark(8);
 	public static DoubleSolenoid clawArms = new DoubleSolenoid(4,5);

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -115,5 +116,8 @@ public class Lift extends Subsystem {
         setDefaultCommand(new MaintainLiftHeight());
     }
     
+    public void liftDashboard() {
+    	SmartDashboard.putBoolean("Lift Fast", isHighSpeed());
+    }
 }
 
