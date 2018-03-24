@@ -14,6 +14,7 @@ public class AutoModeChooser extends SendableChooser<AutoMode> {
 		addObject("Scale", AutoMode.SCALE);
 		addDefault("Fallback Distance", AutoMode.FALLBACK_DISTANCE);
 		addObject("Fallback Time", AutoMode.FALLBACK_TIME);
+		addObject("Fallback Time Shoot", AutoMode.FALLBACK_TIME_SHOOT);
 		SmartDashboard.putData(NAME, this);
 	}
 }

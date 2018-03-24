@@ -125,8 +125,12 @@ public class Robot extends TimedRobot {
 			break;
 		case FALLBACK_DISTANCE:
 			autoCommand = new DistanceBasedFallback();
+			break;
 		case FALLBACK_TIME:
 			autoCommand = new TimeBasedFallback();
+			break;
+		case FALLBACK_TIME_SHOOT:
+			autoCommand = new TimeBasedFallbackSwitch();
 		}
 		
 		autoCommand.start();

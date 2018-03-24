@@ -25,7 +25,7 @@ public class CubeManager extends InstantCommand {
 		LIFT_SCALE_HIGH,
 		UNKNOWN
 	};
-	private enum ElbowState {
+	public static enum ElbowState {
 		ELBOW_STOW(5),
 		ELBOW_GROUND(90),
 		ELBOW_CARRY(15),

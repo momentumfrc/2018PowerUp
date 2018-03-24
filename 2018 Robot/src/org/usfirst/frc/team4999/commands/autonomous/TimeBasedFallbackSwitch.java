@@ -1,21 +1,24 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
+import org.usfirst.frc.team4999.commands.elbow.SetElbowPosition;
+import org.usfirst.frc.team4999.commands.intake.Shoot;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class TimeBasedFallback extends Command {
+public class TimeBasedFallbackSwitch extends Command {
 	
 	private DriveSystem drive = Robot.driveSystem;
 	Timer time = new Timer();
 	
-    public TimeBasedFallback() {
+    public TimeBasedFallbackSwitch() {
     	requires(drive);
     }
 
@@ -38,6 +41,10 @@ public class TimeBasedFallback extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	drive.stop();
+    	CommandGroup group = new CommandGroup();
+    	group.addSequential(new SetElbowPosition(20));
+    	group.addSequential(new Shoot());
+    	group.start();
     }
 
     // Called when another command which requires one or more of the same
