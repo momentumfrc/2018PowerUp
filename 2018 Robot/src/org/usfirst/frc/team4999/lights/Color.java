@@ -16,7 +16,10 @@ public class Color {
 	 * @param b Blue channel
 	 */
 	public Color(int r, int g, int b) {
-		if(!(checkBounds(r) && checkBounds(g) && checkBounds(b))) throw new IllegalArgumentException("All values must be greater than zero and less than 255");
+		if(!(checkBounds(r) && checkBounds(g) && checkBounds(b))) {
+			System.out.format("Invalid color: R:%d, G:%d, B:%d\n", r, g, b);
+			throw new IllegalArgumentException("All values must be greater than zero and less than 255");
+		}
 		this.r = r;
 		this.g = g;
 		this.b = b;
@@ -46,6 +49,10 @@ public class Color {
 	 */
 	public int getBlue() {
 		return b;
+	}
+	
+	public String toString() {
+		return String.format("R:%d G:%d B:%d", r,g,b);
 	}
 
 	public static final Color RED = new Color(255,0,0);

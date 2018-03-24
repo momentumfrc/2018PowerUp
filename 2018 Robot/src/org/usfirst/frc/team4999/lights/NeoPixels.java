@@ -79,7 +79,7 @@ public class NeoPixels implements Display {
 		} catch (Exception e) {
 			// The generic try-catch prevents an error in the purely cosmetic neopixels from killing the whole robot
 			System.err.println(e.getMessage());
-			System.err.println(e.getStackTrace());
+			e.printStackTrace(System.err);
 		}
 		
 	}

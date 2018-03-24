@@ -58,7 +58,24 @@ public class LightsChooser extends SendableChooser<Animation> {
 				new Snake(new Color[] {new Color(255,223,0), new Color(60,141,13), new Color(45,100,13), new Color(45,100,13), new Color(39,84,14), new Color(39,84,14) }, 150)
 		}, 5000);
 		
+		AnimationSequence alliance = new AnimationSequence(new Animation[] {
+				new AnimationSequence(new Animation[] {
+						Snake.twoColorSnake(Color.MOMENTUM_PURPLE, Color.MOMENTUM_BLUE, 1, 5, 2, 125),
+						new Fade(new Color[]{Color.MOMENTUM_BLUE, Color.WHITE, Color.MOMENTUM_PURPLE}, 200, 0)
+				}, 5000),
+				new AnimationSequence(new Animation[] {
+						Snake.twoColorSnake(new Color(255, 112, 0), new Color(0, 0, 128), 1, 5, 2, 125),
+						new Fade(new Color[] {new Color(255, 112, 0), new Color(0,0,128), Color.WHITE}, 200, 0)
+				}, 5000),
+				new AnimationSequence(new Animation[] {
+						Snake.twoColorSnake(Color.RED, Color.BLACK, 1, 5, 2, 125),
+						new Fade(new Color[] {Color.RED, Color.BLACK}, 200, 0)
+				}, 5000)
+		}, 10000);
+		
 		Animation solid = new Solid(Color.WHITE);
+		
+		Animation bounce = new Bounce(Color.MOMENTUM_PURPLE, Color.WHITE, 5, 30, 50);
 		
 		Animation random = new RandomColors(500, 120);
 		
@@ -67,6 +84,7 @@ public class LightsChooser extends SendableChooser<Animation> {
 		addObject("Christmas",christmas);
 		addObject("Solid White", solid);
 		addObject("Random", random);
+		addObject("Bounce", bounce);
 		
 		SmartDashboard.putData(NAME, this);
 		
