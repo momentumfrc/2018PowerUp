@@ -75,7 +75,7 @@ public class Fade implements Animation {
 	 * @param holdTime duration to hold at a color
 	 * @return the Fade animation
 	 */
-	public static Fade RainbowFade(int fadeTime, int holdTime) {
+	public static Fade rainbowFade(int fadeTime, int holdTime) {
 		return new Fade(new Color[]{
 				Color.RED,
 				new Color(255,127,0),

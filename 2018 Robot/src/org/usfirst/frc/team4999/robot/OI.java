@@ -71,7 +71,7 @@ public class OI {
 		
 		failsafeCubes.whenActive(new FailsafeCubes());
 		driveOvercurrent.whenActive(new DriveOvercurrentDetect(driveOvercurrent));
-		liftOvercurrent.whenActive(new KillLift());
+		//liftOvercurrent.whenActive(new KillLift());
 		
 		//climb.whenActive(new PrepareClimb());
 		//climb.whenInactive(new SetLiftHeight(0, false));

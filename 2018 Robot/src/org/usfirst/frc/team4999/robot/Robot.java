@@ -210,10 +210,10 @@ public class Robot extends TimedRobot {
 		//System.out.format("Accel X:%.2f Y:%.2f Z:%.2f\n", RobotMap.vmx.getWorldLinearAccelX(),RobotMap.vmx.getWorldLinearAccelY(),RobotMap.vmx.getWorldLinearAccelZ());
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());
 		
-		Robot.driveSystem.driveDisplacementPID();
+		/*Robot.driveSystem.driveDisplacementPID();
 		System.out.format("MOVE Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.movePID.isEnabled(), RobotMap.leftDriveEncoder.getDistance(), Robot.driveSystem.movePID.getSetpoint(), Robot.driveSystem.movePID.get());
 		System.out.format("TURN Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.turnPID.isEnabled(), RobotMap.gyro.getAngle(), Robot.driveSystem.turnPID.getSetpoint(), Robot.driveSystem.turnPID.get());
-		System.out.format("TILT Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.pitchPID.isEnabled(), RobotMap.gyro.getPitch(), Robot.driveSystem.pitchPID.getSetpoint(), Robot.driveSystem.pitchPID.get());
+		System.out.format("TILT Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", Robot.driveSystem.pitchPID.isEnabled(), RobotMap.gyro.getPitch(), Robot.driveSystem.pitchPID.getSetpoint(), Robot.driveSystem.pitchPID.get());*/
 		System.out.println("---------------");
 
 	}

@@ -41,16 +41,24 @@ public class LightsChooser extends SendableChooser<Animation> {
 		AnimationSequence momentum = new AnimationSequence(new Animation[] {
 				Snake.twoColorSnake(Color.MOMENTUM_PURPLE, Color.MOMENTUM_BLUE, 1, 5, 2, 125),
 				new Fade(new Color[]{Color.MOMENTUM_BLUE, Color.WHITE, Color.MOMENTUM_PURPLE}, 200, 0),
-				Snake.twoColorSnake(Color.MOMENTUM_BLUE, Color.MOMENTUM_PURPLE, 3, 0, 3, 250),
-				new Fade(new Color[]{Color.MOMENTUM_BLUE, Color.WHITE, Color.MOMENTUM_PURPLE}, 250,0),
-		}, 5000);
+				new Bounce(Color.MOMENTUM_PURPLE, Color.MOMENTUM_BLUE, 8, 20, 50),
+				new Bounce(Color.WHITE, new Color[] {Color.MOMENTUM_PURPLE, Color.MOMENTUM_PURPLE, Color.MOMENTUM_BLUE, Color.MOMENTUM_BLUE}, 20, 50)
+		}, new int[] {5000, 5000, 10000, 5000});
 		
 		AnimationSequence rainbow = new AnimationSequence(new Animation[] {
 				Snake.rainbowSnake(70),
-				Fade.RainbowFade(50, 20),
+				Fade.rainbowFade(50, 20),
 				Snake.rainbowSnake(150),
-				Fade.RainbowFade(200, 0)
-		}, new int[] {5000, 5000, 1000, 12000});
+				Fade.rainbowFade(200, 0),
+				new Bounce(Color.WHITE, new Color[] {
+						new Color(139,0,255),
+						Color.BLUE,
+						Color.GREEN,
+						Color.YELLOW,
+						new Color(255,127,0),
+						Color.RED
+				}, 20, 50)
+		}, new int[] {5000, 5000, 1000, 6000, 10000});
 		
 		AnimationSequence christmas = new AnimationSequence(new Animation[] {
 				Snake.twoColorSnake(Color.RED, Color.WHITE, 2, 0, 4, 250),

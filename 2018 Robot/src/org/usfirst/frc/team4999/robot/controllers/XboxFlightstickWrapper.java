@@ -16,7 +16,7 @@ public class XboxFlightstickWrapper extends DriveController {
 	private static final double TURN_CURVE = 2.5;
 	
 	private static final double DEADZONE = 0.1;
-	private static final double ELBOW_SPEED = 0.4;
+	private static final double ELBOW_SPEED = 0.8;
 	
 	private static final double[] SPEEDS = {0.2, 0.4, 0.6, 0.8, 1};
 	private int currentSpeed = SPEEDS.length - 1;
@@ -108,12 +108,15 @@ public class XboxFlightstickWrapper extends DriveController {
 
 	@Override
 	public double getElbowSpeed() {
-		if(flightStick.getRawButton(5))
+		
+		int pov = flightStick.getPOV();
+		if(pov == 0) {
 			return ELBOW_SPEED;
-		else if(flightStick.getRawButton(6))
+		} else if(pov == 180) {
 			return -ELBOW_SPEED;
-		else
+		} else {
 			return 0;
+		}
 	}
 
 	@Override

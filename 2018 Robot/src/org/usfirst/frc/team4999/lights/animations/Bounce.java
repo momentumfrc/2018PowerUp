@@ -14,7 +14,7 @@ public class Bounce implements Animation {
 	private int delay;
 	
 	private Color blendInto(Color bg, Color fg, double percentbg) {
-		System.out.println("Blending [" + bg.toString() +"] into ["+fg.toString()+"] with percent " + percentbg);
+		//System.out.println("Blending [" + bg.toString() +"] into ["+fg.toString()+"] with percent " + percentbg);
 		int r = fg.getRed() + (int)((bg.getRed() - fg.getRed()) * percentbg);
 		int g = fg.getGreen() + (int)((bg.getGreen() - fg.getGreen()) * percentbg);
 		int b = fg.getBlue() + (int)((bg.getBlue() - fg.getBlue()) * percentbg);
@@ -28,7 +28,7 @@ public class Bounce implements Animation {
 		pos = new int[run.length];
 		v = new int[pos.length];
 		for(int i = 0; i < run.length; i++) {
-			run[i] = blendInto(background, foreground, (i+1)/(double)(run.length));
+			run[run.length-1-i] = blendInto(background, foreground, (i+1)/(double)(run.length));
 		}
 		for(int i = run.length - 1; i >= 0; i--) {
 			pos[i] = i;
@@ -38,6 +38,22 @@ public class Bounce implements Animation {
 		}
 		area = bounceArea;
 		this.delay = delay;
+	}
+	
+	public Bounce(Color background, Color[] bouncer, int bounceArea, int delay) {
+		this.background = background;
+		run = bouncer;
+		pos = new int[run.length];
+		v = new int[run.length];
+		for(int i = run.length - 1; i >= 0; i--) {
+			pos[i] = i;
+		}
+		for(int i = 0; i < v.length; i++) {
+			v[i] = 1;
+		}
+		area = bounceArea;
+		this.delay = delay;
+		
 	}
 
 	@Override

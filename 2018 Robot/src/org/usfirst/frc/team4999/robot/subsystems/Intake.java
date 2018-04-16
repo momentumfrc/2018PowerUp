@@ -23,7 +23,7 @@ public class Intake extends Subsystem {
     private DoubleSolenoid claw = RobotMap.clawArms;
     
     private static final double INTAKE_SPEED = 1;
-    private static final double HOLD_SPEED = 0.1;
+    private static final double HOLD_SPEED = 0.2;
     private static final double SHOOT_SPEED = 1;
 	
 	private PDPWrapper currentChecker = new PDPWrapper();
