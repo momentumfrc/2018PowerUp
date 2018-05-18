@@ -17,6 +17,8 @@ double amp = 50;
 
 int oldest = 0;
 
+PFont font;
+
 void setup() {
   c = new Client("localhost", 5800);
   
@@ -28,6 +30,7 @@ void setup() {
   mic.start();
   fft.input(mic);
   c.sendPacket(PacketFactory.setRefreshTime(30));
+  font = createFont("Arial", 16, true);
 }
 
 Color fadeBetween(double percent, Color fg, Color bg) {
@@ -43,7 +46,8 @@ Color[] rainbow = {
    new Color(0,255,0),
    new Color(0,0,255),
    new Color(75,0,130),
-   new Color(148,0,211)
+   new Color(148,0,211),
+   new Color(255,255,255)
 };
 Color mapRainbow(float percent) {
   percent = constrain(percent,0,1);
@@ -85,4 +89,9 @@ void draw() {
   }
   
   c.sendFrame(frame);
+  
+  textFont(font);
+  fill(0);
+  text(String.format("Packet queue: %d", c.getQueue()), 10, 20);
+  
 }

@@ -49,6 +49,10 @@ public class Client {
 	}
 	
 	public void sendPacket(Packet p) {
+		if(!io.isAlive()) {
+			System.out.println("Socket is closed, cannot send packet");
+			return;
+		}
 		packetBuffer.add(p);
 		if(packetBuffer.size() > MAX_BUFFER_SIZE) {
 			System.out.println("Too many packets, removing oldest");
@@ -69,6 +73,10 @@ public class Client {
 	
 	public void stop() {
 		io.interrupt();
+	}
+	
+	public int getQueue() {
+		return packetBuffer.size();
 	}
 
 }
