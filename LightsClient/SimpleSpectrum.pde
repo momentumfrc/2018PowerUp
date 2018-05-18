@@ -1,23 +1,23 @@
 public class SimpleSpectrum implements Animation {
   
-  FFT fft;
-  PApplet window;
+  private FFT fft;
+  private PApplet window;
   
-  PFont font;
+  private PFont font;
   
-  int startBand = 2;
-  int endBand = 33;
+  private int startBand = 2;
+  private int endBand = 33;
   
-  int refreshRate = 40;
+  private int refreshRate = 40;
   
-  int oldest = 0;
+  private int oldest = 0;
   
-  float[][] spectrum = new float[endBand - startBand][4];
-  float[] avg = new float[endBand - startBand];
+  private float[][] spectrum = new float[endBand - startBand][4];
+  private float[] avg = new float[endBand - startBand];
   
-  Client c;
+  private Client c;
   
-  public SimpleSpectrum(PApplet window, FFT fft, Client c) {
+  public SimpleSpectrum(PApplet window, Client c, FFT fft) {
     this.fft = fft;
     this.window = window;
     font = createFont("Arial", 16, true);
@@ -26,34 +26,12 @@ public class SimpleSpectrum implements Animation {
     c.sendPacket(PacketFactory.setRefreshTime(refreshRate));
   }
   
-  private Color fadeBetween(double percent, Color fg, Color bg) {
-    int r = (int)((fg.getRed() - bg.getRed()) * percent) + bg.getRed();
-    int g = (int)((fg.getGreen() - bg.getGreen()) * percent) + bg.getGreen();
-    int b = (int)((fg.getBlue() - bg.getBlue()) * percent) + bg.getBlue();
-    return new Color(r,g,b);
-  }
-  private Color[] rainbow = {
-     new Color(255,0,0),
-     new Color(255, 127, 0),
-     new Color(255,255,0),
-     new Color(0,255,0),
-     new Color(0,0,255),
-     new Color(75,0,130),
-     new Color(148,0,211),
-     new Color(255,255,255)
-  };
-  private Color mapRainbow(float percent) {
-    percent = constrain(percent,0,1);
-    if(Math.abs(percent) < 0.00001) return rainbow[rainbow.length-1];
-    double idx = map(1-percent, 0, 1, 0, (rainbow.length-1));
-    int i = (int)idx;
-    if(i >=7) System.out.println(percent);
-    return fadeBetween(idx-i,rainbow[i+1],rainbow[i]);
-  }
 
   @Override
   public void draw() {
-     fft.analyze();
+    window.noStroke();
+    
+    fft.analyze();
     
     for(int i = 0; i < spectrum.length; i++) {
       spectrum[i][oldest] = fft.spectrum[i+startBand];
@@ -73,7 +51,7 @@ public class SimpleSpectrum implements Animation {
     Command[] frame = new Command[avg.length];
     for(int i = 0; i < avg.length; i++) {
       float val = (float)(avg[i] * amp);
-      Color c = mapRainbow(val);
+      Color c = ColorTools.mapRainbow(val);
       frame[i] = CommandFactory.makeStride(i, c, 1, frame.length);
       window.fill(c.getRed(), c.getGreen(), c.getBlue());
       window.rect(i*w, height-((float)val*scale), w, (float)val*scale);
