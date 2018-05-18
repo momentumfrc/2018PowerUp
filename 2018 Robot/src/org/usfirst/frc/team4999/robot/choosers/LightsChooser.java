@@ -93,6 +93,7 @@ public class LightsChooser extends SendableChooser<Animation> {
 		addObject("Solid White", solid);
 		addObject("Random", random);
 		addObject("Bounce", bounce);
+		addObject("Remote", new SocketListener());
 		
 		SmartDashboard.putData(NAME, this);
 		

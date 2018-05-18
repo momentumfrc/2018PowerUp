@@ -15,8 +15,10 @@ import org.usfirst.frc.team4999.commands.intake.*;
 import org.usfirst.frc.team4999.commands.lift.*;
 import org.usfirst.frc.team4999.triggers.*;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
@@ -57,6 +59,8 @@ public class OI {
 	Trigger climb = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().climb();});
 	Trigger zero = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().zeroLift();});
 	
+	Trigger brownout = new ButtonTrigger(()->{return RobotController.isBrownedOut();});
+	
 	ToggleTrigger hunt = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getIntake();});
 	ToggleTrigger shoot = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getShoot();});
 	
@@ -90,6 +94,13 @@ public class OI {
 		
 		shoot.whenActive(new Shoot());
 		shoot.disable();
+		
+		brownout.whenActive(new InstantCommand() {
+		    // Called once when the command executes
+		    protected void initialize() {
+		    	Robot.lights.pushAnimation("Battery", Robot.lights.blinkRed);
+		    }
+		});
 		
 	}
 	

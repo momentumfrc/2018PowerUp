@@ -159,8 +159,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().removeAll();
-		DriveTiltPID driveCommand = new DriveTiltPID();
-		driveCommand.start();
+		new DriveTiltPID().start();
 		new ZeroAndTeleopElbow().start();
 		new ManualLiftNoLimit().start();
 		if(!controlChooser.getSelected().useCubeManager())
