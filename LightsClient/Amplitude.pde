@@ -8,10 +8,11 @@ public class Amplitude implements Animation {
   
   int w = 2;
   
-  public Amplitude(PApplet window, Client c, processing.sound.Amplitude amp) {
+  public Amplitude(PApplet window, Client c, AudioIn mic) {
     this.window = window;
     this.c = c;
-    this.amp = amp;
+    this.amp = new processing.sound.Amplitude(window);
+    amp.input(mic);
     c.sendPacket(PacketFactory.setRefreshTime(50));
     hist  = new float[(int)(width/w)];
   }

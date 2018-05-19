@@ -5,8 +5,13 @@ public class SimpleSpectrum implements Animation {
   
   private PFont font;
   
+  private int bands = 512;
   private int startBand = 2;
   private int endBand = 33;
+  
+  private int amp = 3;
+  
+  private int scale = 300;
   
   private int refreshRate = 40;
   
@@ -14,11 +19,13 @@ public class SimpleSpectrum implements Animation {
   
   private float[][] spectrum = new float[endBand - startBand][4];
   private float[] avg = new float[endBand - startBand];
-  
+ 
+ 
   private Client c;
   
-  public SimpleSpectrum(PApplet window, Client c, FFT fft) {
-    this.fft = fft;
+  public SimpleSpectrum(PApplet window, Client c, AudioIn mic) {
+    this.fft =  new FFT(window, bands);
+    fft.input(mic);
     this.window = window;
     font = createFont("Arial", 16, true);
     this.c = c;
@@ -47,7 +54,6 @@ public class SimpleSpectrum implements Animation {
     }
     
     int w = width / avg.length;
-    int scale = 300;
     Command[] frame = new Command[avg.length];
     for(int i = 0; i < avg.length; i++) {
       float val = (float)(avg[i] * amp);
