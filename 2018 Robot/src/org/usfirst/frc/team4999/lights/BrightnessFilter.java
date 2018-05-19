@@ -1,25 +1,26 @@
 package org.usfirst.frc.team4999.lights;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TableEntryListener;
-import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 
 public class BrightnessFilter {
 	
-	private static double brightness = 0.2;
+	private static double brightness = 1;
 	
 	private static BrightnessFilter instance;
 	
 	private final String key = "BRIGHTNESS";
-	private final Preferences prefs;
+	
+	private final NetworkTableEntry entry;
 	
 	private BrightnessFilter() {
-		prefs = Preferences.getInstance();
 		
-		if(!prefs.containsKey(key))
-			prefs.putDouble(key, brightness);
-		NetworkTableInstance.getDefault().getTable("Preferences").getEntry(key).addListener((notification) -> {
+		entry = SmartDashboard.getEntry(key);
+		entry.setNumber(brightness);
+		
+		entry.addListener((notification) -> {
 			brightness = truncate(notification.value.getDouble());
 		}, TableEntryListener.kUpdate|TableEntryListener.kImmediate);
 		

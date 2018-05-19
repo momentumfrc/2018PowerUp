@@ -11,6 +11,45 @@ import org.usfirst.frc.team4999.lights.Command;
 
 public class Client {
 	
+	private class IOThread extends Thread {
+		private final String hostname;
+		private final int port;
+		public IOThread(String hostname, int port) {
+			this.hostname = hostname;
+			this.port = port;
+		}
+		public void run() {
+			try (
+				Socket socket = new Socket(hostname, port);
+				OutputStream out = socket.getOutputStream();
+				InputStream in = socket.getInputStream();
+			) {
+				while(!Thread.interrupted()) {
+					if(!packetBuffer.isEmpty()) {
+						out.write(packetBuffer.remove(0).getData());
+					} else {
+						try {
+							Thread.sleep(5);
+						} catch (InterruptedException e) {
+							break;
+						}
+					}
+				}
+			} catch (java.net.ConnectException e) {
+				System.out.println("Could not connect");
+			} catch (java.net.SocketException e) {
+				System.out.println("Lost connection");
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private final String hostname;
+	private final int port;
+	
 	private ArrayList<Packet> packetBuffer;
 	
 	private Thread io;
@@ -19,43 +58,29 @@ public class Client {
 	
 	public Client(String hostname, int port) {
 		
+		this.hostname = hostname;
+		this.port = port;
+		
 		packetBuffer = new ArrayList<Packet>();
-		io = new Thread() {
-			public void run() {
-				try (
-					Socket socket = new Socket(hostname, port);
-					OutputStream out = socket.getOutputStream();
-					InputStream in = socket.getInputStream();
-				) {
-					while(!Thread.interrupted()) {
-						if(!packetBuffer.isEmpty()) {
-							out.write(packetBuffer.remove(0).getData());
-						} else {
-							try {
-								Thread.sleep(5);
-							} catch (InterruptedException e) {
-								break;
-							}
-						}
-					}
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
+		io = new IOThread(hostname, port);
 		io.start();
 	}
 	
-	public void sendPacket(Packet p) {
+	public boolean reconnect() {
 		if(!io.isAlive()) {
-			System.out.println("Socket is closed, cannot send packet");
+			io = new IOThread(hostname, port);
+			io.start();
+			return true;
+		}
+		return false;
+	}
+	
+	public void sendPacket(Packet p) {
+		if(!getConnected()) {
 			return;
 		}
 		packetBuffer.add(p);
 		if(packetBuffer.size() > MAX_BUFFER_SIZE) {
-			System.out.println("Too many packets, removing oldest");
 			packetBuffer.remove(0);
 		}
 	}
@@ -77,6 +102,10 @@ public class Client {
 	
 	public int getQueue() {
 		return packetBuffer.size();
+	}
+	
+	public boolean getConnected() {
+		return io.isAlive();
 	}
 
 }

@@ -20,6 +20,7 @@ import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleopElbow;
 import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
 import org.usfirst.frc.team4999.commands.lift.ManualLiftNoLimit;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
+import org.usfirst.frc.team4999.lights.BrightnessFilter;
 import org.usfirst.frc.team4999.robot.choosers.*;
 import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
 import org.usfirst.frc.team4999.robot.subsystems.*;
@@ -59,6 +60,8 @@ public class Robot extends TimedRobot {
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
 		RobotMap.elbowEncoder.setDistancePerPulse(1/MoPrefs.getElbowEncTicks());
 		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
+		
+		BrightnessFilter.register();
 		
 		CameraServer.getInstance().startAutomaticCapture();
 		
