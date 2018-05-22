@@ -11,18 +11,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class Lift extends Subsystem {
 	
-	private static final double MIN_HEIGHT = 0.25; // meters
-	private static final double MAX_MOTOR_DELTA = 0.05;
+	private static final int MIN_HEIGHT = 100; // ticks
+	private static final double MAX_MOTOR_DELTA = 0.02;
 	
 	private SpeedControllerGroup motors = RobotMap.liftMotors;
 	private DoubleSolenoid shifter = RobotMap.liftShifter;
-	private DoubleSolenoid brake = RobotMap.liftBrake;
 	
 	private Encoder encoder = RobotMap.liftEncoder;
 	
@@ -35,18 +35,11 @@ public class Lift extends Subsystem {
 		fastLiftPID = PIDFactory.getFastLiftPID();
 		currentLiftPID = slowLiftPID;
 		
+		addChild(slowLiftPID);
+		addChild(fastLiftPID);
+		
 	}
 	
-	public boolean isBraked() {
-		return brake.get() == DoubleSolenoid.Value.kForward;
-	}
-	
-	public void brake() {
-		brake.set(DoubleSolenoid.Value.kForward);
-	}
-	public void releaseBrake() {
-		brake.set(DoubleSolenoid.Value.kReverse);
-	}
 	
 	public boolean isHighSpeed() {
 		return shifter.get() == DoubleSolenoid.Value.kForward;
@@ -61,7 +54,7 @@ public class Lift extends Subsystem {
 	}
 	
 	public void driveLiftPID() {
-		if(currentLiftPID.isEnabled() && !isBraked())
+		if(currentLiftPID.isEnabled())
 			set(currentLiftPID.get());
 		else
 			set(0);
@@ -78,23 +71,32 @@ public class Lift extends Subsystem {
 	public void set(double power) {
 		// Anti-jerk: Clip the difference between the requested power and the current power
 		double delta = power - motors.get();
+		//System.out.format("Clipping %.2f to within +/- %.2f\n", delta, MAX_MOTOR_DELTA);
 		delta = Utils.clip(delta, -MAX_MOTOR_DELTA, MAX_MOTOR_DELTA);
 		double c_power = motors.get() + delta;
 		
 		// Hard endstops: don't let the motors go above a max and min height
-		if(c_power < 0 && encoder.getDistance() <= MIN_HEIGHT)
+		if(c_power < 0 && encoder.get() <= MIN_HEIGHT) {
+			System.out.format("Lift at or less than minimum height (%d)\n", encoder.get());
 			motors.set(0);
-		else if(c_power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight())
+		} else if(c_power > 0 && encoder.getDistance() >= MoPrefs.getMaxLiftHeight()) {
+			System.out.format("Lift at or greater than maximum height(%.2f >= %.2f)\n", encoder.getDistance(), MoPrefs.getMaxLiftHeight());
 			motors.set(0);
-		else
+		} else {
 			motors.set(c_power);
+		}
+	}
+	public void setNoLimit(double power) {
+		// Anti-jerk: Clip the difference between the requested power and the current power
+			double delta = power - motors.get();
+			//System.out.format("Clipping %.2f to within +/- %.2f\n", delta, MAX_MOTOR_DELTA);
+			delta = Utils.clip(delta, -MAX_MOTOR_DELTA, MAX_MOTOR_DELTA);
+			double c_power = motors.get() + delta;
+		motors.set(c_power);
 	}
 	public void setHeight(double height) {
 		double clippedHeight = Utils.clip(height, MIN_HEIGHT, MoPrefs.getMaxLiftHeight());
-		if(isHighSpeed())
-			fastLiftPID.setSetpoint(clippedHeight);
-		else
-			slowLiftPID.setSetpoint(clippedHeight);
+		currentLiftPID.setSetpoint(clippedHeight);
 	}
 	
 	public void disablePID() {
@@ -114,5 +116,8 @@ public class Lift extends Subsystem {
         setDefaultCommand(new MaintainLiftHeight());
     }
     
+    public void liftDashboard() {
+    	SmartDashboard.putBoolean("Lift Fast", isHighSpeed());
+    }
 }
 

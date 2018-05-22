@@ -14,6 +14,8 @@ public class F310XboxWrapper extends DriveController {
 	private static final double MOVE_CURVE = 2;
 	private static final double TURN_CURVE = 1;
 	
+	private static final double LIFT_SPEED = 0.8;
+	
 	private static final double DEADZONE = 0.05;
 	
 	private static final double MAX_CLAW_SPEED = 0.4;
@@ -27,16 +29,16 @@ public class F310XboxWrapper extends DriveController {
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = f310.getY(Hand.kLeft);
-    	moveRequest = deadzone(moveRequest, DEADZONE);
-    	moveRequest = curve(moveRequest, MOVE_CURVE);
+    	moveRequest = Utils.deadzone(moveRequest, DEADZONE);
+    	moveRequest = Utils.curve(moveRequest, MOVE_CURVE);
     	return moveRequest;
 	}
 
 	@Override
 	public double getTurnRequest() {
 		double turnRequest = f310.getX(Hand.kRight);
-    	turnRequest = deadzone(turnRequest, DEADZONE);
-    	turnRequest = curve(turnRequest, TURN_CURVE);
+    	turnRequest = Utils.deadzone(turnRequest, DEADZONE);
+    	turnRequest = Utils.curve(turnRequest, TURN_CURVE);
     	return turnRequest;
 	}
 
@@ -77,14 +79,25 @@ public class F310XboxWrapper extends DriveController {
 		}
 		return values[currentPos];
 	}
+	
+	@Override
+	public double getLiftSpeed() {
+		int pov = f310.getPOV();
+		if(pov == 315 || pov == 0 || pov == 45)
+			return LIFT_SPEED;
+		else if(pov == 135 || pov == 180 || pov == 225)
+			return -LIFT_SPEED;
+		else
+			return 0;
+	}
 
 	@Override
-	public boolean getFailsafeElbow() {
+	public boolean getFailsafeCubes() {
 		return xbox.getBackButton();
 	}
 
 	@Override
-	public boolean getHunt() {
+	public boolean getIntake() {
 		return xbox.getBumper(Hand.kRight);
 	}
 
@@ -95,8 +108,18 @@ public class F310XboxWrapper extends DriveController {
 
 	@Override
 	public double getElbowSpeed() {
-		double val = -deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
+		double val = -Utils.deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + Utils.deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
 		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
+	}
+
+	@Override
+	public int getCubeManagerButton() {
+		return 0;
+	}
+	
+	@Override
+	public boolean climb() {
+		return f310.getBumper(Hand.kRight);
 	}
 
 }

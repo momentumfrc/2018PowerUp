@@ -27,7 +27,6 @@ public class SetLiftHeight extends Command {
     		lift.shiftHigh();
     	else
     		lift.shiftLow();
-    	lift.releaseBrake();
     	lift.enablePID();
     	lift.setHeight(newHeight);
     }

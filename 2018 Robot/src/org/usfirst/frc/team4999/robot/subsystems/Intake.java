@@ -23,13 +23,13 @@ public class Intake extends Subsystem {
     private DoubleSolenoid claw = RobotMap.clawArms;
     
     private static final double INTAKE_SPEED = 1;
-    private static final double HOLD_SPEED = 0.1;
+    private static final double HOLD_SPEED = 0.2;
     private static final double SHOOT_SPEED = 1;
-    
-    private static final double CUTOFF_CURRENT = 8;
-	private static final int CUTOFF_TIME = 500;
 	
 	private PDPWrapper currentChecker = new PDPWrapper();
+	
+	private static final double HOLD_CURRENT = 2; // TODO: Set this to the real value
+	private static final int HOLD_CUTOFF_TIME = 500;
 	
 	private Timer time = new Timer();
     
@@ -46,10 +46,10 @@ public class Intake extends Subsystem {
     	intakeLeft.set(speed);
     }
     
-    private void grip() {
+    public void grip() {
 		claw.set(DoubleSolenoid.Value.kForward);
 	}
-	private void release() {
+	public void release() {
 		claw.set(DoubleSolenoid.Value.kReverse);
 	}
 	
@@ -65,15 +65,20 @@ public class Intake extends Subsystem {
 	
 	public void grab() {
 		grip();
-		if(holding) {
-			setIntake(HOLD_SPEED);
-		} else {
-			setIntake(INTAKE_SPEED);
-			holding = currentChecker.checkOvercurrent(new int[] {RobotMap.LEFT_INTAKE_PDP, RobotMap.RIGHT_INTAKE_PDP}, CUTOFF_CURRENT, CUTOFF_TIME);
-		}	
-		
+		System.out.format("LC: %.2f RC:%.2f LS:%.2f RS:%.2f\n",RobotMap.pdp.getCurrent(RobotMap.LEFT_INTAKE_PDP),RobotMap.pdp.getCurrent(RobotMap.RIGHT_INTAKE_PDP), intakeLeft.get(), intakeRight.get());
+		setIntake(INTAKE_SPEED);
+		//holding = currentChecker.checkOvercurrent(new int[] {RobotMap.LEFT_INTAKE_PDP, RobotMap.RIGHT_INTAKE_PDP}, CUTOFF_CURRENT, CUTOFF_TIME);
 	}
 	
+	public boolean hold() {
+		grip();
+		setIntake(HOLD_SPEED);
+		return checkHeld();
+	}
+	
+	public boolean checkHeld() {
+		return !currentChecker.checkUndercurrent(new int[] {RobotMap.LEFT_INTAKE_PDP,  RobotMap.RIGHT_INTAKE_PDP}, HOLD_CURRENT, HOLD_CUTOFF_TIME);
+	}
 	public void shoot() {
 		setIntake(-SHOOT_SPEED);
 		holding = false;

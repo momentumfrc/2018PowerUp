@@ -20,13 +20,14 @@ public class TeleopElbowPID extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	elbow.pid.enable();
     	elbow.pid.setSetpointRelative(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double mr = Robot.controlChooser.getSelected().getElbowSpeed();
-    	if(mr > 0) {
+    	if(Math.abs(mr) > 0.05) {
     		elbow.setElbowMotor(mr);
     		moving = true;
     	} else if(moving) {
@@ -45,10 +46,12 @@ public class TeleopElbowPID extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	elbow.pid.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

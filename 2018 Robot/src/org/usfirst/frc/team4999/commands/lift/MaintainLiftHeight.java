@@ -18,7 +18,6 @@ public class MaintainLiftHeight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	lift.releaseBrake();
     	lift.enablePID();
     	lift.setHeight(lift.getCurrentHeight());
     }

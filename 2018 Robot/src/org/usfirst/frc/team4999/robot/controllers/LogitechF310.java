@@ -14,8 +14,8 @@ public class LogitechF310 extends GenericHID {
 	private static final int B_BUTTON = 2;
 	private static final int L_BUMPER = 5;
 	private static final int R_BUMPER = 6;
-	private static final int START = 7;
-	private static final int BACK = 8;
+	private static final int START = 8;
+	private static final int BACK = 7;
 	
 	public LogitechF310(int port) {
 		super(port);

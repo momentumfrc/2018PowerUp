@@ -1,9 +1,11 @@
 package org.usfirst.frc.team4999.commands;
 
 import org.usfirst.frc.team4999.robot.Robot;
+import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.choosers.ControlChooser;
 import org.usfirst.frc.team4999.robot.controllers.DriveController;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4999.utils.PDPWrapper;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,8 +23,10 @@ public class DriveTiltPID extends Command {
         requires(drive);
     }
 
+    
     // Called just before this Command runs the first time
     protected void initialize() {
+    	drive.pitchPID.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run

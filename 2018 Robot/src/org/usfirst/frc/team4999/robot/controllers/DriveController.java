@@ -19,8 +19,6 @@ public abstract class DriveController {
 	 */
 	abstract public double getSpeedLimiter();
 	
-	abstract public double getLiftPosition();
-	
 	/**
 	 * Get whether to flip front and back on the robot
 	 * @return If front and back should be flipped
@@ -36,13 +34,13 @@ public abstract class DriveController {
 	 * Get whether the elbow should enter a failsafe teleop mode (disables PID)
 	 * @return If the failsafe should be activated
 	 */
-	abstract public boolean getFailsafeElbow();
+	abstract public boolean getFailsafeCubes();
 	
 	/**
 	 * Trigger the intake
 	 * @return If the intake should be running
 	 */
-	abstract public boolean getHunt();
+	abstract public boolean getIntake();
 	/**
 	 * Trigger releasing a held cube
 	 * @return If the arms should be toggled
@@ -54,25 +52,36 @@ public abstract class DriveController {
 	 */
 	abstract public double getElbowSpeed();
 	
+	abstract public double getLiftPosition();
+	abstract public double getLiftSpeed();
 	
-    
-    public double deadzone(double val, double deadzone) {
-    	if(val < -deadzone)
-    		return Utils.map(val, -1, -deadzone, -1, 0);
-    	else if(val > deadzone) 
-    		return Utils.map(val, deadzone, 1, 0, 1);
-    	else
-    		return 0;
-    }
-    
-    public double curve(double val, double curve) {
-    	if(curve == 0)
-			return val;
-		double powed = Math.pow(Math.abs(val), curve);
-		if(val * powed > 0)
-			return powed;
-		else
-			return -powed;
-    }
-    
+	/**
+	 * Gets input to send to cube manager
+	 * 0 - no buttons pushed
+	 * 1 - intake pushed
+	 * 2 - intake released
+	 * 3 - Aim up
+	 * 4 - Aim down
+	 * 5 - Shoot
+	 * @return
+	 */
+	abstract public int getCubeManagerButton();
+	
+	abstract public boolean climb();
+	
+	public boolean shiftLift() {
+		return false;
+	}
+	
+	public boolean useCubeManager() {
+		return true;
+	}
+	
+	public void vibrate(double intensity) {
+	}
+	
+	public boolean zeroLift() {
+		return false;
+	}
+	
 }

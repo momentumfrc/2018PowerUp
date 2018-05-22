@@ -3,6 +3,7 @@ package org.usfirst.frc.team4999.commands.lift;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.subsystems.Lift;
+import org.usfirst.frc.team4999.utils.PDPWrapper;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
@@ -19,10 +20,10 @@ public class ZeroLift extends Command {
 	
 	private static final double TIMEOUT = 5;
 	
-	private static final double CUTOFF_CURRENT = 30;
-	private static final double CUTOFF_TIME = 0.5;
+	private static final double CUTOFF_CURRENT = 10;
+	private static final int CUTOFF_TIME = 500;
 	
-	private PowerDistributionPanel pdp = RobotMap.pdp;
+	private PDPWrapper pdp = new PDPWrapper();
 	
 	private Timer timeout = new Timer();
 	private Timer overCurrent = new Timer();
@@ -34,32 +35,26 @@ public class ZeroLift extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	lift.shiftLow();
-    	lift.releaseBrake();
     	timeout.start();
     	overCurrent.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	lift.set(-ZERO_SPEED);
+    	lift.setNoLimit(-ZERO_SPEED);
+    	System.out.format("Current1:%.2f Currrent2:%.2f\n", RobotMap.pdp.getCurrent(RobotMap.LIFT_MOTOR1_PDP), RobotMap.pdp.getCurrent(RobotMap.LIFT_MOTOR2_PDP));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(pdp.getCurrent(RobotMap.LIFT_MOTOR1_PDP) > CUTOFF_CURRENT || pdp.getCurrent(RobotMap.LIFT_MOTOR2_PDP) > CUTOFF_CURRENT) {
-    		if(overCurrent.hasPeriodPassed(CUTOFF_TIME)) {
-    			return true;
-    		}
-    	} else {
-    		overCurrent.reset();
-    	}
-        return RobotMap.liftZeroSwitch.get() || timeout.hasPeriodPassed(TIMEOUT);
+        return pdp.checkOvercurrent(new int[] {RobotMap.LIFT_MOTOR1_PDP,  RobotMap.LIFT_MOTOR2_PDP}, CUTOFF_CURRENT, CUTOFF_TIME) || RobotMap.liftZeroSwitch.get() || timeout.hasPeriodPassed(TIMEOUT);
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	lift.set(0);
     	lift.setHome();
+    	System.out.println("Lift Zeroed");
     }
 
     // Called when another command which requires one or more of the same

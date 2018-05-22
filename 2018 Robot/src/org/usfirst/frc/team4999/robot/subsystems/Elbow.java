@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elbow extends Subsystem {
 	
-	private static final int MIN_POS = 0;
+	private static final int MIN_POS = 150;
 	
-	private static final double ZERO_SPEED = 0.2;
-	private static final double ZERO_CUTOFF_CURRENT = 10; // amperes
-	private static final int ZERO_CUTOFF_TIME = 500; // ms
+	private static final double ZERO_SPEED = 0.5;
+	private static final double ZERO_CUTOFF_CURRENT = 2.7; // amperes
+	private static final int ZERO_CUTOFF_TIME = 1000; // ms
 	
 	private PDPWrapper pdp = new PDPWrapper();
 
@@ -39,12 +39,13 @@ public class Elbow extends Subsystem {
      */
     public void setElbowMotor(double speed) {
     	if(speed > 0 && encoder.get() >= MoPrefs.getMaxElbowRotation()) {
-    		System.out.println("Elbow at or past maximum rotation, can only retract");
+    		System.out.format("Elbow at or past maximum rotation (%d), can only retract\n",encoder.get());
     		elbow.set(0);
     	} else if(speed < 0 && encoder.get() <= MIN_POS) {
-    		System.out.println("Elbow at or past minimum rotation, can only extend");
+    		System.out.format("Elbow at or past minimum rotation(%d), can only extend", encoder.get());
     		elbow.set(0);
     	} else {
+    		//System.out.format("Elbow C:%d D:%.2f\n",encoder.get(), encoder.getDistance());
     		elbow.set(speed);
     	}
     }
@@ -65,7 +66,7 @@ public class Elbow extends Subsystem {
     		elbow.set(0);
     		return true;
     	} else {
-    		elbow.set(ZERO_SPEED);
+    		elbow.set(-ZERO_SPEED);
     		return false;
     	}
     }

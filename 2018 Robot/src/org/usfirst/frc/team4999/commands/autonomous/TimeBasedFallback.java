@@ -27,7 +27,7 @@ public class TimeBasedFallback extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	drive.arcadeDrive(1, 0, MoPrefs.getAutoSpeed());
+    	drive.arcadeDrive(-1, .15, MoPrefs.getAutoSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()

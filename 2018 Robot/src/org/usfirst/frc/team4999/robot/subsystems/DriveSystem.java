@@ -10,6 +10,7 @@ import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.utils.MomentumPID;
 import org.usfirst.frc.team4999.utils.PIDFactory;
 import org.usfirst.frc.team4999.utils.PIDThread;
+import org.usfirst.frc.team4999.utils.Utils;
 
 /**
  *
@@ -48,14 +49,14 @@ public class DriveSystem extends Subsystem {
     }
     
     public void arcadeDrive(double moveRequest, double turnRequest, double speedLimiter) {
-    	double m_r = clip(moveRequest, -1, 1) * speedLimiter;
-    	double t_r = clip(turnRequest, -1, 1) * speedLimiter;
+    	double m_r = Utils.clip(moveRequest, -1, 1) * speedLimiter;
+    	double t_r = Utils.clip(turnRequest, -1, 1) * speedLimiter;
     	drive.arcadeDrive(m_r, t_r, false);
     }
     
     public void tankDrive(double leftSide, double rightSide, double speedLimiter) {
-    	double l_m = clip(leftSide * speedLimiter, -1, 1);
-    	double r_m = clip(rightSide * speedLimiter, -1, 1);
+    	double l_m = Utils.clip(leftSide * speedLimiter, -1, 1);
+    	double r_m = Utils.clip(rightSide * speedLimiter, -1, 1);
     	drive.tankDrive(l_m, r_m);
     }
     
@@ -93,14 +94,15 @@ public class DriveSystem extends Subsystem {
     
     public void arcadeDriveTilt(double moveRequest, double turnRequest, double speedLimit) {
     	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
-    		arcadeDrive(pitchPID.get(), 0, 1);
+    		System.out.print(pitchPID.get()+ " ");
+    		arcadeDrive(-pitchPID.get(), 0, 1);
     		System.out.println("TILTING!!");
     	} else {
     		arcadeDrive(moveRequest, turnRequest, speedLimit);
     	}
     }
-    private double clip(double val, double min, double max) {
-    	return Math.max(Math.min(val, max), min);
+    public double get() {
+    	return (leftside.get() + rightside.get())/2;
     }
     
 }

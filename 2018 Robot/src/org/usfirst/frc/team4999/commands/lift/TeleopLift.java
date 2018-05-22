@@ -21,8 +21,8 @@ public class TeleopLift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	lift.releaseBrake();
     	lift.enablePID();
+    	lift.shiftHigh();
     	lift.setHeight(lift.getCurrentHeight());
     }
 
@@ -30,6 +30,12 @@ public class TeleopLift extends Command {
     protected void execute() {
     	double pos = Robot.controlChooser.getSelected().getLiftPosition();
     	lift.setHeight(pos);
+    	if(Robot.controlChooser.getSelected().shiftLift()) {
+    		if(lift.isHighSpeed())
+    			lift.shiftLow();
+    		else
+    			lift.shiftHigh();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
