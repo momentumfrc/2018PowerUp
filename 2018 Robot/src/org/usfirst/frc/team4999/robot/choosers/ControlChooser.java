@@ -1,31 +1,25 @@
 package org.usfirst.frc.team4999.robot.choosers;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.TableEntryListener;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc.team4999.robot.commands.*;
-import org.usfirst.frc.team4999.robot.commands.drive.FlightStickDrive;
-import org.usfirst.frc.team4999.robot.commands.drive.XboxDrive;
+import org.usfirst.frc.team4999.robot.controllers.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ControlChooser extends SendableChooser<Command> {
+public class ControlChooser extends SendableChooser<DriveController> {
 	
 	private final String NAME = "Control Chooser";
 	
 	public ControlChooser() {
 		super();
-		addDefault("Flight Stick", new FlightStickDrive());
-		addObject("Xbox Controller", new XboxDrive());
+		addObject("Flight Stick", new FlightStickWrapper());
+		addObject("Xbox Controller", new XboxWrapper());
+		addObject("Logitech F310", new F310Wrapper());
+		addObject("F310 drive, Xbox intake", new F310XboxWrapper());
+		addDefault("Xbox drive, F310 intake", new XboxF310Wrapper());
+		addObject("Flightstick drive, Xbox intake", new FlightstickXboxWrapper());
+		addObject("Xbox drive, Flightstick intake", new XboxFlightstickWrapper());
 		
 		SmartDashboard.putData(NAME, this);
-		NetworkTableInstance.getDefault().getTable("SmartDashboard").getSubTable(NAME).getEntry("selected").addListener((notification)->{
-			if(DriverStation.getInstance().isOperatorControl())
-				getSelected().start();
-		},TableEntryListener.kUpdate|TableEntryListener.kImmediate);
 	}
 
 }

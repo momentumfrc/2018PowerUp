@@ -1,0 +1,10 @@
+[Unit]
+Description=Service to send ahrs data to the roborio
+
+[Service]
+ExecStart=/usr/bin/python /home/pi/Documents/GetData/PiSendData.py
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+
