@@ -1,4 +1,5 @@
 2018 Robot/build
 2018 Robot/dist
-Cube Tracking With Pixy/build
-Cube Tracking With Pixy/dist
+AnimationController/bin
+AnimationTest/bin
+*.class
