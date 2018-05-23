@@ -42,5 +42,7 @@ void keyPressed() {
     if(c.reconnect()) {
       chooser.setup();
     }
+  } else if(key == 'c') {
+    chooser.reset();
   }
 }

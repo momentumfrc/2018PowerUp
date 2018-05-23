@@ -83,4 +83,14 @@ public class Chooser {
     
   }
   
+  public void reset() {
+    
+    if(choosen) {
+      if(currentSoundFile != null) {
+        currentSoundFile.stop();
+      }
+      choosen = false;
+    }
+    }
+  
 }
