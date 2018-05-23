@@ -4,15 +4,9 @@ import processing.sound.*;
 
 Client c;
 
-AudioIn mic;
-SoundFile soundF;
-
-float amp = 20;
-
-
-Animation current;
-
 PFont font;
+
+Chooser chooser;
 
 void setup() {
   c = new Client("localhost", 5800);
@@ -20,19 +14,10 @@ void setup() {
   size(1024, 360);
   background(255);
   
-  mic = new AudioIn(this, 0);
-  soundF = new SoundFile(this, "MEGALOVANIA.ogg");
-  soundF.loop();
+  chooser = new Chooser(this, c);
   
-  mic.amp(amp);
-  mic.start();
   
   font = createFont("Arial", 16, true);
-  
-  current = new SimpleSpectrum(this, c, soundF, 30);
-  //current = new Amplitude(this, c, soundF, 5);
-  
-  current.setup();
 }
 
 
@@ -40,7 +25,7 @@ void setup() {
 void draw() {
   background(255);
   
-  current.draw();
+  chooser.draw();
   textFont(font);
   if(c.getConnected()) {
       fill(0,255,0);
@@ -55,7 +40,7 @@ void draw() {
 void keyPressed() {
   if(key == 'r') {
     if(c.reconnect()) {
-      current.setup();
+      chooser.setup();
     }
   }
 }

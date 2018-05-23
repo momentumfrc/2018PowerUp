@@ -10,7 +10,7 @@ public class Amplitude implements Animation {
   
   float amplification;
   
-  int elbow1 = 10, elbow2 = 30, size = 40;
+  int elbow1 = 30, elbow2 = 60, size = 80;
   
   public Amplitude(PApplet window, Client c, AudioIn mic, float amplification) {
     this.window = window;
@@ -19,7 +19,7 @@ public class Amplitude implements Animation {
     amp.input(mic);
     c.sendPacket(PacketFactory.setRefreshTime(50));
     hist  = new float[(int)(width/w)];
-    this.amplification = amplification;
+    this.amplification = amplification/20;
     
   }
   
@@ -29,7 +29,7 @@ public class Amplitude implements Animation {
     this.amp = new processing.sound.Amplitude(window);
     amp.input(mic);
     hist  = new float[(int)(width/w)];
-    this.amplification = amplification;
+    this.amplification = amplification/12;
     
   }
   
