@@ -6,6 +6,8 @@ public class Amplitude implements Animation {
   float[] hist;
   int idx = 0;
   
+  int avgsamples = 3;
+  
   int w = 2;
   
   float amplification;
@@ -41,18 +43,25 @@ public class Amplitude implements Animation {
   @Override
   public void draw() {
     float data = constrain(amp.analyze() * amplification, 0, 1);
-    Color c = ColorTools.mapRainbow(data);
+    
+    hist[idx] = data;
+    
+    float avg = 0;
+    for(int i = 0, j = idx; i < avgsamples; i++, j = (j-1+hist.length) % hist.length) {
+      avg += hist[j];
+    }
+    avg /= avgsamples;
+    
+    Color c = ColorTools.mapRainbow(avg);
     
     Command[] frame = new Command[3];
-    int level1 = (int)map(1-data, 0, 1, 0, elbow1);
-    int level2 = (int)map(data, 0, 1, elbow2, size)+1;
+    int level1 = (int)map(1-avg, 0, 1, 0, elbow1);
+    int level2 = (int)map(avg, 0, 1, elbow2, size)+1;
     frame[0] = CommandFactory.makeRun(0, ColorTools.rainbow[ColorTools.rainbow.length - 1], level1);
     frame[1] = CommandFactory.makeRun(level1, c, level2);
     frame[2] = CommandFactory.makeRun(level2, ColorTools.rainbow[ColorTools.rainbow.length - 1], size);
     
     this.c.sendFrame(frame);
-    hist[idx] = data;
-    
     
     
     for(int i = hist.length-1, j = idx; i >= 0; i--, j = (j-1+hist.length) % hist.length) {

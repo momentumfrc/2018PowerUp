@@ -13,7 +13,7 @@ public static class ColorTools {
      new Color(0,0,255),
      new Color(75,0,130),
      new Color(148,0,211),
-     new Color(0,0,0)
+     new Color(255,255,255)
   };
   public static Color mapRainbow(float percent) {
     percent = constrain(percent,0,1);
