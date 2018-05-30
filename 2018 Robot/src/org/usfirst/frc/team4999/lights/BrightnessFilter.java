@@ -7,7 +7,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class BrightnessFilter {
 	
-	private static double brightness = 1;
+	private static double brightness = 0.4;
 	
 	private static BrightnessFilter instance;
 	
