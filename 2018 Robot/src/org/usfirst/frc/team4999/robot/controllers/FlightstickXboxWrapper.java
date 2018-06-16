@@ -106,11 +106,6 @@ public class FlightstickXboxWrapper extends DriveController {
 	}
 
 	@Override
-	public int getCubeManagerButton() {
-		return 0;
-	}
-
-	@Override
 	public boolean climb() {
 		return flightStick.getRawButton(12);
 	}

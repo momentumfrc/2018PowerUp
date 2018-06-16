@@ -77,26 +77,6 @@ public class F310Wrapper extends DriveController {
 	}
 
 	@Override
-	public int getCubeManagerButton() {
-		if(logitech.getBumperPressed(Hand.kRight))
-			return 1;
-		else if(logitech.getBumperReleased(Hand.kRight))
-			return 2;
-		
-		switch(logitech.getPOV()) {
-		case 0:
-			return 3;
-		case 180:
-			return 4;
-		}
-		
-		if(logitech.getBumperPressed(Hand.kLeft))
-			return 5;
-		
-		return 0;
-	}
-
-	@Override
 	public boolean getIntake() {
 		return logitech.getBumper(Hand.kRight);
 	}

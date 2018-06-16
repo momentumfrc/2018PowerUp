@@ -124,11 +124,6 @@ public class XboxF310Wrapper extends DriveController {
 	}
 
 	@Override
-	public int getCubeManagerButton() {
-		return 0;
-	}
-
-	@Override
 	public boolean climb() {
 		if(xbox.getPOV() == 90) {
 			return climbTimer.hasPeriodPassed(CLIMB_HOLD_TIME);
@@ -143,19 +138,11 @@ public class XboxF310Wrapper extends DriveController {
 		xbox.setRumble(RumbleType.kLeftRumble, intensity);
 	}
 	
-	@Override
-	public boolean useCubeManager() {
-		return false;
-	}
 	
 	@Override
 	public boolean shiftLift() {
 		return xbox.getBumperPressed(Hand.kLeft) || xbox.getBumperPressed(Hand.kRight);
 	}
 	
-	@Override
-	public boolean zeroLift() {
-		return logitech.getXButton();
-	}
 
 }

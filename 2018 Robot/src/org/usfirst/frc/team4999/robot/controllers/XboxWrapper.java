@@ -75,33 +75,6 @@ public class XboxWrapper extends DriveController {
 	public boolean getFailsafeDrive() {
 		return xbox.getStartButton();
 	}
-	
-	@Override
-	public int getCubeManagerButton() {
-		if(xbox.getAButtonPressed())
-			return 1;
-		else if(xbox.getAButtonReleased())
-			return 2;
-		
-		switch(xbox.getPOV()) {
-		case 315:
-		case 45:
-		case 0:
-			return 3;
-		case 135:
-		case 225:
-		case 180:
-			return 4;
-		}
-		
-		if(xbox.getBumperPressed(Hand.kLeft))
-			return 5;
-		if(xbox.getTriggerAxis(Hand.kLeft) >= 0.9) 
-			return 6;
-		if(xbox.getXButtonPressed())
-			return 7;
-		return 0;
-	}
 
 	@Override
 	public boolean getIntake() {

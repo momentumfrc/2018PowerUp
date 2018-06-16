@@ -50,6 +50,10 @@ public class Elbow extends Subsystem {
     	}
     }
     
+    public void setElbowNoLimits(double speed) {
+    	elbow.set(speed);
+    }
+    
     public void drivePID() {
     	setElbowMotor(pid.get());
     }

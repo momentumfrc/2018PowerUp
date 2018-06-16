@@ -57,5 +57,14 @@ public class Color {
 	public static final Color MOMENTUM_BLUE = new Color(6,206,255);
 	public static final Color MOMENTUM_PURPLE = new Color(159,1,255);
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Color)) {
+			return false;
+		}
+		Color cobj = (Color) obj;
+		return cobj.getRed() == getRed() && cobj.getGreen() == getGreen() && cobj.getBlue() == getBlue();
+	}
+	
 	
 }

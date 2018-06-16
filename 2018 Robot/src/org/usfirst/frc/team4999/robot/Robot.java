@@ -162,11 +162,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().removeAll();
-		new DriveTiltPID().start();
+		new DriveNoPID().start();
 		new ZeroAndTeleopElbow().start();
 		new ManualLiftNoLimit().start();
-		if(!controlChooser.getSelected().useCubeManager())
-			m_oi.disableCubeManager();
 		
 		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
 		RobotMap.elbowEncoder.setDistancePerPulse(1/6.2222);;

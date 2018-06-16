@@ -55,17 +55,6 @@ public abstract class DriveController {
 	abstract public double getLiftPosition();
 	abstract public double getLiftSpeed();
 	
-	/**
-	 * Gets input to send to cube manager
-	 * 0 - no buttons pushed
-	 * 1 - intake pushed
-	 * 2 - intake released
-	 * 3 - Aim up
-	 * 4 - Aim down
-	 * 5 - Shoot
-	 * @return
-	 */
-	abstract public int getCubeManagerButton();
 	
 	abstract public boolean climb();
 	
@@ -73,15 +62,7 @@ public abstract class DriveController {
 		return false;
 	}
 	
-	public boolean useCubeManager() {
-		return true;
-	}
-	
 	public void vibrate(double intensity) {
-	}
-	
-	public boolean zeroLift() {
-		return false;
 	}
 	
 }

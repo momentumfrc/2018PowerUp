@@ -8,8 +8,6 @@
 package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.commands.*;
-import org.usfirst.frc.team4999.commands.cubemanager.CubeManager;
-import org.usfirst.frc.team4999.commands.cubemanager.Hunt;
 import org.usfirst.frc.team4999.commands.elbow.*;
 import org.usfirst.frc.team4999.commands.intake.*;
 import org.usfirst.frc.team4999.commands.lift.*;
@@ -19,7 +17,6 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -54,10 +51,8 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Trigger failsafeDrive = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeCubes();});
+	Trigger failsafeDrive = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeDrive();});
 	Trigger failsafeCubes = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeCubes();});
-	Trigger climb = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().climb();});
-	Trigger zero = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().zeroLift();});
 	
 	Trigger brownout = new ButtonTrigger(()->{return RobotController.isBrownedOut();});
 	
@@ -67,57 +62,28 @@ public class OI {
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
 	
-	CubeManagerTrigger cubeManager = new CubeManagerTrigger();
-	
 	
 	public OI() {
 		failsafeDrive.whenActive(new DriveNoPID());
 		
-		failsafeCubes.whenActive(new FailsafeCubes());
+		failsafeCubes.whenActive(new ElbowNoLimit());
 		driveOvercurrent.whenActive(new DriveOvercurrentDetect(driveOvercurrent));
-		//liftOvercurrent.whenActive(new KillLift());
-		
-		//climb.whenActive(new PrepareClimb());
-		//climb.whenInactive(new SetLiftHeight(0, false));
 		
 		CommandGroup zeroAndTeleop = new CommandGroup();
 		zeroAndTeleop.addSequential(new InstantSetZero());
 		zeroAndTeleop.addSequential(new TeleopLift());
-		zero.whenActive(new ManualLiftNoLimit());
-		zero.whenInactive(zeroAndTeleop);
-		
-		cubeManager.whenActive(new CubeManager(cubeManager));
 		
 		hunt.whenActive(new IntakeOpen());
 		hunt.whenInactive(new GrabAndHold());
-		hunt.disable();
 		
 		shoot.whenActive(new Shoot());
-		shoot.disable();
 		
 		brownout.whenActive(new InstantCommand() {
-		    // Called once when the command executes
 		    protected void initialize() {
 		    	Robot.lights.pushAnimation("Battery", Robot.lights.blinkRed);
 		    }
 		});
 		
-	}
-	
-	public void disableCubeManager() {
-		cubeManager.disable();
-		
-		hunt.enable();
-		shoot.enable();
-	}
-	
-	public void enableCubeManager() {
-		Robot.lift.getCurrentCommand().cancel();
-		Robot.elbow.getCurrentCommand().cancel();
-		cubeManager.enable();
-		
-		hunt.disable();
-		shoot.disable();
 	}
 	
 }

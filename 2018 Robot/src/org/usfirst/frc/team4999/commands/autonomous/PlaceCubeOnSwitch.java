@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
-import org.usfirst.frc.team4999.commands.cubemanager.CubeManager;
-import org.usfirst.frc.team4999.commands.cubemanager.SetLiftAndElbow;
 import org.usfirst.frc.team4999.commands.elbow.SetElbowPosition;
 import org.usfirst.frc.team4999.commands.intake.Shoot;
 import org.usfirst.frc.team4999.robot.controllers.LiftPosition;

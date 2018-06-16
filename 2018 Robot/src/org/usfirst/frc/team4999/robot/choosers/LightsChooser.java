@@ -7,9 +7,11 @@ import java.util.Vector;
 
 import org.usfirst.frc.team4999.lights.Animator;
 import org.usfirst.frc.team4999.lights.animations.*;
+import org.usfirst.frc.team4999.robot.RobotMap;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TableEntryListener;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -57,8 +59,16 @@ public class LightsChooser extends SendableChooser<Animation> {
 						Color.YELLOW,
 						new Color(255,127,0),
 						Color.RED
-				}, 20, 50)
-		}, new int[] {5000, 5000, 1000, 6000, 10000});
+				}, 20, 50),
+				new Stack(new Color[] {
+						new Color(139,0,255),
+						Color.BLUE,
+						Color.GREEN,
+						Color.YELLOW,
+						new Color(255,127,0),
+						Color.RED
+				}, 25, 40)
+		}, new int[] {5000, 5000, 1000, 6000, 10000, 10000});
 		
 		AnimationSequence christmas = new AnimationSequence(new Animation[] {
 				Snake.twoColorSnake(Color.RED, Color.WHITE, 2, 0, 4, 250),
@@ -93,6 +103,7 @@ public class LightsChooser extends SendableChooser<Animation> {
 		addObject("Solid White", solid);
 		addObject("Random", random);
 		addObject("Bounce", bounce);
+		addObject("Move", new RainbowMove(new SpeedController[] {RobotMap.leftFrontMotor, RobotMap.leftBackMotor}));
 		addObject("Remote", new SocketListener());
 		
 		SmartDashboard.putData(NAME, this);

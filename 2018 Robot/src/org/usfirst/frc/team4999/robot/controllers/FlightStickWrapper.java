@@ -59,26 +59,6 @@ public class FlightStickWrapper extends DriveController {
 	}
 
 	@Override
-	public int getCubeManagerButton() {
-		if(flightStick.getRawButtonPressed(3))
-			return 1;
-		else if(flightStick.getRawButtonReleased(3))
-			return 2;
-		
-		switch(flightStick.getPOV()) {
-		case 0:
-			return 3;
-		case 180:
-			return 4;
-		}
-		
-		if(flightStick.getRawButtonPressed(4))
-			return 5;
-		
-		return 0;
-	}
-
-	@Override
 	public boolean getIntake() {
 		return flightStick.getRawButton(3);
 	}

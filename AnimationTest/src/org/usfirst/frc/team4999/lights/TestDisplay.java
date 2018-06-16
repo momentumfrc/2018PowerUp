@@ -27,6 +27,8 @@ class TestComponent extends JComponent implements Display {
 	
 	Dimension pixsize;
 	
+	private long lastTime;
+	
 	public TestComponent(int numPixels) {
 		super();
 		pixels = new java.awt.Color[numPixels];
@@ -34,6 +36,7 @@ class TestComponent extends JComponent implements Display {
 			pixels[i] = new java.awt.Color(255,255,255);
 		}
 		resize();
+		lastTime = System.currentTimeMillis();
 	}
 	
 	@Override
@@ -80,6 +83,12 @@ class TestComponent extends JComponent implements Display {
 	//private ByteBuffer b = ByteBuffer.allocate(16);
 	@Override
 	public void show(Packet[] pixels) {
+		
+		double packetPerSec = pixels.length / ((System.currentTimeMillis() - lastTime) / 1000.0);
+		lastTime = System.currentTimeMillis();
+		if(packetPerSec > 781.25) {
+			System.out.format("Exceeds data limit! %.2f packets/sec\n",packetPerSec);
+		}
 		
 		for(Packet packet : pixels) {
 			//b.rewind();
@@ -140,6 +149,15 @@ public class TestDisplay {
 		Packet[] test = new Packet[] {Commands.makeStride(0, new org.usfirst.frc.team4999.lights.Color(0,0,0), 1, 1)};
 		tc.show(test);
 		
+		Color[] rainbowcolors = {
+			new Color(139,0,255),
+			Color.BLUE,
+			Color.GREEN,
+			Color.YELLOW,
+			new Color(255,127,0),
+			Color.RED
+		};
+		
 		AnimationSequence momentum = new AnimationSequence(new Animation[] {
 				Snake.twoColorSnake(Color.MOMENTUM_PURPLE, Color.MOMENTUM_BLUE, 1, 5, 2, 125),
 				new Fade(new Color[]{Color.MOMENTUM_BLUE, Color.WHITE, Color.MOMENTUM_PURPLE}, 200, 0),
@@ -149,20 +167,15 @@ public class TestDisplay {
 		
 		AnimationSequence rainbow = new AnimationSequence(new Animation[] {
 				Snake.rainbowSnake(70),
-				Fade.rainbowFade(50, 20),
+				Fade.rainbowFade(100, 20),
 				Snake.rainbowSnake(150),
 				Fade.rainbowFade(200, 0),
-				new Bounce(Color.WHITE, new Color[] {
-						new Color(139,0,255),
-						Color.BLUE,
-						Color.GREEN,
-						Color.YELLOW,
-						new Color(255,127,0),
-						Color.RED
-				}, 20, 50)
-		}, new int[] {5000, 5000, 1000, 6000, 10000});
+				new Bounce(Color.WHITE, rainbowcolors, 20, 50),
+				new Stack(rainbowcolors, 25, 40)
+		}, new int[] {5000, 5000, 1000, 6000, 10000, 20000});
 		
-		an.setAnimation(new SocketListener());
+		//an.setAnimation(new SocketListener());
+		an.setAnimation(rainbow);
 		
 		
 	}

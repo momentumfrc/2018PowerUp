@@ -9,7 +9,7 @@ PFont font;
 Chooser chooser;
 
 void setup() {
-  c = new Client("localhost", 5800);
+  c = new Client("10.49.99.2", 5800);
   
   size(1024, 360);
   background(255);

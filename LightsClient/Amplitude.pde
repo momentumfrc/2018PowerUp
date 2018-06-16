@@ -12,14 +12,14 @@ public class Amplitude implements Animation {
   
   float amplification;
   
-  int elbow1 = 30, elbow2 = 60, size = 80;
+  int elbow1 = 37, elbow2 = 76, size = 118;
   
   public Amplitude(PApplet window, Client c, AudioIn mic, float amplification) {
     this.window = window;
     this.c = c;
     this.amp = new processing.sound.Amplitude(window);
     amp.input(mic);
-    c.sendPacket(PacketFactory.setRefreshTime(50));
+    c.sendPacket(PacketFactory.setRefreshTime(30));
     hist  = new float[(int)(width/w)];
     this.amplification = amplification/20;
     

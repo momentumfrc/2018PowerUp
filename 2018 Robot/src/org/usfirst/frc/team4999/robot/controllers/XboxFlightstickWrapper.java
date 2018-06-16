@@ -120,11 +120,6 @@ public class XboxFlightstickWrapper extends DriveController {
 	}
 
 	@Override
-	public int getCubeManagerButton() {
-		return 0;
-	}
-
-	@Override
 	public boolean climb() {
 		return xbox.getBumper(Hand.kRight);
 	}

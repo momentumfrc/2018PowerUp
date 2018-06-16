@@ -35,6 +35,9 @@ public class Chooser {
     soundfileOptions.add(new SoundF("The Arena.ogg", "The Arena", 15));
     soundfileOptions.add(new SoundF("Eiffel 65 - Blue.ogg", "Blue", 30));
     soundfileOptions.add(new SoundF("Silver Scrapes.ogg", "Silver Scrapes", 12));
+    soundfileOptions.add(new SoundF("Hornet.ogg", "Hornet", 30));
+    soundfileOptions.add(new SoundF("Mantis Lords.ogg", "Mantis Lords", 20));
+    soundfileOptions.add(new SoundF("Radiance.ogg", "Radiance", 20));
     
     font = createFont("Arial", 14);
     
@@ -51,6 +54,7 @@ public class Chooser {
   public void createAnimation() {
     //animation = new SimpleSpectrum(window, c, currentSoundFile, currentFile.amp);
     animation = new Amplitude(window, c, currentSoundFile, currentFile.amp);
+    //animation = new BounceDance(window, c, currentSoundFile, currentFile.amp, Color.BLACK, Color.WHITE, 5, 30, 5);
     animation.setup();
   }
   

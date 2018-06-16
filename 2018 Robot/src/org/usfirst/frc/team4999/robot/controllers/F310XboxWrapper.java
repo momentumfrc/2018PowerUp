@@ -112,10 +112,6 @@ public class F310XboxWrapper extends DriveController {
 		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
 
-	@Override
-	public int getCubeManagerButton() {
-		return 0;
-	}
 	
 	@Override
 	public boolean climb() {
