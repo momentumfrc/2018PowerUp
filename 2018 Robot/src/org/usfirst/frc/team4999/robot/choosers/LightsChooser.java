@@ -36,6 +36,7 @@ public class LightsChooser extends SendableChooser<Animation> {
 	public final Animation whiteSnake = new Snake(new Color[] {Color.WHITE, Color.BLACK, Color.BLACK}, 50);
 	public final Animation reverseWhiteSnake = new Snake(new Color[] {Color.WHITE, Color.BLACK, Color.BLACK}, 50, true);
 	public final Animation blinkGreen = new Blink(new Color[] {Color.GREEN, Color.BLACK}, 50);
+	public final Animation blinkPurple = new Blink(new Color[] {Color.MOMENTUM_PURPLE, Color.BLACK}, 50);
 	
 	public LightsChooser() {
 		super();

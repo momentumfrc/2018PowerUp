@@ -67,7 +67,19 @@ public class OI {
 		failsafeDrive.whenActive(new DriveNoPID());
 		
 		failsafeCubes.whenActive(new ElbowNoLimit());
-		driveOvercurrent.whenActive(new DriveOvercurrentDetect(driveOvercurrent));
+		
+		driveOvercurrent.whenActive(new InstantCommand() {
+			protected void initialize() {
+				Robot.controlChooser.getSelected().vibrate(1);
+				Robot.lights.pushAnimation("Pinning", Robot.lights.blinkPurple);
+			}
+		});
+		driveOvercurrent.whenInactive(new InstantCommand() {
+			protected void initialize() {
+				Robot.controlChooser.getSelected().vibrate(0);
+				Robot.lights.popAnimation("Pinning");
+			}
+		});
 		
 		CommandGroup zeroAndTeleop = new CommandGroup();
 		zeroAndTeleop.addSequential(new InstantSetZero());

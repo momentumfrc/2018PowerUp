@@ -4,6 +4,7 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.PDPWrapper;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
@@ -27,7 +28,7 @@ public class DriveOvercurrent extends Trigger {
 	}
 
     public boolean get() {
-    	return pdp.checkOvercurrent(MOTORS, DRIVE_CUTOFF_CURRENT, DRIVE_CUTOFF_TIME);
+    	return pdp.checkOvercurrent(MOTORS, DRIVE_CUTOFF_CURRENT, DRIVE_CUTOFF_TIME) || RobotController.isBrownedOut();
     }
     
 }

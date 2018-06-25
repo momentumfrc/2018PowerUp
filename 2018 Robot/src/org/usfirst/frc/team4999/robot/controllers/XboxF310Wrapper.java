@@ -136,6 +136,7 @@ public class XboxF310Wrapper extends DriveController {
 	@Override
 	public void vibrate(double intensity) {
 		xbox.setRumble(RumbleType.kLeftRumble, intensity);
+		xbox.setRumble(RumbleType.kRightRumble, intensity);
 	}
 	
 	
