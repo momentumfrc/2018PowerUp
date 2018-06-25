@@ -10,6 +10,8 @@ public class PDPWrapper {
 	
 	private long[] timers = new long[16];
 	
+	private long voltagetimer;
+	
 	private long getTimeMillis() {
 		return (long)Timer.getFPGATimestamp() * 1000;
 	}
@@ -29,7 +31,7 @@ public class PDPWrapper {
 	 */
 	public boolean checkOvercurrent(int channel, double current, int cutofftime) {
 		if(pdp.getCurrent(channel) > current)
-			return getTimeMillis() - timers[channel] < cutofftime;
+			return getTimeMillis() - timers[channel] > cutofftime;
 		else
 			timers[channel] = getTimeMillis();
 		return false;
@@ -59,23 +61,38 @@ public class PDPWrapper {
 	 */
 	public boolean checkUndercurrent(int channel, double current, int cutofftime) {
 		if(pdp.getCurrent(channel) < current)
-			return getTimeMillis() - timers[channel] < cutofftime;
+			return getTimeMillis() - timers[channel] > cutofftime;
 		else
 			timers[channel] = getTimeMillis();
 		return false;
 	}
 	
 	/**
-	 * Checks if some channels of the PDP has been above the specified current for the specified period of time
+	 * Checks if some channels of the PDP has been below the specified current for the specified period of time
 	 * @param channels Channels of the PDP to check
 	 * @param current Cutoff current in amps
 	 * @param cutofftime Cutoff time in milliseconds
-	 * @return If any of the channels are over the current limit
+	 * @return If any of the channels are below the current limit
 	 */
 	public boolean checkUndercurrent(int[] channels, double current, int cutofftime) {
 		for(int channel : channels) {
 			if(checkUndercurrent(channel, current, cutofftime))
 				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the battery voltage has been below the specified voltage for the specified period of time
+	 * @param voltage Cutoff voltage in volts
+	 * @param cutofftime Cutoff time in milliseconds
+	 * @return If the voltage is below the voltage limit
+	 */
+	public boolean checkUndervoltage(double voltage, int cutofftime) {
+		if(pdp.getVoltage() < voltage) {
+			return getTimeMillis() - voltagetimer < cutofftime;
+		} else {
+			voltagetimer = getTimeMillis();
 		}
 		return false;
 	}
