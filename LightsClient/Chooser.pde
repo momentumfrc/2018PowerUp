@@ -36,8 +36,8 @@ public class Chooser {
     soundfileOptions.add(new SoundF("Eiffel 65 - Blue.ogg", "Blue", 30));
     soundfileOptions.add(new SoundF("Silver Scrapes.ogg", "Silver Scrapes", 12));
     soundfileOptions.add(new SoundF("Hornet.ogg", "Hornet", 30));
-    soundfileOptions.add(new SoundF("Mantis Lords.ogg", "Mantis Lords", 20));
-    soundfileOptions.add(new SoundF("Radiance.ogg", "Radiance", 20));
+    soundfileOptions.add(new SoundF("Mantis Lords.ogg", "Mantis Lords", 15));
+    soundfileOptions.add(new SoundF("Radiance.ogg", "Radiance", 15));
     
     font = createFont("Arial", 14);
     
