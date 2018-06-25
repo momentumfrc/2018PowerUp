@@ -35,7 +35,7 @@ public class LogitechF310 extends GenericHID {
 		if(hand == Hand.kLeft) {
 			return getRawAxis(1);
 		} else {
-			return getRawAxis(3);
+			return getRawAxis(5);
 		}
 	}
 	
