@@ -15,8 +15,8 @@ public class Grab extends Command {
 	Intake intake = Robot.intake;
 	PDPWrapper currentChecker = new PDPWrapper();
 
-	private static final double CUTOFF_CURRENT = 8;
-	private static final int CUTOFF_TIME = 500;
+	private static final double CUTOFF_CURRENT = 7.5;
+	private static final int CUTOFF_TIME = 100;
 
     public Grab() {
        requires(intake);
