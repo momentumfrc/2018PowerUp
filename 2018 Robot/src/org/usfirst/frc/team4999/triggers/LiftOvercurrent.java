@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
  */
 public class LiftOvercurrent extends Trigger {
 	
-	private static final double CUTOFF_CURRENT = 30;
+	private static final double CUTOFF_CURRENT = 20;
 	private static final int CUTOFF_TIME = 1000;
 	
 	private PDPWrapper pdp = new PDPWrapper();

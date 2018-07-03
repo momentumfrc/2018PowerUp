@@ -85,6 +85,8 @@ public class OI {
 		zeroAndTeleop.addSequential(new InstantSetZero());
 		zeroAndTeleop.addSequential(new TeleopLift());
 		
+		liftOvercurrent.whenActive(new KillLift());
+		
 		hunt.whenActive(new IntakeOpen());
 		hunt.whenInactive(new GrabAndHold());
 		
