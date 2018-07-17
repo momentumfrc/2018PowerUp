@@ -2,13 +2,9 @@ package org.usfirst.frc.team4999.robot.subsystems;
 
 import org.usfirst.frc.team4999.commands.intake.StopIntake;
 import org.usfirst.frc.team4999.robot.RobotMap;
-import org.usfirst.frc.team4999.utils.MoPrefs;
-import org.usfirst.frc.team4999.utils.MomentumPID;
 import org.usfirst.frc.team4999.utils.PDPWrapper;
-import org.usfirst.frc.team4999.utils.PIDFactory;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,8 +28,6 @@ public class Intake extends Subsystem {
 	private static final int HOLD_CUTOFF_TIME = 500;
 	
 	private Timer time = new Timer();
-    
-    private boolean holding = false;
     
     public Intake() {
     	super();
@@ -81,7 +75,6 @@ public class Intake extends Subsystem {
 	}
 	public void shoot() {
 		setIntake(-SHOOT_SPEED);
-		holding = false;
 	}
 	
     public void initDefaultCommand() {

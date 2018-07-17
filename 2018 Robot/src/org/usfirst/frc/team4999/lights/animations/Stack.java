@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4999.lights.animations;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team4999.lights.Color;
 import org.usfirst.frc.team4999.lights.Commands;
 import org.usfirst.frc.team4999.lights.Packet;

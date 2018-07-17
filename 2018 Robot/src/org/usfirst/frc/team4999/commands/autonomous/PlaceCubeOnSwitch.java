@@ -2,7 +2,6 @@ package org.usfirst.frc.team4999.commands.autonomous;
 
 import org.usfirst.frc.team4999.commands.elbow.SetElbowPosition;
 import org.usfirst.frc.team4999.commands.intake.Shoot;
-import org.usfirst.frc.team4999.robot.controllers.LiftPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

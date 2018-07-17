@@ -9,7 +9,6 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.utils.MomentumPID;
 import org.usfirst.frc.team4999.utils.PIDFactory;
-import org.usfirst.frc.team4999.utils.PIDThread;
 import org.usfirst.frc.team4999.utils.Utils;
 
 /**

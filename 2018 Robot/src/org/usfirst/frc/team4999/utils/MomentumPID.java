@@ -10,7 +10,7 @@ public class MomentumPID implements Sendable {
 	
 	
 	
-	private double kP, tI, tD, iErrZone;
+	private double kP, kI, kD, iErrZone;
 	private double targetZone, targetTime;
 	private double result;
 	private PIDSource source;
@@ -27,7 +27,7 @@ public class MomentumPID implements Sendable {
 	
 	private Runnable updateListener = ()->{};
 	
-	public MomentumPID(String name, double kP, double tI, double tD, double iErrZone, double targetZone, PIDSource input, PIDOutput output) {
+	public MomentumPID(String name, double kP, double kI, double kD, double iErrZone, double targetZone, PIDSource input, PIDOutput output) {
 		this.name = name;
 		this.iErrZone = iErrZone;
 		this.targetZone = targetZone;
@@ -35,8 +35,8 @@ public class MomentumPID implements Sendable {
 		setpoint = source.pidGet();
 		this.output = output;
 		this.kP = kP;
-		this.tI = tI;
-		this.tD = tD;
+		this.kI = kI;
+		this.kD = kD;
 		onTargetTimer = new Timer();
 		onTargetTimer.start();
 		lastTime = (long) Timer.getFPGATimestamp() * 1000;
@@ -64,10 +64,7 @@ public class MomentumPID implements Sendable {
 		lastErr = err;
 		
 		// Combine all the parts
-		if(tI > 0) // Prevent divide by zero errors
-			result = kP * (err + totalErr / tI + dErr * tD);
-		else
-			result = kP * (err + dErr * tD);
+		result = kP * err + kI * totalErr + kD * dErr;
 		
 		// Write the result
 		if(output != null)
@@ -128,7 +125,7 @@ public class MomentumPID implements Sendable {
 	}
 	
 	public void enable() {
-		System.out.format("Enabling... P:%.4f I:%.4f D:%.4f\n",kP,tI,tD);
+		System.out.format("Enabling... P:%.4f I:%.4f D:%.4f\n",kP,kI,kD);
 		enabled = true;
 	}
 	public void disable() {
@@ -150,10 +147,10 @@ public class MomentumPID implements Sendable {
 		return kP;
 	}
 	public double getI() {
-		return tI;
+		return kI;
 	}
 	public double getD() {
-		return tD;
+		return kD;
 	}
 	public double getErrZone() {
 		return iErrZone;
@@ -168,11 +165,11 @@ public class MomentumPID implements Sendable {
 		updateListener.run();
 	}
 	public void setI(double i) {
-		tI = i;
+		kI = i;
 		updateListener.run();
 	}
 	public void setD(double d) {
-		tD = d;
+		kD = d;
 		updateListener.run();
 	}
 	public void setErrZone(double zone) {

@@ -24,11 +24,6 @@ public class XboxF310Wrapper extends DriveController {
 	
 	private static final double LIFT_SPEED = 0.8;
 	
-	private static final double CLIMB_HOLD_TIME = 2;
-	
-	private int currentPos = 0;
-	private boolean povHeld = false;
-	
 	private Timer climbTimer = new Timer();
 	
 	public XboxF310Wrapper() {
@@ -73,7 +68,7 @@ public class XboxF310Wrapper extends DriveController {
 	}
 
 	@Override
-	public boolean getFailsafeCubes() {
+	public boolean getFailsafeElbow() {
 		return logitech.getBackButton();
 	}
 
@@ -93,22 +88,6 @@ public class XboxF310Wrapper extends DriveController {
 		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
 
-	@Override
-	public double getLiftPosition() {
-		double[] values = LiftPosition.values();
-		int pov = xbox.getPOV();
-		if(pov == -1) {
-			povHeld = false;
-		} else if(!povHeld) {
-			povHeld = true;
-			if(pov == 0 && currentPos < values.length-1) {
-				currentPos++;
-			} else if(pov == 180 && currentPos > 0) {
-				currentPos--;
-			}
-		}
-		return values[currentPos];
-	}
 	
 	@Override
 	public double getLiftSpeed() {
@@ -123,15 +102,6 @@ public class XboxF310Wrapper extends DriveController {
 			return 0;
 	}
 
-	@Override
-	public boolean climb() {
-		if(xbox.getPOV() == 90) {
-			return climbTimer.hasPeriodPassed(CLIMB_HOLD_TIME);
-		} else {
-			climbTimer.reset();
-			return false;
-		}
-	}
 	
 	@Override
 	public void vibrate(double intensity) {

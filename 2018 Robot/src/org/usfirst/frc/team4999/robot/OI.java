@@ -15,7 +15,6 @@ import org.usfirst.frc.team4999.triggers.*;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
@@ -51,13 +50,13 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	Trigger failsafeDrive = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeDrive();});
-	Trigger failsafeCubes = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeCubes();});
+	Trigger failsafeDrive = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeDrive();});
+	Trigger failsafeCubes = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeElbow();});
 	
-	Trigger brownout = new ButtonTrigger(()->{return RobotController.isBrownedOut();});
+	Trigger brownout = new BooleanTrigger(()->{return RobotController.isBrownedOut();});
 	
-	ToggleTrigger hunt = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getIntake();});
-	ToggleTrigger shoot = new ButtonTrigger(()->{return Robot.controlChooser.getSelected().getShoot();});
+	Trigger hunt = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getIntake();});
+	Trigger shoot = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getShoot();});
 	
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
@@ -81,9 +80,6 @@ public class OI {
 			}
 		});
 		
-		CommandGroup zeroAndTeleop = new CommandGroup();
-		zeroAndTeleop.addSequential(new InstantSetZero());
-		zeroAndTeleop.addSequential(new TeleopLift());
 		
 		liftOvercurrent.whenActive(new KillLift());
 		

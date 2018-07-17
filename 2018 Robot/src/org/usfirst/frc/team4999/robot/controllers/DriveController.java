@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4999.robot.controllers;
 
-import org.usfirst.frc.team4999.utils.Utils;
 
 public abstract class DriveController {
 	/**
@@ -24,6 +23,7 @@ public abstract class DriveController {
 	 * @return If front and back should be flipped
 	 */
 	abstract public boolean getReverseDirection();
+	
 	/**
 	 * Get whether the drivetrain should enter a failsafe teleop mode
 	 * @return If failsafe teleop should be entered
@@ -34,34 +34,42 @@ public abstract class DriveController {
 	 * Get whether the elbow should enter a failsafe teleop mode (disables PID)
 	 * @return If the failsafe should be activated
 	 */
-	abstract public boolean getFailsafeCubes();
+	abstract public boolean getFailsafeElbow();
 	
 	/**
 	 * Trigger the intake
 	 * @return If the intake should be running
 	 */
 	abstract public boolean getIntake();
+	
 	/**
 	 * Trigger releasing a held cube
 	 * @return If the arms should be toggled
 	 */
 	abstract public boolean getShoot();
+	
 	/**
-	 * Get the delta that should be applied to the claw's setpoint
-	 * @return Claw's setpoint delta
+	 * Get the desired speed of the elbow
+	 * @return Elbow's speed
 	 */
 	abstract public double getElbowSpeed();
 	
-	abstract public double getLiftPosition();
+	/**
+	 * Get the desired speed of the lift
+	 * @return Lift's speed
+	 */
 	abstract public double getLiftSpeed();
 	
+	/**
+	 * Get whether to toggle the lift to high speed / low speed
+	 * @return If the lift speed should be toggled
+	 */
+	abstract public boolean shiftLift();
 	
-	abstract public boolean climb();
-	
-	public boolean shiftLift() {
-		return false;
-	}
-	
+	/**
+	 * Vibrate the controller
+	 * @param intensity How intensely to vibrate the controller
+	 */
 	public void vibrate(double intensity) {
 	}
 	

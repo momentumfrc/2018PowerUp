@@ -4,7 +4,6 @@ import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class FlightStickWrapper extends DriveController {
 	
@@ -19,9 +18,7 @@ public class FlightStickWrapper extends DriveController {
 	
 	private static final double ELBOW_SPEED = 0.4;
 	
-	private int currentPos = 0;
-	private boolean povHeld = false;
-
+	
 	@Override
 	public double getMoveRequest() {
 		double moveRequest = -flightStick.getY();
@@ -54,7 +51,7 @@ public class FlightStickWrapper extends DriveController {
 	}
 	
 	@Override
-	public boolean getFailsafeCubes() {
+	public boolean getFailsafeElbow() {
 		return flightStick.getRawButton(8);
 	}
 
@@ -77,23 +74,6 @@ public class FlightStickWrapper extends DriveController {
 		else
 			return 0;
 	}
-
-	@Override
-	public double getLiftPosition() {
-		double[] values = LiftPosition.values();
-		int pov = flightStick.getPOV();
-		if(pov == -1) {
-			povHeld = false;
-		} else if(!povHeld) {
-			povHeld = true;
-			if(pov == 0 && currentPos < values.length-1) {
-				currentPos++;
-			} else if(pov == 180 && currentPos > 0) {
-				currentPos--;
-			}
-		}
-		return values[currentPos];
-	}
 	
 	@Override
 	public double getLiftSpeed() {
@@ -107,12 +87,8 @@ public class FlightStickWrapper extends DriveController {
 	}
 
 	@Override
-	public boolean climb() {
-		return flightStick.getRawButton(12);
+	public boolean shiftLift() {
+		return flightStick.getRawButtonPressed(12);
 	}
-
-	
-	
-	
 	
 }

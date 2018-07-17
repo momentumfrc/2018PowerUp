@@ -5,7 +5,6 @@ import org.usfirst.frc.team4999.utils.Utils;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class XboxWrapper extends DriveController {
@@ -18,21 +17,10 @@ public class XboxWrapper extends DriveController {
 	private static final double DEADZONE = 0.1;
 	private static final double MAX_CLAW_SPEED = 0.4;
 	
-	private static final double CLIMB_HOLD_TIME = 2;
-	
 	private static final double[] SPEEDS = {0.2, 0.4, 0.6, 0.8, 1};
 	private int currentSpeed = SPEEDS.length - 1;
 	
-	private int currentPos = 0;
-	private boolean povHeld = false;
-	
 	private static final double LIFT_SPEED = 0.8;
-	
-	private Timer climbTimer = new Timer();
-	
-	public XboxWrapper() {
-		climbTimer.start();
-	}
 
 	@Override
 	public double getMoveRequest() {
@@ -67,7 +55,7 @@ public class XboxWrapper extends DriveController {
 	}
 	
 	@Override
-	public boolean getFailsafeCubes() {
+	public boolean getFailsafeElbow() {
 		return xbox.getBackButton();
 	}
 
@@ -91,23 +79,6 @@ public class XboxWrapper extends DriveController {
 		double val = -Utils.deadzone(xbox.getTriggerAxis(Hand.kRight), DEADZONE) + Utils.deadzone(xbox.getTriggerAxis(Hand.kLeft), DEADZONE);
 		return Utils.map(val, -1, 1, -MAX_CLAW_SPEED, MAX_CLAW_SPEED);
 	}
-
-	@Override
-	public double getLiftPosition() {
-		double[] values = LiftPosition.values();
-		int pov = xbox.getPOV();
-		if(pov == -1) {
-			povHeld = false;
-		} else if(!povHeld) {
-			povHeld = true;
-			if((pov == 0 || pov == 315 || pov == 45) && currentPos < values.length-1) {
-				currentPos++;
-			} else if((pov == 180 || pov == 135 || pov == 180) && currentPos > 0) {
-				currentPos--;
-			}
-		}
-		return values[currentPos];
-	}
 	
 	@Override
 	public double getLiftSpeed() {
@@ -119,20 +90,15 @@ public class XboxWrapper extends DriveController {
 		else
 			return 0;
 	}
-
-	@Override
-	public boolean climb() {
-		if(xbox.getPOV() == 90) {
-			return climbTimer.hasPeriodPassed(CLIMB_HOLD_TIME);
-		} else {
-			climbTimer.reset();
-			return false;
-		}
-	}
 	
 	@Override
 	public void vibrate(double intensity) {
 		xbox.setRumble(RumbleType.kLeftRumble, intensity);
+	}
+
+	@Override
+	public boolean shiftLift() {
+		return false;
 	}
 
 }

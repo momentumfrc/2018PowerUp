@@ -60,7 +60,7 @@ public class Lift extends Subsystem {
 			set(0);
 	}
 	
-	public double getCurrentHeight( ) {
+	public double getCurrentHeight() {
 		return encoder.getDistance();
 	}
 	
@@ -88,12 +88,17 @@ public class Lift extends Subsystem {
 	}
 	public void setNoLimit(double power) {
 		// Anti-jerk: Clip the difference between the requested power and the current power
-			double delta = power - motors.get();
-			//System.out.format("Clipping %.2f to within +/- %.2f\n", delta, MAX_MOTOR_DELTA);
-			delta = Utils.clip(delta, -MAX_MOTOR_DELTA, MAX_MOTOR_DELTA);
-			double c_power = motors.get() + delta;
+		double delta = power - motors.get();
+		//System.out.format("Clipping %.2f to within +/- %.2f\n", delta, MAX_MOTOR_DELTA);
+		delta = Utils.clip(delta, -MAX_MOTOR_DELTA, MAX_MOTOR_DELTA);
+		double c_power = motors.get() + delta;
 		motors.set(c_power);
 	}
+	
+	public void kill() {
+		motors.set(0);
+	}
+	
 	public void setHeight(double height) {
 		double clippedHeight = Utils.clip(height, MIN_HEIGHT, MoPrefs.getMaxLiftHeight());
 		currentLiftPID.setSetpoint(clippedHeight);
@@ -108,7 +113,7 @@ public class Lift extends Subsystem {
 		currentLiftPID.enable();
 	}
 	
-	public void setHome() {
+	public void zero() {
 		encoder.reset();
 	}
 
