@@ -104,7 +104,6 @@ public class LightsChooser extends SendableChooser<Animation> {
 		addObject("Solid White", solid);
 		addObject("Random", random);
 		addObject("Bounce", bounce);
-		addObject("Move", new RainbowMove(new SpeedController[] {RobotMap.leftFrontMotor, RobotMap.leftBackMotor}));
 		addObject("Remote", new SocketListener());
 		
 		SmartDashboard.putData(NAME, this);
