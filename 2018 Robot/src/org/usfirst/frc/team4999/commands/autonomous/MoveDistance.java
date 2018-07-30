@@ -35,7 +35,6 @@ public class MoveDistance extends Command {
     	drive.movePID.enable();
     	drive.turnPID.setSetpointRelative(0);
     	drive.turnPID.enable();
-    	drive.pitchPID.enable();
     	timer.start();
     }
 

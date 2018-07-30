@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team4999.commands.DriveNoPID;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
-import org.usfirst.frc.team4999.utils.MomentumPID;
+import org.usfirst.frc.team4999.pid.MomentumPID;
 import org.usfirst.frc.team4999.utils.PIDFactory;
 import org.usfirst.frc.team4999.utils.Utils;
 
@@ -22,7 +22,6 @@ public class DriveSystem extends Subsystem {
     private DifferentialDrive drive = new DifferentialDrive(leftside, rightside);
   
     public MomentumPID movePID, turnPID;
-    public MomentumPID pitchPID;    
     
     
     public DriveSystem() {
@@ -34,12 +33,9 @@ public class DriveSystem extends Subsystem {
     	movePID = PIDFactory.getMovePID();
     	turnPID = PIDFactory.getTurnPID();
     	
-    	pitchPID = PIDFactory.getTiltPID();
-    	
     	addChild(drive);
     	addChild(movePID);
     	addChild(turnPID);
-    	addChild(pitchPID);
     	
     }
     
@@ -62,17 +58,11 @@ public class DriveSystem extends Subsystem {
     public void stop() {
     	movePID.disable();
     	turnPID.disable();
-    	pitchPID.disable();
     	tankDrive(0,0,0);
     }
     
     public void driveDisplacementPID() {
     	double moveRequest = 0, turnRequest = 0;
-    	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
-    		arcadeDrive(pitchPID.get(), 0, 1);
-    		System.out.println("TILTING!!!");
-    		return;
-    	}
     	if(movePID.isEnabled())
     		moveRequest = movePID.get();
     	if(turnPID.isEnabled())
@@ -82,24 +72,9 @@ public class DriveSystem extends Subsystem {
     }
     
     public void arcadeDriveStraight(double moveRequest, double turnRequest, double speedLimit) {
-    	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
-    		arcadeDrive(pitchPID.get(), 0, 1);
-    		System.out.println("TILTING!!!");
-    		return;
-    	} else {
-    		arcadeDrive(moveRequest, turnPID.get(), speedLimit);
-    	}
+    	arcadeDrive(moveRequest, turnPID.get(), speedLimit);
     }
     
-    public void arcadeDriveTilt(double moveRequest, double turnRequest, double speedLimit) {
-    	if(pitchPID.isEnabled() && pitchPID.get() != 0) {
-    		System.out.print(pitchPID.get()+ " ");
-    		arcadeDrive(-pitchPID.get(), 0, 1);
-    		System.out.println("TILTING!!");
-    	} else {
-    		arcadeDrive(moveRequest, turnRequest, speedLimit);
-    	}
-    }
     public double get() {
     	return (leftside.get() + rightside.get())/2;
     }

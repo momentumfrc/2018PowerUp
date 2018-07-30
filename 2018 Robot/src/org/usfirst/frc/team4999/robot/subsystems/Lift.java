@@ -3,7 +3,7 @@ package org.usfirst.frc.team4999.robot.subsystems;
 import org.usfirst.frc.team4999.commands.lift.MaintainLiftHeight;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
-import org.usfirst.frc.team4999.utils.MomentumPID;
+import org.usfirst.frc.team4999.pid.MomentumPID;
 import org.usfirst.frc.team4999.utils.PIDFactory;
 import org.usfirst.frc.team4999.utils.Utils;
 
