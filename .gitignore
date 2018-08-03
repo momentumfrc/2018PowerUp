@@ -4,3 +4,5 @@ AnimationController/bin
 AnimationTest/bin
 LightsClient/data/*.ogg
 *.class
+2018 Robot/src/org/usfirst/frc/team4999/lights/*
+2018 Robot/src/org/usfirst/frc/team4999/pid/*

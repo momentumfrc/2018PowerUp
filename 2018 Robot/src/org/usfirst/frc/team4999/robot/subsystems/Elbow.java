@@ -22,6 +22,7 @@ public class Elbow extends Subsystem {
     
     public Elbow() {
     	pid = PIDFactory.getElbowPID();
+    	elbow.setInverted(true);
     	addChild(pid);
     }
     

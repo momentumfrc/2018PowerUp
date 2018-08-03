@@ -26,5 +26,12 @@
   <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
 
   <import file="${wpilib.ant.dir}/build.xml"/>
-
+	<target name="deploy">
+		<echo message="Copying lights and pid code"/>
+		<copy todir="${src.dir}" verbose="true">
+			<fileset dir="${lights.dir}/src" />
+			<fileset dir="${pid.dir}/src" />
+		</copy>
+		<antcall target="athena-project-build.deploy"/>
+	</target>
 </project>
