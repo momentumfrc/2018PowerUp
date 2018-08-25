@@ -75,9 +75,12 @@ public class LightsChooser extends SendableChooser<Animation> {
 		
 		Animation random = new RandomColors(500, 120);
 		
+		Animation police = new Blink(new Color[]{new Color(0, 0, 255), new Color(255, 0, 0)}, new int[]{100, 100});
+		
 		addDefault("Momentum", momentum);
 		addObject("Rainbow", rainbow);
 		addObject("Christmas",christmas);
+		addObject("Police", police);
 		addObject("Solid White", solid);
 		addObject("Random", random);
 		addObject("Remote", new SocketListener());
