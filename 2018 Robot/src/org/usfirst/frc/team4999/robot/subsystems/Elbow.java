@@ -51,7 +51,7 @@ public class Elbow extends Subsystem {
     }
     
     public void retract() {
-    	pid.setSetpoint(0);
+    	pid.setSetpoint(MIN_POS * encoder.getDistancePerPulse());
     }
     public void extend() {
     	pid.setSetpoint(MoPrefs.getMaxElbowRotation());

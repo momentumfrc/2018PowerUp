@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
 import org.usfirst.frc.team4999.commands.elbow.SetElbowPosition;
+import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
 import org.usfirst.frc.team4999.commands.intake.Hold;
 import org.usfirst.frc.team4999.commands.intake.Shoot;
 import org.usfirst.frc.team4999.robot.Robot;
@@ -28,6 +29,7 @@ public class TimeBasedFallbackSwitch extends Command {
     	time.start();
     	time.reset();
     	new Hold().start();
+    	new ZeroElbow().start();
     }
 
     // Called repeatedly when this Command is scheduled to run
