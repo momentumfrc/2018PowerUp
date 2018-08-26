@@ -22,7 +22,6 @@ import org.usfirst.frc.team4999.commands.lift.ManualLiftNoLimit;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.lights.BrightnessFilter;
 import org.usfirst.frc.team4999.robot.choosers.*;
-import org.usfirst.frc.team4999.robot.sensors.GyroFusion.Sensor;
 import org.usfirst.frc.team4999.robot.subsystems.*;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 
@@ -176,11 +175,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		SmartDashboard.putString("Connected Gyro", (RobotMap.gyro.currentSensor() == Sensor.ADIS)?"ADIS":"VMX");
-		
 		lift.liftDashboard();
 		
-		//SmartDashboard.putData(RobotMap.pdp);
+		SmartDashboard.putData(RobotMap.pdp);
 		
 		//System.out.format("LIFT: Count:%.2f, Distance:%.2f\n");
 		

@@ -2,7 +2,6 @@ package org.usfirst.frc.team4999.commands.autonomous;
 
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.RobotMap;
-import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -14,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnDegrees extends Command {
 
-	private GyroFusion angleGetter;
 	private double angle;
 	
 	private DriveSystem drive = Robot.driveSystem;
@@ -23,7 +21,6 @@ public class TurnDegrees extends Command {
     public TurnDegrees(double angle) {
     	requires(drive);
     	this.angle = angle;
-    	angleGetter = RobotMap.gyro;
     }
     
     // Called just before this Command runs the first time
@@ -35,7 +32,7 @@ public class TurnDegrees extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", angleGetter.getAngle(), drive.turnPID.getSetpoint(), drive.turnPID.get());
+    	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.vmx.getAngle(), drive.turnPID.getSetpoint(), drive.turnPID.get());
     	drive.driveDisplacementPID();
     }
 

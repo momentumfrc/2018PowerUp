@@ -2,7 +2,6 @@ package org.usfirst.frc.team4999.utils;
 
 import org.usfirst.frc.team4999.pid.*;
 import org.usfirst.frc.team4999.robot.RobotMap;
-import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -25,7 +24,7 @@ public class PIDFactory extends MomentumPIDFactoryBase {
 	
 	public static MomentumPID getTurnPID() {
 		String path = LOCATION + TURN_FILE;
-		PIDSource source = new GyroFusion();
+		PIDSource source = RobotMap.vmx;
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
 		return loadPID("TurnPID",path, source, null);
 	}

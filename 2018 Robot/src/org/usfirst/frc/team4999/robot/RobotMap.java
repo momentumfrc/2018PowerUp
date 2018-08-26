@@ -8,12 +8,8 @@
 package org.usfirst.frc.team4999.robot;
 
 import org.usfirst.frc.team4999.robot.controllers.LogitechF310;
-import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU;
-import org.usfirst.frc.team4999.robot.sensors.GyroFusion;
-
 import com.kauailabs.navx.frc.AHRS;
 
-import org.usfirst.frc.team4999.robot.sensors.ADIS16448_IMU.*;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -65,9 +61,7 @@ public class RobotMap {
 	public static DigitalInput liftZeroSwitch = new DigitalInput(6);
 	
 	// Gyros
-	public static ADIS16448_IMU adis = new ADIS16448_IMU(Axis.kZ, AHRSAlgorithm.kMadgwick);
 	public static AHRS vmx = new AHRS(SerialPort.Port.kUSB);
-	public static GyroFusion gyro = new GyroFusion();
 	
 	// Grabber
 	public static Spark elbow = new Spark(6);
