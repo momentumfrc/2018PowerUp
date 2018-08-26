@@ -21,7 +21,8 @@ public class MoveDistance extends Command {
     public MoveDistance(double distance) {
     	requires(drive);
     	this.distance = distance;
-    	System.out.format("Beginning move using\n    Move P:%.2d I:%.2d D:%.2d\n    Turn: P:%.2d I:%.2d D:%.2d\n", 
+    	System.out.format(
+    			"Beginning move using\n    Move P:%.2d I:%.2d D:%.2d\n    Turn: P:%.2d I:%.2d D:%.2d\n", 
     			drive.movePID.getP(), drive.movePID.getI(), drive.movePID.getD(),
     			drive.turnPID.getP(), drive.turnPID.getI(), drive.turnPID.getD()
     			);

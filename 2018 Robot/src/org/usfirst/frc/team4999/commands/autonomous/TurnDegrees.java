@@ -6,6 +6,7 @@ import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -16,6 +17,9 @@ public class TurnDegrees extends Command {
 	private double angle;
 	
 	private DriveSystem drive = Robot.driveSystem;
+	
+	private static final double TIMEOUT = 5;
+	private Timer timer = new Timer();
 	
 	// Clockwise
     public TurnDegrees(double angle) {
@@ -28,17 +32,18 @@ public class TurnDegrees extends Command {
     	drive.turnPID.setSetpointRelative(angle);
     	drive.turnPID.enable();
     	System.out.format("Beginning turn using P:%.2f I:%.2f D:%.2f\n", drive.turnPID.getP(), drive.turnPID.getI(), drive.turnPID.getD());
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.vmx.getAngle(), drive.turnPID.getSetpoint(), drive.turnPID.get());
+    	//System.out.format("Current:%.2f Setpoint:%.2f Output:%.2f\n", RobotMap.vmx.getAngle(), drive.turnPID.getSetpoint(), drive.turnPID.get());
     	drive.driveDisplacementPID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return drive.turnPID.onTargetForTime();
+    	return drive.turnPID.onTargetForTime() || timer.hasPeriodPassed(TIMEOUT);
     }
 
     // Called once after isFinished returns true
