@@ -32,6 +32,19 @@
 			<fileset dir="${lights.dir}/src" />
 			<fileset dir="${pid.dir}/src" />
 		</copy>
-		<antcall target="athena-project-build.deploy"/>
+		<trycatch>
+			<try>
+				<antcall target="athena-project-build.deploy"/>
+			</try>
+			<catch>
+				<fail/>
+			</catch>
+			<finally>
+				<delete includeEmptyDirs="true">
+					<fileset dir="${src.dir}/org/usfirst/frc/team4999/lights"/>
+					<fileset dir="${src.dir}/org/usfirst/frc/team4999/pid"/>
+				</delete>
+			</finally>
+		</trycatch>
 	</target>
 </project>
