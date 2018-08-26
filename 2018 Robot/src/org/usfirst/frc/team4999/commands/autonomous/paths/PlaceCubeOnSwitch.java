@@ -1,5 +1,7 @@
-package org.usfirst.frc.team4999.commands.autonomous;
+package org.usfirst.frc.team4999.commands.autonomous.paths;
 
+import org.usfirst.frc.team4999.commands.autonomous.MoveDistance;
+import org.usfirst.frc.team4999.commands.autonomous.TurnDegrees;
 import org.usfirst.frc.team4999.commands.elbow.SetElbowPosition;
 import org.usfirst.frc.team4999.commands.intake.Shoot;
 

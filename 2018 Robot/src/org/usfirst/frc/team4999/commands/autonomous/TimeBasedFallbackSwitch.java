@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.commands.autonomous;
 
 import org.usfirst.frc.team4999.commands.elbow.SetElbowPosition;
+import org.usfirst.frc.team4999.commands.intake.Hold;
 import org.usfirst.frc.team4999.commands.intake.Shoot;
 import org.usfirst.frc.team4999.robot.Robot;
 import org.usfirst.frc.team4999.robot.subsystems.DriveSystem;
@@ -26,6 +27,7 @@ public class TimeBasedFallbackSwitch extends Command {
     protected void initialize() {
     	time.start();
     	time.reset();
+    	new Hold().start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -42,7 +44,7 @@ public class TimeBasedFallbackSwitch extends Command {
     protected void end() {
     	drive.stop();
     	CommandGroup group = new CommandGroup();
-    	group.addSequential(new SetElbowPosition(20));
+    	group.addSequential(new SetElbowPosition(MoPrefs.getSwitchElbowAngle()));
     	group.addSequential(new Shoot());
     	group.start();
     }

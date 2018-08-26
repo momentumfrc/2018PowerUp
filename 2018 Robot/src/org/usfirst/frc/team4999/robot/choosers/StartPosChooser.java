@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4999.robot.choosers;
 
-import org.usfirst.frc.team4999.commands.autonomous.StartPosition;
+import org.usfirst.frc.team4999.commands.autonomous.paths.StartPosition;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

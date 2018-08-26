@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
+import org.usfirst.frc.team4999.commands.autonomous.paths.*;
 import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleopElbow;
 import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
 import org.usfirst.frc.team4999.commands.lift.ManualLiftNoLimit;
