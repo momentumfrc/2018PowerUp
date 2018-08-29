@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.commands.elbow;
 
 import org.usfirst.frc.team4999.robot.Robot;
+import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.robot.subsystems.Elbow;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,10 +23,12 @@ public class SetElbowPosition extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	elbow.pid.setSetpoint(pos);
+    	elbow.pid.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.format("Setpoint:%.2f Current:%.2f Output:%.2f\n", pos, RobotMap.elbowEncoder.getDistance(),elbow.pid.get());
     	elbow.drivePID();
     }
 
@@ -36,7 +39,7 @@ public class SetElbowPosition extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	new MaintainElbowPosition().start();
+    	elbow.setDefaultCommand(new MaintainElbowPosition());
     }
 
     // Called when another command which requires one or more of the same

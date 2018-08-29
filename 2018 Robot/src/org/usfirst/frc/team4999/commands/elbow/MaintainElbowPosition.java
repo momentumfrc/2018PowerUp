@@ -18,6 +18,7 @@ public class MaintainElbowPosition extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	elbow.pid.enable();
     	elbow.pid.setSetpointRelative(0);
     }
 

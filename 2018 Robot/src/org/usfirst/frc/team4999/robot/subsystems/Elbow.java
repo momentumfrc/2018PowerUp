@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elbow extends Subsystem {
 	
-	private static final int MIN_POS = 150;
+	private static final int MIN_POS = 60;
 
     public MomentumPID pid;
     private Spark elbow = RobotMap.elbow;

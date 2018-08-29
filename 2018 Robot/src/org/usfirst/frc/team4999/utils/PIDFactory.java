@@ -24,7 +24,30 @@ public class PIDFactory extends MomentumPIDFactoryBase {
 	
 	public static MomentumPID getTurnPID() {
 		String path = LOCATION + TURN_FILE;
-		PIDSource source = RobotMap.vmx;
+		PIDSource source = new PIDSource() {
+
+			PIDSourceType type= PIDSourceType.kDisplacement;
+			
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				type = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return type;
+			}
+
+			@Override
+			public double pidGet() {
+				if(type == PIDSourceType.kDisplacement) {
+					return RobotMap.vmx.getAngle();
+				}else{
+					return RobotMap.vmx.getRate(); 
+				}
+			}
+			
+		};
 		source.setPIDSourceType(PIDSourceType.kDisplacement);
 		return loadPID("TurnPID",path, source, null);
 	}

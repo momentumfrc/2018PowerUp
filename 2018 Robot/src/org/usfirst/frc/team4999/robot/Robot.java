@@ -65,6 +65,9 @@ public class Robot extends TimedRobot {
 		
 		CameraServer.getInstance().startAutomaticCapture();
 		
+		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
+		RobotMap.elbowEncoder.setDistancePerPulse(1/6.2222);
+		
 	}
 
 	/**
@@ -111,7 +114,7 @@ public class Robot extends TimedRobot {
 			autoCommand.start();
 			return;
 		}
-		
+		System.out.format("switch:%s start:%s\n", (switchPos == TargetPosition.LEFT) ? "LEFT":"RIGHT", (startPos.getSelected() == StartPosition.LEFT) ? "LEFT":"RIGHT");
 		switch(target.getSelected()) {
 		case SWITCH:
 			autoCommand = new PlaceCubeOnSwitch(startPos.getSelected(), switchPos);
@@ -135,10 +138,10 @@ public class Robot extends TimedRobot {
 		
 		autoCommand.start();
 		
-		ZeroElbow zeroElbow = new ZeroElbow();
+		/*ZeroElbow zeroElbow = new ZeroElbow();
 		ZeroLift zeroLift = new ZeroLift();
 		zeroElbow.start();
-		zeroLift.start();
+		zeroLift.start();*/
 	}
 	
 	private TargetPosition posFromChar(char pos) {
@@ -166,8 +169,7 @@ public class Robot extends TimedRobot {
 		new ZeroAndTeleopElbow().start();
 		new ManualLiftNoLimit().start();
 		
-		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
-		RobotMap.elbowEncoder.setDistancePerPulse(1/6.2222);;
+		
 	}
 
 	/**
@@ -202,8 +204,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		
-		//elbow.drivePID();
-		//System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
+		elbow.drivePID();
+		System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());
 		
 		//System.out.format("Accel X:%.2f Y:%.2f Z:%.2f\n", RobotMap.vmx.getWorldLinearAccelX(),RobotMap.vmx.getWorldLinearAccelY(),RobotMap.vmx.getWorldLinearAccelZ());
 		//System.out.format("Angle:%.2f Rate:%.2f Pitch:%.2f Roll:%.2f xV:%.2f yV:%.2f\n", RobotMap.pi.getAngle(), RobotMap.pi.getRate(), RobotMap.pi.getPitch(), RobotMap.pi.getRoll(), RobotMap.pi.getXVelocity(), RobotMap.pi.getYVelocity());

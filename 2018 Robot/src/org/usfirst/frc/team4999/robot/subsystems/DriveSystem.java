@@ -66,7 +66,7 @@ public class DriveSystem extends Subsystem {
     	if(movePID.isEnabled())
     		moveRequest = movePID.get();
     	if(turnPID.isEnabled())
-    		turnRequest = turnPID.get();
+    		turnRequest = -turnPID.get();
     	
     	arcadeDrive(moveRequest, turnRequest, MoPrefs.getAutoSpeed());
     }
