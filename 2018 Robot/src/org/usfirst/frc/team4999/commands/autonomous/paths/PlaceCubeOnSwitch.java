@@ -17,11 +17,20 @@ public class PlaceCubeOnSwitch extends CommandGroup {
         case LEFT:
         	switch(target) {
         	case LEFT:
+        		/*
         		addSequential(new MoveDistance(2.635));
         		addSequential(new TurnDegrees(45));
         		addSequential(new MoveDistance(1.6));
+        		*/
+        		addSequential(new MoveDistance(2.65)); 
+        		//starting directly in front of the switch and score on the plane directly in front of you 
         		break;
         	case RIGHT:
+        		addSequential(new MoveDistance(1));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(4.8));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(1.65));    		
         		break;
         	}
         	break;
@@ -36,11 +45,19 @@ public class PlaceCubeOnSwitch extends CommandGroup {
         case RIGHT:
         	switch(target) {
         	case LEFT:
+        		addSequential(new MoveDistance(1));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(4.8));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(1.65));   
         		break;
         	case RIGHT:
+        		/*
         		addSequential(new MoveDistance(2.635));
         		addSequential(new TurnDegrees(-45));
         		addSequential(new MoveDistance(1.446));
+        		*/
+        		addSequential(new MoveDistance(2.65));
         		break;
         	}
         	break;
