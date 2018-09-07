@@ -58,12 +58,12 @@ public class Robot extends TimedRobot {
 
 		RobotMap.leftDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
 		RobotMap.rightDriveEncoder.setDistancePerPulse(1/MoPrefs.getDriveEncTicks());
-		RobotMap.elbowEncoder.setDistancePerPulse(1/MoPrefs.getElbowEncTicks());
-		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
 		
 		BrightnessFilter.register();
 		
 		CameraServer.getInstance().startAutomaticCapture();
+		
+		RobotMap.liftEncoder.setReverseDirection(true);
 		
 		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
 		RobotMap.elbowEncoder.setDistancePerPulse(1/6.2222);
@@ -136,6 +136,9 @@ public class Robot extends TimedRobot {
 			break;
 		}
 		
+		RobotMap.leftDriveEncoder.reset();
+		RobotMap.rightDriveEncoder.reset();
+		
 		autoCommand.start();
 		
 		/*ZeroElbow zeroElbow = new ZeroElbow();
@@ -182,7 +185,8 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putData(RobotMap.pdp);
 		
-		//System.out.format("LIFT: Count:%.2f, Distance:%.2f\n");
+		//System.out.format("LiftEncoder count:%d distance:%.2f\n", RobotMap.liftEncoder.get(),RobotMap.liftEncoder.getDistance());
+		
 		
 		//System.out.format("ELBOW: Count:%d Angle:%.2f\n", RobotMap.elbowEncoder.get(), RobotMap.elbowEncoder.getDistance());
 		
@@ -203,6 +207,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		
+		System.out.format("LIFT Enabled:%b Fast:%b Current:%.2f Setpoint:%.2f Output:%.2f\n", lift.currentLiftPID.isEnabled(), lift.isHighSpeedPID(), RobotMap.liftEncoder.getDistance(), lift.currentLiftPID.getSetpoint(), lift.currentLiftPID.get());
+		lift.driveLiftPID();
 		
 		elbow.drivePID();
 		System.out.format("ELBOW Enabled:%b Current:%.2f Setpoint:%.2f Output:%.2f\n",Robot.elbow.pid.isEnabled(), RobotMap.elbowEncoder.getDistance(),Robot.elbow.pid.getSetpoint(),Robot.elbow.pid.get());

@@ -46,7 +46,7 @@ public class ZeroLift extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return pdp.checkOvercurrent(liftmotors, CUTOFF_CURRENT, CUTOFF_TIME) || RobotMap.liftZeroSwitch.get() || timeout.hasPeriodPassed(TIMEOUT);
+        return pdp.checkOvercurrent(liftmotors, CUTOFF_CURRENT, CUTOFF_TIME)/* || RobotMap.liftZeroSwitch.get() */|| timeout.hasPeriodPassed(TIMEOUT);
     }
 
     // Called once after isFinished returns true

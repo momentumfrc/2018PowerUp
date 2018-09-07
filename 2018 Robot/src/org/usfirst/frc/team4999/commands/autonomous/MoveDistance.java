@@ -21,17 +21,18 @@ public class MoveDistance extends Command {
     public MoveDistance(double distance) {
     	requires(drive);
     	this.distance = distance;
-    	System.out.format(
-    			"Beginning move using\n    Move P:%.2d I:%.2d D:%.2d\n    Turn: P:%.2d I:%.2d D:%.2d\n", 
+    	/*System.out.format(
+    			"Beginning move using\n    Move P:%.2f I:%.2f D:%.2f\n    Turn: P:%.2f I:%.2f D:%.2f\n", 
     			drive.movePID.getP(), drive.movePID.getI(), drive.movePID.getD(),
     			drive.turnPID.getP(), drive.turnPID.getI(), drive.turnPID.getD()
-    			);
+    			);*/
     }
 
     
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.format("Moving %.2f meters\n", distance);
     	drive.movePID.setSetpointRelative(distance);
     	drive.movePID.enable();
     	drive.turnPID.setSetpointRelative(0);

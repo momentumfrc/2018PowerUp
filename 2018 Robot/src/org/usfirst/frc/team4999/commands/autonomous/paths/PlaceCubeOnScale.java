@@ -18,43 +18,67 @@ public class PlaceCubeOnScale extends CommandGroup {
         case LEFT:
         	switch(target) {
         	case LEFT:
-        		addSequential(new MoveDistance(7.61111));
+        		addSequential(new MoveDistance(6.1));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(6.72));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(2));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(1));
         		break;
         	case RIGHT:
         		addSequential(new MoveDistance(1));
         		addSequential(new TurnDegrees(90));
         		addSequential(new MoveDistance(6));
         		addSequential(new TurnDegrees(-90));
-        		addSequential(new MoveDistance(6.61111));
-        		
+        		addSequential(new MoveDistance(6.45871));
         		break;
+
         	}
         	break;
         case MIDDLE:
         	switch(target) {
         	case LEFT:
+		        addSequential(new MoveDistance(.6));
+        		addSequential(new TurnDegrees(-131.42));
+        		addSequential(new MoveDistance(3.7));
+        		addSequential(new TurnDegrees(131.42));
+        		addSequential(new MoveDistance(5.2));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(.42));
         		break;
         	case RIGHT:
+		        addSequential(new MoveDistance(.6));
+        		addSequential(new TurnDegrees(131.42));
+        		addSequential(new MoveDistance(3.7));
+        		addSequential(new TurnDegrees(-131.42));
+        		addSequential(new MoveDistance(5.2));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(.42));
         		break;
         	}
         	break;
         case RIGHT:
         	switch(target) {
         	case LEFT:
-        		addSequential(new MoveDistance(7.61111));
+        		addSequential(new MoveDistance(6.1));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(6.72));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(2));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(1));
         		break;
         	case RIGHT:
-        		addSequential(new MoveDistance(1));
+        		addSequential(new MoveDistance(8.22));
         		addSequential(new TurnDegrees(-90));
-        		addSequential(new MoveDistance(6));
-        		addSequential(new TurnDegrees(90));
-        		addSequential(new MoveDistance(6.61111));
+        		addSequential(new MoveDistance(1.0));
         		break;
         	}
         	break;
         }
-		addSequential(new SetLiftHeight(.5, true));//TODO Figure out the lift height for Max scale 
-		addSequential(new SetElbowPosition(90));
+		addSequential(new SetLiftHeight(-3.7, true));
+		addSequential(new SetElbowPosition(60));
 		addSequential(new Shoot());
     }
 }

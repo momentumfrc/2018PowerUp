@@ -26,14 +26,17 @@ public class Lift extends Subsystem {
 	
 	private Encoder encoder = RobotMap.liftEncoder;
 	
-	private MomentumPID slowLiftPID, fastLiftPID, currentLiftPID;
+	private MomentumPID slowLiftPID, fastLiftPID;
+	public MomentumPID currentLiftPID;
 	
 	public Lift() {
 		encoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
 		
 		slowLiftPID = PIDFactory.getSlowLiftPID();
 		fastLiftPID = PIDFactory.getFastLiftPID();
-		currentLiftPID = slowLiftPID;
+		
+		currentLiftPID = fastLiftPID;
+		
 		
 		addChild(slowLiftPID);
 		addChild(fastLiftPID);
@@ -43,6 +46,9 @@ public class Lift extends Subsystem {
 	
 	public boolean isHighSpeed() {
 		return shifter.get() == DoubleSolenoid.Value.kForward;
+	}
+	public boolean isHighSpeedPID() {
+		return currentLiftPID == fastLiftPID;
 	}
 	public void shiftHigh() {
 		currentLiftPID = fastLiftPID;

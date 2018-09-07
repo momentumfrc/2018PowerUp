@@ -58,7 +58,7 @@ public class RobotMap {
 	public static Encoder liftEncoder = new Encoder(4,5);
 	public static SpeedControllerGroup liftMotors = new SpeedControllerGroup(new VictorSP(4), new VictorSP(5));
 	public static DoubleSolenoid liftShifter = new DoubleSolenoid(0,1);
-	public static DigitalInput liftZeroSwitch = new DigitalInput(6);
+	//public static DigitalInput liftZeroSwitch = new DigitalInput(6);
 	
 	// Gyros
 	public static AHRS vmx = new AHRS(SerialPort.Port.kUSB);
