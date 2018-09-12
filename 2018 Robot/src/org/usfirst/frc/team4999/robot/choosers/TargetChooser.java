@@ -10,8 +10,8 @@ public class TargetChooser extends SendableChooser<TargetPosition>{
 
 	public TargetChooser() {
 		super();
-		addDefault("Left", TargetPosition.LEFT);
-		addObject("Right", TargetPosition.RIGHT);
+		addDefault("Target Left", TargetPosition.LEFT);
+		addObject("Target Right", TargetPosition.RIGHT);
 		SmartDashboard.putData(NAME, this);
 		}
 }

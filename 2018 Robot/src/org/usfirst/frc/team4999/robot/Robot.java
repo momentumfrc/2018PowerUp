@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 	public static ControlChooser controlChooser = new ControlChooser();
 	public static StartPosChooser startPos = new StartPosChooser();
 	public static AutoModeChooser target = new AutoModeChooser();
+	public static TargetChooser targetChooser = new TargetChooser();
 	public static LightsChooser lights = new LightsChooser();
 	
 	private Command autoCommand;
@@ -110,8 +111,8 @@ public class Robot extends TimedRobot {
 			}
 		} else {
 			System.out.format("Recieved invalid data from FMS: \"%s\"\n", fieldPos);
-			autoCommand = new TimeBasedFallback();
-			autoCommand.start();
+			switchPos = targetChooser.getSelected();
+			scalePos = targetChooser.getSelected();
 			return;
 		}
 		System.out.format("switch:%s start:%s\n", (switchPos == TargetPosition.LEFT) ? "LEFT":"RIGHT", (startPos.getSelected() == StartPosition.LEFT) ? "LEFT":"RIGHT");

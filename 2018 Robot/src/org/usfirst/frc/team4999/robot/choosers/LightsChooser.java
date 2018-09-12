@@ -77,12 +77,21 @@ public class LightsChooser extends SendableChooser<Animation> {
 		
 		Animation police = new Blink(new Color[]{new Color(0, 0, 255), new Color(255, 0, 0)}, new int[]{100, 100});
 		
+		Animation brown = new Solid(new Color[] {new Color(133,60,8)});
+		
+		Animation blinkycolors = new AnimationSequence(new Animation[] {
+				new TwoColors(Color.RED, Color.BLUE, 110), 
+				new TwoColors(Color.GREEN, Color.WHITE, 110)
+		}, 500); 
+		
 		addDefault("Momentum", momentum);
 		addObject("Rainbow", rainbow);
 		addObject("Christmas",christmas);
 		addObject("Police", police);
 		addObject("Solid White", solid);
 		addObject("Random", random);
+		addObject("Brown", brown);
+		addObject("BlinkyColors", blinkycolors);
 		addObject("Remote", new SocketListener());
 		
 		SmartDashboard.putData(NAME, this);

@@ -14,6 +14,7 @@ public class ControlChooser extends SendableChooser<DriveController> {
 		addObject("Flight Stick", new FlightStickWrapper());
 		addObject("Xbox Controller", new XboxWrapper());
 		addObject("Logitech F310", new F310Wrapper());
+		addObject("INSANITY", new SteeringWheelWrapper());
 		addDefault("Xbox drive, F310 intake", new XboxF310Wrapper());
 		
 		SmartDashboard.putData(NAME, this);
