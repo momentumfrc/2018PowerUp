@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Lift extends Subsystem {
 	
-	private static final int MIN_HEIGHT = 100; // ticks
+	private static final int MIN_HEIGHT = 100; // ticks //TODO maybe change maybe dont
 	private static final double MAX_MOTOR_DELTA = 0.02;
 	
 	private SpeedControllerGroup motors = RobotMap.liftMotors;

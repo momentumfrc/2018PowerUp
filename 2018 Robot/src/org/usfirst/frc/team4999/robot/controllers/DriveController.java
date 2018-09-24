@@ -37,6 +37,22 @@ public abstract class DriveController {
 	abstract public boolean getFailsafeElbow();
 	
 	/**
+	 * Get whether the lift should enter a failsafe teleop mode (disables PID, end stops, resets the overcurrent)
+	 * @return If the failsafe should be activated
+	 */
+	public boolean getFailsafeLift() {
+		return false;
+	}
+	
+	/**
+	 * Brings the lift down the zero postion and resets the encoder
+	 * @return If the lift should start zeroing
+	 */
+	public boolean getZeroLift() {
+		return false;
+	}
+	
+	/**
 	 * Trigger the intake
 	 * @return If the intake should be running
 	 */

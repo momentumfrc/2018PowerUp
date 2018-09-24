@@ -18,8 +18,7 @@ import org.usfirst.frc.team4999.commands.*;
 import org.usfirst.frc.team4999.commands.autonomous.*;
 import org.usfirst.frc.team4999.commands.autonomous.paths.*;
 import org.usfirst.frc.team4999.commands.elbow.ZeroAndTeleopElbow;
-import org.usfirst.frc.team4999.commands.elbow.ZeroElbow;
-import org.usfirst.frc.team4999.commands.lift.ManualLiftNoLimit;
+import org.usfirst.frc.team4999.commands.lift.ManualLift;
 import org.usfirst.frc.team4999.commands.lift.ZeroLift;
 import org.usfirst.frc.team4999.lights.BrightnessFilter;
 import org.usfirst.frc.team4999.robot.choosers.*;
@@ -171,7 +170,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().removeAll();
 		new DriveNoPID().start();
 		new ZeroAndTeleopElbow().start();
-		new ManualLiftNoLimit().start();
+		new ManualLift().start();
 		
 		
 	}

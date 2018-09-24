@@ -15,7 +15,7 @@ public class ZeroLift extends Command {
 	
 	private Lift lift = Robot.lift;
 	
-	private static final double ZERO_SPEED = 0.2;
+	private static final double ZERO_SPEED = 0.4; //TODO mess with these values until correct
 	
 	private static final double TIMEOUT = 5; // seconds
 	
@@ -34,7 +34,7 @@ public class ZeroLift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	lift.shiftLow();
+    	lift.shiftHigh();
     	timeout.start();
     }
 
@@ -46,7 +46,7 @@ public class ZeroLift extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return pdp.checkOvercurrent(liftmotors, CUTOFF_CURRENT, CUTOFF_TIME)/* || RobotMap.liftZeroSwitch.get() */|| timeout.hasPeriodPassed(TIMEOUT);
+        return pdp.checkOvercurrent(liftmotors, CUTOFF_CURRENT, CUTOFF_TIME) || RobotMap.liftZeroSwitch.get() || timeout.hasPeriodPassed(TIMEOUT);
     }
 
     // Called once after isFinished returns true

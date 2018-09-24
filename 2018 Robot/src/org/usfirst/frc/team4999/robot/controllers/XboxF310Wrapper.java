@@ -114,6 +114,15 @@ public class XboxF310Wrapper extends DriveController {
 	public boolean shiftLift() {
 		return xbox.getBumperPressed(Hand.kLeft) || xbox.getBumperPressed(Hand.kRight);
 	}
+
+	@Override
+	public boolean getFailsafeLift() {
+		return xbox.getBackButton();
+	}
 	
+	@Override
+	public boolean getZeroLift() {
+		return xbox.getAButton();
+	}
 
 }

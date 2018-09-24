@@ -53,12 +53,13 @@ public class RobotMap {
 	public static Joystick flightStick = new Joystick(0);
 	public static LogitechF310 f310 = new LogitechF310(2);
 	public static Joystick wheel = new Joystick(3);
+	public static Joystick Tx = new Joystick(4);
 	
 	// Lift
 	public static Encoder liftEncoder = new Encoder(4,5);
 	public static SpeedControllerGroup liftMotors = new SpeedControllerGroup(new VictorSP(4), new VictorSP(5));
 	public static DoubleSolenoid liftShifter = new DoubleSolenoid(0,1);
-	//public static DigitalInput liftZeroSwitch = new DigitalInput(6);
+	public static DigitalInput liftZeroSwitch = new DigitalInput(6);
 	
 	// Gyros
 	public static AHRS vmx = new AHRS(SerialPort.Port.kUSB);

@@ -52,6 +52,8 @@ public class OI {
 	
 	Trigger failsafeDrive = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeDrive();});
 	Trigger failsafeElbow = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeElbow();});
+	Trigger failsafeLift = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getFailsafeLift();});
+	Trigger zerolift = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getZeroLift();});
 	
 	Trigger brownout = new BooleanTrigger(()->{return RobotController.isBrownedOut();});
 	
@@ -66,6 +68,10 @@ public class OI {
 		failsafeDrive.whenActive(new DriveNoPID());
 		
 		failsafeElbow.whenActive(new ElbowNoLimit());
+		
+		failsafeLift.whenActive(new ManualLiftNoLimit());
+		
+		zerolift.whenActive(new ZeroAndManualLift());
 		
 		driveOvercurrent.whenActive(new InstantCommand() {
 			protected void initialize() {
