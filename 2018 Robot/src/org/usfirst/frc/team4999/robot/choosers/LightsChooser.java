@@ -81,7 +81,8 @@ public class LightsChooser extends SendableChooser<Animation> {
 		
 		Animation blinkycolors = new AnimationSequence(new Animation[] {
 				new TwoColors(Color.RED, Color.BLUE, 110), 
-				new TwoColors(Color.GREEN, Color.WHITE, 110)
+				new TwoColors(Color.GREEN, Color.WHITE, 110),
+				new TwoColors(Color.BROWN, Color.YELLOW, 110)
 		}, 500); 
 		
 		addDefault("Momentum", momentum);

@@ -11,6 +11,8 @@ public class AutoModeChooser extends SendableChooser<AutoMode> {
 	
 	public AutoModeChooser() {
 		addDefault("Switch", AutoMode.SWITCH);
+		addObject("Switch RIGHTSIDE", AutoMode.RIGHTSIDE);
+		addObject("Switch LEFTSIDE", AutoMode.LEFTSIDE);		
 		addObject("Scale", AutoMode.SCALE);
 		addObject("Fallback Distance", AutoMode.FALLBACK_DISTANCE);
 		addObject("Fallback Time", AutoMode.FALLBACK_TIME);

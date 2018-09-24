@@ -31,7 +31,7 @@ public class Intake extends Subsystem {
     
     public Intake() {
     	super();
-    	intakeLeft.setInverted(true);
+    	intakeRight.setInverted(true);
     	time.start();
     }
     
