@@ -18,7 +18,7 @@ public class TurnDegrees extends Command {
 	
 	private DriveSystem drive = Robot.driveSystem;
 	
-	private static final double TIMEOUT = 5;
+	private static final double TIMEOUT = 3;
 	private Timer timer = new Timer();
 	
 	// Clockwise

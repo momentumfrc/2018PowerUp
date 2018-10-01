@@ -35,6 +35,7 @@ public class ZeroLift extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	lift.shiftHigh();
+    	System.out.println("Zeroing Lift!!");
     	timeout.start();
     }
 

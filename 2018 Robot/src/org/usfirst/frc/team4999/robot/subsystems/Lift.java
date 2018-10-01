@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4999.robot.subsystems;
 
 import org.usfirst.frc.team4999.commands.lift.MaintainLiftHeight;
+import org.usfirst.frc.team4999.commands.lift.ManualLift;
 import org.usfirst.frc.team4999.robot.RobotMap;
 import org.usfirst.frc.team4999.utils.MoPrefs;
 import org.usfirst.frc.team4999.pid.MomentumPID;
@@ -124,7 +125,7 @@ public class Lift extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        setDefaultCommand(new MaintainLiftHeight());
+        setDefaultCommand(new ManualLift());
     }
     
     public void liftDashboard() {

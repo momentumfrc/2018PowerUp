@@ -10,12 +10,11 @@ public class AutoModeChooser extends SendableChooser<AutoMode> {
 	public static final String NAME = "Auto Mode Chooser";
 	
 	public AutoModeChooser() {
-		addDefault("Switch", AutoMode.SWITCH);
-		addObject("Switch RIGHTSIDE", AutoMode.RIGHTSIDE);
-		addObject("Switch LEFTSIDE", AutoMode.LEFTSIDE);		
+		addObject("Switch", AutoMode.SWITCH);	
 		addObject("Scale", AutoMode.SCALE);
+		addObject("switch SIDE", AutoMode.SwitchRIGHTSIDE);
 		addObject("Fallback Distance", AutoMode.FALLBACK_DISTANCE);
-		addObject("Fallback Time", AutoMode.FALLBACK_TIME);
+		addDefault("Fallback Time", AutoMode.FALLBACK_TIME);
 		addObject("Fallback Time Shoot", AutoMode.FALLBACK_TIME_SHOOT);
 		SmartDashboard.putData(NAME, this);
 	}

@@ -24,7 +24,7 @@ public class DriveOvercurrent extends Trigger {
 	}
 
     public boolean get() {
-    	return pdp.checkOvercurrent(MOTORS, DRIVE_CUTOFF_CURRENT, DRIVE_CUTOFF_TIME) || RobotController.isBrownedOut();
+    	return pdp.checkOvercurrent(MOTORS, DRIVE_CUTOFF_CURRENT, DRIVE_CUTOFF_TIME) /*|| RobotController.isBrownedOut()*/;
     }
     
 }

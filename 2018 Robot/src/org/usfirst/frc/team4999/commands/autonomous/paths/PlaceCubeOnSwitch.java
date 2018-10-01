@@ -28,13 +28,13 @@ public class PlaceCubeOnSwitch extends CommandGroup {
         		addSequential(new TurnDegrees(-45.75));
         		addSequential(new MoveDistance(.61)); 
         		break;
-        	case RIGHT:
+        	/*case RIGHT:
         		addSequential(new MoveDistance(1));
         		addSequential(new TurnDegrees(-90));
         		addSequential(new MoveDistance(4.8));
         		addSequential(new TurnDegrees(90));
         		addSequential(new MoveDistance(2.65));    		
-        		break;
+        		break;*/
             case LEFTSIDE:
         		addSequential(new MoveDistance(1));
         		addSequential(new TurnDegrees(-90));
@@ -42,11 +42,11 @@ public class PlaceCubeOnSwitch extends CommandGroup {
         		addSequential(new TurnDegrees(90));
         		addSequential(new MoveDistance(2.65)); 
         		break;
-        	case RIGHTSIDE:
+        	case RIGHT:
         		addSequential(new MoveDistance(1));
         		addSequential(new TurnDegrees(-90));
-        		addSequential(new MoveDistance(6.1));
-        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(6.4));
+        		addSequential(new TurnDegrees(86));
         		addSequential(new MoveDistance(3.27));
         		addSequential(new TurnDegrees(90));
         		addSequential(new MoveDistance(1));
@@ -56,18 +56,18 @@ public class PlaceCubeOnSwitch extends CommandGroup {
         case MIDDLE:
         	switch(target) {
         	case LEFT:
-        		addSequential(new MoveDistance(.6));
-        		addSequential(new TurnDegrees(-60.71));
-        		addSequential(new MoveDistance(2.8));
+        		addSequential(new MoveDistance(-.6));
         		addSequential(new TurnDegrees(60.71));
-        		addSequential(new MoveDistance(.65)); 
+        		addSequential(new MoveDistance(-2.8));
+        		addSequential(new TurnDegrees(-60.71));
+        		addSequential(new MoveDistance(-.65)); 
         		break;
         	case RIGHT:
-        		addSequential(new MoveDistance(.6));
-        		addSequential(new TurnDegrees(60.71));
-        		addSequential(new MoveDistance(2.8));
+        		addSequential(new MoveDistance(-.6));
         		addSequential(new TurnDegrees(-60.71));
-        		addSequential(new MoveDistance(.65)); 
+        		addSequential(new MoveDistance(-2.8));
+        		addSequential(new TurnDegrees(60.71));
+        		addSequential(new MoveDistance(-.65)); 
         		break;
 			case LEFTSIDE:
 		        addSequential(new MoveDistance(.6));
@@ -107,7 +107,7 @@ public class PlaceCubeOnSwitch extends CommandGroup {
         		addSequential(new MoveDistance(-1));
         		addSequential(new TurnDegrees(45.75));
         		addSequential(new MoveDistance(-2.5));
-        		addSequential(new TurnDegrees(-45.75));
+        		addSequential(new TurnDegrees(-45));
         		addSequential(new MoveDistance(-.61)); 
         		break;
            	case LEFTSIDE:

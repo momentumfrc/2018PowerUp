@@ -42,10 +42,9 @@ public class Robot extends TimedRobot {
 	public static ControlChooser controlChooser = new ControlChooser();
 	public static StartPosChooser startPos = new StartPosChooser();
 	public static AutoModeChooser target = new AutoModeChooser();
-	public static TargetChooser targetChooser = new TargetChooser();
 	public static LightsChooser lights = new LightsChooser();
 	
-	private Command autoCommand;
+	private Command autoCommand = new TimeBasedFallback();
 	
 
 	/**
@@ -67,6 +66,8 @@ public class Robot extends TimedRobot {
 		
 		RobotMap.liftEncoder.setDistancePerPulse(1/MoPrefs.getLiftEncTicks());
 		RobotMap.elbowEncoder.setDistancePerPulse(1/6.2222);
+		
+		SmartDashboard.putString("TargetData", "---");
 		
 	}
 
@@ -97,7 +98,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		String fieldPos = DriverStation.getInstance().getGameSpecificMessage();
+		//String fieldPos = DriverStation.getInstance().getGameSpecificMessage();
+		String fieldPos = SmartDashboard.getString("TargetData", "---");
 		TargetPosition switchPos, scalePos;
 		if(fieldPos.length() >= 2) {
 			switchPos = posFromChar(fieldPos.charAt(0));
@@ -110,8 +112,8 @@ public class Robot extends TimedRobot {
 			}
 		} else {
 			System.out.format("Recieved invalid data from FMS: \"%s\"\n", fieldPos);
-			switchPos = targetChooser.getSelected();
-			scalePos = targetChooser.getSelected();
+			autoCommand = new TimeBasedFallback();
+			autoCommand.start();
 			return;
 		}
 		System.out.format("switch:%s start:%s\n", (switchPos == TargetPosition.LEFT) ? "LEFT":"RIGHT", (startPos.getSelected() == StartPosition.LEFT) ? "LEFT":"RIGHT");
