@@ -59,6 +59,7 @@ public class OI {
 	
 	Trigger hunt = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getIntake();});
 	Trigger shoot = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getShoot();});
+	Trigger slowshoot = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getSlowShoot();});
 	
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();

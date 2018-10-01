@@ -68,7 +68,10 @@ public abstract class DriveController {
 	 * Trigger the slow releasing of a held cube
 	 * @return If the arms should be toggled at a slower speed
 	 */
-	abstract public boolean getShootSlow();
+	public boolean getShootSlow() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	/**
 	 * Get the desired speed of the elbow
@@ -94,5 +97,5 @@ public abstract class DriveController {
 	 */
 	public void vibrate(double intensity) {
 	}
-	
+
 }

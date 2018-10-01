@@ -78,7 +78,7 @@ public class Intake extends Subsystem {
 		setIntake(-SHOOT_SPEED);
 	}
 	
-	public void shootslow() {
+	public void ShootSlow() {
 		setIntake(-SHOOT_SLOW);
 	}
 	
