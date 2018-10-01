@@ -21,6 +21,7 @@ public class Intake extends Subsystem {
     private static final double INTAKE_SPEED = 1;
     private static final double HOLD_SPEED = 0.2;
     private static final double SHOOT_SPEED = 1;
+    private static final double SHOOT_SLOW = .5; //TODO figure out the proper value 
 	
 	private PDPWrapper currentChecker = new PDPWrapper();
 	
@@ -75,6 +76,10 @@ public class Intake extends Subsystem {
 	}
 	public void shoot() {
 		setIntake(-SHOOT_SPEED);
+	}
+	
+	public void shootslow() {
+		setIntake(-SHOOT_SLOW);
 	}
 	
     public void initDefaultCommand() {

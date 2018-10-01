@@ -65,6 +65,12 @@ public abstract class DriveController {
 	abstract public boolean getShoot();
 	
 	/**
+	 * Trigger the slow releasing of a held cube
+	 * @return If the arms should be toggled at a slower speed
+	 */
+	abstract public boolean getShootSlow();
+	
+	/**
 	 * Get the desired speed of the elbow
 	 * @return Elbow's speed
 	 */

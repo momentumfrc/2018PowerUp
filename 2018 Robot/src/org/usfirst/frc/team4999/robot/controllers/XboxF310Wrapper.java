@@ -81,6 +81,11 @@ public class XboxF310Wrapper extends DriveController {
 	public boolean getShoot() {
 		return logitech.getBumper(Hand.kRight);
 	}
+	
+	@Override
+	public boolean getShootSlow() {
+		return logitech.getAButton();
+	}
 
 	@Override
 	public double getElbowSpeed() {
