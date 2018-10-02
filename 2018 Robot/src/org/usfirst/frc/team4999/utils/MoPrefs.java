@@ -6,13 +6,13 @@ public class MoPrefs {
 	
 	private static Preferences prefs = Preferences.getInstance();
 	
-	private static final double AUTO_SPEED = 0.25; 				// Maximum speed the robot will travel at in autonomous
+	private static final double AUTO_SPEED = 0.5; 				// Maximum speed the robot will travel at in autonomous
 	private static final double DRIVE_ENC_TICKS = 562.666378; 	// Number of encoder ticks per meter of travel
 	private static final double LIFT_ENC_TICKS = 500; 			// Number of lift encoder ticks per meter of travel
 	private static final double FALLBACK_AUTO_TIME = 3; 		// Time, in seconds, the robot will drive for when in fallback auto mode
 	private static final double FALLBACK_AUTO_DISTANCE = 3.5; 	// Distance the robot will drive for, in meters, in fallback auto mode
 	private static final double SWITCH_ELBOW_ANGLE = 20; 		// Angle the elbow is set to when placing a cube on the switch in autonomous
-	private static final double MAX_LIFT_HEIGHT = 2; 			// Maximum height of the lift in meters
+	private static final double MAX_LIFT_HEIGHT = 3; 			// Maximum height of the lift in meters
 	private static final int 	MAX_ELBOW_ROTATION = 700;		// Maximum encoder ticks the elbow can displace
 	private static final double ELBOW_ENC_TICKS = 0.0194;		// Encoder ticks per degree of elbow rotation
 	

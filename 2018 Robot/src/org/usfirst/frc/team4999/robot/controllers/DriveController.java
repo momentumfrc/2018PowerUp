@@ -68,8 +68,7 @@ public abstract class DriveController {
 	 * Trigger the slow releasing of a held cube
 	 * @return If the arms should be toggled at a slower speed
 	 */
-	public boolean getShootSlow() {
-		// TODO Auto-generated method stub
+	public boolean getshootslow() {
 		return false;
 	}
 	

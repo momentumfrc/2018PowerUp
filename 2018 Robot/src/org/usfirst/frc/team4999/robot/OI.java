@@ -59,7 +59,7 @@ public class OI {
 	
 	Trigger hunt = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getIntake();});
 	Trigger shoot = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getShoot();});
-	Trigger slowshoot = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getSlowShoot();});
+	Trigger slowshoot = new BooleanTrigger(()->{return Robot.controlChooser.getSelected().getslowshoot();});
 	
 	Trigger driveOvercurrent = new DriveOvercurrent();
 	Trigger liftOvercurrent = new LiftOvercurrent();
@@ -94,6 +94,7 @@ public class OI {
 		hunt.whenInactive(new GrabAndHold());
 		
 		shoot.whenActive(new Shoot());
+		slowshoot.whenActive(new SlowShoot());
 		
 		brownout.whenActive(new InstantCommand() {
 		    protected void initialize() {
