@@ -23,29 +23,55 @@ public class SwitchRIGHTSIDE extends CommandGroup {
                 addSequential(new MoveDistance(-.5));
             break;
 			case LEFT:
-				break;
-			default:
+				addSequential(new MoveDistance(-.6));
+				addSequential(new TurnDegrees(-90));
+				addSequential(new MoveDistance(-6));
+				addSequential(new TurnDegrees(90));
+				addSequential(new MoveDistance(-2.9));
+				addSequential(new TurnDegrees(90));
 				break;
     		}
-    	break;
-    	
+    	break;   	
+		case MIDDLE:
+			switch(target) {
+    		case LEFT:
+		        addSequential(new MoveDistance(.6));
+        		addSequential(new TurnDegrees(-41.42));
+        		addSequential(new MoveDistance(3.7));
+        		addSequential(new TurnDegrees(41.42));
+        		addSequential(new MoveDistance(1.22));
+        		addSequential(new TurnDegrees(90));
+        		addSequential(new MoveDistance(1));
+				break;
+			case RIGHT:
+				addSequential(new MoveDistance(.6));
+        		addSequential(new TurnDegrees(41.42));
+        		addSequential(new MoveDistance(3.7));
+        		addSequential(new TurnDegrees(-41.42));
+        		addSequential(new MoveDistance(1.22));
+        		addSequential(new TurnDegrees(-90));
+        		addSequential(new MoveDistance(1));
+				break; 
+			}
+			break;
     	case LEFT:
     		switch(target) {
     		case LEFT:
                 addSequential(new MoveDistance(-3.5));
-                addSequential(new TurnDegrees(-90));
+                addSequential(new TurnDegrees(90));
                 addSequential(new MoveDistance(-.5));
             break;
 			case RIGHT:
-			default:
+				addSequential(new MoveDistance(-.6));
+				addSequential(new TurnDegrees(90));
+				addSequential(new MoveDistance(-6));
+				addSequential(new TurnDegrees(-90));
+				addSequential(new MoveDistance(-2.9));
+				addSequential(new TurnDegrees(-90));
 				break;
     		}
     	break;
-		case MIDDLE:
-			break;
-		default:
-			break;
-    	}
+		}
         addSequential(new SetElbowPosition(35));
         addSequential(new Shoot());
     }
